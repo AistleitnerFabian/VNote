@@ -1,5 +1,5 @@
 
-import '@capacitor-community/camera-preview'
+import '@capacitor-community/camera-preview';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';

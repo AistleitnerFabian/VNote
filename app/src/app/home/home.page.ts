@@ -7,6 +7,7 @@ import { ToastController } from '@ionic/angular';
 
 const { CameraPreview } = Plugins;
 import { CameraPreviewOptions } from '@capacitor-community/camera-preview';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -14,28 +15,29 @@ import { CameraPreviewOptions } from '@capacitor-community/camera-preview';
   styleUrls: ['home.page.scss']
 })
 export class HomePage implements OnInit {
-  constructor(public toastController: ToastController) {
+  isCameraOn: boolean = false;
+  constructor(public toastController: ToastController, public menuController: MenuController) {
   }
 
   ngOnInit() {
-  }
-
-  cameraOn() {
-    this.toast();
-    this.takePicture();
+    this.cameraOn();
   }
 
   async toast() {
     const toast = await this.toastController.create({
-      message: 'Camera On',
+      message: 'Photo',
       duration: 2000,
       position: 'top',
     });
     toast.present();
   }
 
+  openMenu(){
+    this.menuController.enable(true, 'first');
+    this.menuController.open('first');
+  }
 
-  async takePicture() {
+  async cameraOn() {
     var cameraPreviewOptions: CameraPreviewOptions = {
       height: window.screen.height,
       width: window.screen.width,
@@ -44,5 +46,10 @@ export class HomePage implements OnInit {
       toBack: true,
     };
     CameraPreview.start(cameraPreviewOptions);
+    this.isCameraOn = true;
+  }
+
+  async takePhoto() {
+    this.toast();
   }
 }

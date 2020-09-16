@@ -1,8 +1,6 @@
 package io.ionic.starter;
-
-import android.os.Bundle;
-
 import  com.ahm.capacitor.camera.preview.CameraPreview;
+import android.os.Bundle;
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.Plugin;
 
@@ -15,11 +13,9 @@ public class MainActivity extends BridgeActivity {
 
     // Initializes the Bridge
     this.init(savedInstanceState, new ArrayList<Class<? extends Plugin>>() {{
-      // Additional plugins you've installed go here 
+      // Additional plugins you've installed go here
       // Ex: add(TotallyAwesomePlugin.class);
       add(CameraPreview.class);
     }});
-
-    
   }
 }

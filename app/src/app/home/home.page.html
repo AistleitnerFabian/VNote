@@ -1,7 +1,24 @@
 <ion-content [fullscreen]="true">
+  
+  <ion-chip style="background-color: white; margin-left: 50%; transform: translateX(-50%); margin-top: 20px"
+    (click)="openMenu()">
+    <ion-avatar>
+      <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+    </ion-avatar>
+    <ion-label style="color: black;">Max Muster</ion-label>
+  </ion-chip>
+
   <div id="background">
-    <ion-spinner id="spinner"></ion-spinner>
+    <ion-spinner id="spinner" *ngIf="!isCameraOn"></ion-spinner>
   </div>
 
-<ion-button (click)="cameraOn()" color="dark" style="position: absolute; bottom: 20px; width: 80px; left: calc(50% - 40px)">Dark</ion-button>
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed" style="margin-bottom: 40px;">
+    <ion-fab-button (click)="takePhoto()" color="light"
+      style="float: left;height: 70px; width: 70px; margin-left: -8px;">
+      <ion-icon name="camera" style="color: black"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button color="light" style="float: left; margin-left: 5vw; height: 40px; width: 40px; margin-top: 15px;">
+      <ion-icon name="image" style="color: black" style="font-size: 20px;"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
