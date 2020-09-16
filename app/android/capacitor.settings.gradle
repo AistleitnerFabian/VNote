@@ -7,3 +7,6 @@ project(':capacitor-community-camera-preview').projectDir = new File('../node_mo
 
 include ':capacitor-camera-preview'
 project(':capacitor-camera-preview').projectDir = new File('../node_modules/capacitor-camera-preview/android')
+
+include ':capacitor-navigationbar'
+project(':capacitor-navigationbar').projectDir = new File('../node_modules/capacitor-navigationbar/android')
