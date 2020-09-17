@@ -5,7 +5,7 @@ const { Camera } = Plugins;
 
 import { ToastController } from '@ionic/angular';
 
-const { CameraPreview } = Plugins;
+const { CameraPreview, Motion } = Plugins;
 import { CameraPreviewOptions, CameraPreviewPictureOptions } from '@capacitor-community/camera-preview';
 import { MenuController } from '@ionic/angular';
 import { DataService } from '../data.service';
@@ -33,7 +33,6 @@ export class HomePage implements OnInit {
     this.cameraOn();
     this.menuController.enable(true, 'first');
   }
-
   async toast(message) {
     const toast = await this.toastController.create({
       message: message,
@@ -69,7 +68,7 @@ export class HomePage implements OnInit {
       }
     } catch (e) {
       this.isCameraOn = false;
-      CameraPreview.stop().then(()=>{
+      CameraPreview.stop().then(() => {
         CameraPreview.start(this.cameraPreviewOptions);
         this.discardImage();
         this.isCameraOn = true;
@@ -84,14 +83,14 @@ export class HomePage implements OnInit {
       quality: 100,
       resultType: CameraResultType.Base64,
       source: CameraSource.Photos
-    }).then((image)=>{
-      if (image.base64String  != "" && image.base64String != null) {
+    }).then((image) => {
+      if (image.base64String != "" && image.base64String != null) {
         this.imageData = "url('data:image/png;base64," + image.base64String + "')"
       } else {
         this.discardImage();
       }
     });
-    
+
   }
 
   uploadImage() {

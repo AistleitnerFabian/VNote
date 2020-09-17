@@ -7,7 +7,7 @@ import { DataService } from './data.service';
 import { NavigationBarPlugin } from 'capacitor-navigationbar';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
-import { Plugins } from '@capacitor/core';
+import { Plugins, Toast } from '@capacitor/core';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -33,8 +33,9 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      // set to landscape
+      // set to PORTRAIT
       this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+      
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
