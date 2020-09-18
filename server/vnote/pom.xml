@@ -8,10 +8,10 @@
 		<version>2.3.4.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.vnote</groupId>
+	<groupId>com.server.vnote</groupId>
 	<artifactId>vnote</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>vnote</name>
+	<name>VNote</name>
 	<description>Diploma thesis</description>
 
 	<properties>
@@ -19,11 +19,6 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.openpnp</groupId>
-			<artifactId>opencv</artifactId>
-			<version>4.3.0-2</version>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
