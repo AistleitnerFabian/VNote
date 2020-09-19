@@ -1,7 +1,41 @@
+@import "../../variables.scss";
+
 #toolbar {
   height: 70px;
   width: calc(100% - 70px);
   background-color: white;
   float: right;
   filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
+}
+
+#profile {
+  height: 100%;
+  width: 250px;
+  float: right;
+  margin-right: 30px;
+
+  * {
+    float: right;
+  }
+
+  p {
+    line-height: 70px;
+    font-size: 1.3em;
+    font-weight: bolder;
+    color: $text-grey;
+  }
+
+  #profile-picture {
+    height: 40px;
+    width: 40px;
+    margin: 15px 20px;
+    border-radius: 100%;
+    background-color: $nav-button-selected;
+  }
+
+  #menu-button {
+    margin-left: 25px;
+    color: $nav-button;
+    line-height: 70px;
+  }
 }
