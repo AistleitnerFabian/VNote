@@ -18,6 +18,10 @@
   justify-content: center;
 }
 
+.nav-entry:hover {
+  background-color: $content-bg;
+}
+
 .nav-entry {
   margin-top: 20px;
   color: $nav-button;
