@@ -3,11 +3,11 @@ import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {DashboardComponent} from './dashboard/dashboard.component';
+import {DashboardComponent} from './webapp/dashboard/dashboard.component';
 import {ToolbarComponent} from './toolbar/toolbar.component';
 import {SidebarComponent} from './sidebar/sidebar.component';
 
-//Angular Material Components
+// Angular Material Components
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
@@ -40,13 +40,23 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {WebappComponent} from './webapp/webapp.component';
+import {BoardsComponent} from './webapp/boards/boards.component';
+import {UploadsComponent} from './webapp/uploads/uploads.component';
+import {HelpComponent} from './webapp/help/help.component';
+import {SettingsComponent} from './webapp/settings/settings.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     ToolbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    WebappComponent,
+    BoardsComponent,
+    UploadsComponent,
+    HelpComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

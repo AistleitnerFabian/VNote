@@ -1,22 +1,27 @@
 <div id="sidebar">
-  <img src="assets/Logo.svg" id="logo" alt="logo">
-  <div matRipple [matRippleCentered]="true" [matRippleRadius]="27.5" class="example-ripple-container nav-entry active">
+  <img src="../../assets/Logo.svg" id="logo" alt="logo">
+  <div matRipple [matRippleCentered]="true" [matRippleRadius]="27.5" routerLink="dashboard"
+       class="example-ripple-container nav-entry" [ngClass]="{'active' : isActive('dashboard')}">
     <div class="active-marker"></div>
     <mat-icon class="material-icons-round">home</mat-icon>
   </div>
-  <div matRipple [matRippleCentered]="true" [matRippleRadius]="27.5" class="example-ripple-container nav-entry">
+  <div matRipple [matRippleCentered]="true" [matRippleRadius]="27.5" routerLink="boards"
+       class="example-ripple-container nav-entry" [ngClass]="{'active' : isActive('boards')}">
     <div class="active-marker"></div>
     <mat-icon class="material-icons-round">folder</mat-icon>
   </div>
-  <div matRipple [matRippleCentered]="true" [matRippleRadius]="27.5" class="example-ripple-container nav-entry">
+  <div matRipple [matRippleCentered]="true" [matRippleRadius]="27.5" routerLink="uploads"
+       class="example-ripple-container nav-entry" [ngClass]="{'active' : isActive('uploads')}">
     <div class="active-marker"></div>
     <mat-icon class="material-icons-round">cloud_upload</mat-icon>
   </div>
-  <div matRipple [matRippleCentered]="true" [matRippleRadius]="27.5" class="example-ripple-container nav-entry">
+  <div matRipple [matRippleCentered]="true" [matRippleRadius]="27.5" routerLink="help"
+       class="example-ripple-container nav-entry" [ngClass]="{'active' : isActive('help')}">
     <div class="active-marker"></div>
     <mat-icon class="material-icons-round">help</mat-icon>
   </div>
-  <div matRipple [matRippleCentered]="true" [matRippleRadius]="27.5" class="example-ripple-container nav-entry">
+  <div matRipple [matRippleCentered]="true" [matRippleRadius]="27.5" routerLink="settings"
+       class="example-ripple-container nav-entry" [ngClass]="{'active' : isActive('settings')}">
     <div class="active-marker"></div>
     <mat-icon class="material-icons-round">settings</mat-icon>
   </div>
