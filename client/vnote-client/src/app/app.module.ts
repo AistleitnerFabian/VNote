@@ -45,6 +45,7 @@ import {BoardsComponent} from './webapp/boards/boards.component';
 import {UploadsComponent} from './webapp/uploads/uploads.component';
 import {HelpComponent} from './webapp/help/help.component';
 import {SettingsComponent} from './webapp/settings/settings.component';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -93,7 +94,8 @@ import {SettingsComponent} from './webapp/settings/settings.component';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
-    MatRippleModule
+    MatRippleModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

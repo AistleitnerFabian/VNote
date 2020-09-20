@@ -47,4 +47,13 @@
   }
 }
 
+#profile-menu {
+  position: absolute;
+  height: 300px;
+  width: 255px;
+  background-color: white;
+  right: 0;
+  top: 70px;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
+}
 
