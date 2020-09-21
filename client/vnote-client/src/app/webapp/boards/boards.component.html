@@ -5,4 +5,7 @@
     <mat-icon class="material-icons-round" id="search-icon">search</mat-icon>
     <label for="search-input"></label><input id="search-input" placeholder="Search wall" type="text">
   </div>
+  <div id="board-container">
+    <div *ngFor="let item of items" class="board">{{item}}</div>
+  </div>
 </div>
