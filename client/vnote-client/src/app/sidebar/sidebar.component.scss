@@ -1,4 +1,4 @@
-@import "../../variables.scss";
+@import "../../variables";
 
 #sidebar {
   width: 70px;
@@ -18,12 +18,17 @@
   justify-content: center;
 }
 
+.nav-entry:hover {
+  background-color: $content-bg;
+}
+
 .nav-entry {
   margin-top: 20px;
   color: $nav-button;
   height: 70px;
   width: 70px;
   user-select: none;
+  outline: 0;
 
   mat-icon {
     cursor: pointer;
@@ -32,21 +37,22 @@
     text-align: center;
     font-size: 2.5em;
     line-height: 70px;
+    transition: color 0.25s;
   }
 }
 
 .active {
   color: $nav-button-selected !important;
-
 }
 
 .active-marker {
   height: 70px;
   width: 4px;
-  border-radius: 0px 10px 10px 0px;
+  border-radius: 0 10px 10px 0;
   background-color: transparent;
   float: left;
   position: absolute;
+  transition: background-color 0.25s;
 }
 
 .active .active-marker {

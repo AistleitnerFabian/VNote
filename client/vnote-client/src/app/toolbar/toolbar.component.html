@@ -1,10 +1,15 @@
+<div id="profile-menu" [@inOutAnimation] *ngIf="isMenuOpened" class="dropdown-ignore">
+</div>
 <div id="toolbar">
-  <div id="profile">
+  <div id="profile" (click)="isMenuOpened = !isMenuOpened" class="dropdown-ignore">
 
-    <mat-icon id="menu-button">arrow_drop_down</mat-icon>
-    <p>
+    <mat-icon class="dropdown-ignore"
+              id="menu-button">{{isMenuOpened ? 'arrow_drop_up' : 'arrow_drop_down'}}</mat-icon>
+    <p class="dropdown-ignore">
       {{username}}
     </p>
-    <div id="profile-picture"></div>
+    <div class="dropdown-ignore" id="profile-picture"></div>
   </div>
+
 </div>
+

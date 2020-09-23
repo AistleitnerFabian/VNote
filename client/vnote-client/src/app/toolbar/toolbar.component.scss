@@ -8,11 +8,18 @@
   filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
 }
 
+#profile:hover {
+  background-color: $content-bg !important;
+}
+
 #profile {
   height: 100%;
-  width: 250px;
+  width: fit-content;
   float: right;
-  margin-right: 30px;
+  padding-right: 30px;
+  user-select: none;
+  cursor: pointer;
+
 
   * {
     float: right;
@@ -26,16 +33,27 @@
   }
 
   #profile-picture {
-    height: 40px;
-    width: 40px;
-    margin: 15px 20px;
+    height: 35px;
+    width: 35px;
+    margin: 17.5px 20px;
     border-radius: 100%;
     background-color: $nav-button-selected;
   }
 
   #menu-button {
-    margin-left: 25px;
+    margin-left: 20px;
     color: $nav-button;
     line-height: 70px;
   }
 }
+
+#profile-menu {
+  position: absolute;
+  height: 300px;
+  width: 255px;
+  background-color: white;
+  right: 0;
+  top: 70px;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
+}
+
