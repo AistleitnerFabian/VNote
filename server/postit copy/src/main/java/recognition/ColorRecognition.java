@@ -51,6 +51,7 @@ public class ColorRecognition {
         //System.out.println("l: " + label + ", r: " + r + ", g: " + g + ", b. " + b);
     }*/
 
+/*
     public void cluster(Mat src){
         //convert to rgb
         Imgproc.cvtColor(src, src, Imgproc.COLOR_BGR2GRAY);
@@ -62,5 +63,5 @@ public class ColorRecognition {
         TermCriteria criteria = new TermCriteria(TermCriteria.COUNT, 100, 1);
 
         Mat clt = Core.kmeans(src, 3, labels, );
-    }
+    }*/
 }
