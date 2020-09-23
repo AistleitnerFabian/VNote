@@ -38,8 +38,8 @@ public class PostitRecognition {
                 //crop the postits for color recognition
                 this.cropPostits(this.originalImage);
 
-                ColorRecognition cr = new ColorRecognition();
-                cr.cluster(this.croppedPostits.get(0));
+                /*ColorRecognition cr = new ColorRecognition();
+                cr.cluster(this.croppedPostits.get(0));*/
 
                 Wall w = new Wall(filename, postits.size(), postits);
 
