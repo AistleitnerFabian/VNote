@@ -1,0 +1,15 @@
+
+#content {
+  height: 100%;
+  width: 100%;
+}
+
+#grid {
+  height: 100000px;
+  width: 100000px;
+  background-image: url("../../../assets/background.svg");
+  background-repeat: repeat;
+  background-size: 300px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}

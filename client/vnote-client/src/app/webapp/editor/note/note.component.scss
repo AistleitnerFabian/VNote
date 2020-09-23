@@ -1,0 +1,63 @@
+#content{
+    width: 300px;
+    height: 260px;
+    border-radius: 0 0 5px 5px;
+}
+#header{
+    width: 300px;
+    height: 40px;
+    border-radius: 5px 5px 0 0;
+}
+#note{
+    width: fit-content;
+    margin: 1px;
+    border: 5px solid whitesmoke;
+    border-radius: 5px;
+    background-color: whitesmoke;
+    position: relative;
+}
+#menubutton{
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+    border: 5px solid whitesmoke;
+    margin-top: -30px;
+    margin-left: calc(150px - 30px);
+    cursor: pointer;
+    position: absolute;
+}
+
+#menu{
+    height: 50px;
+    width: 300px;
+    box-sizing: border-box;
+    border-width: 2.5px;
+    border-style: solid;
+    border-radius: 5px;
+    background-color: white;
+    margin-top: -52.5px;
+    justify-content: space-around;
+    display: flex;
+    user-select: none;
+    position: absolute;
+}
+button{
+    margin-top: 5px;
+    height: 35px;
+    width: 35px;
+}
+.mat-icon{
+    margin-top: -5px;
+}
+#dragHandle{
+    width: 100%;
+    height: 100%;
+    cursor: move;
+}
+#dragHandleDisabled{
+    width: 0px;
+    height: 0px;
+}
+::ng-deep .mat-menu-content{
+    padding: 0px !important;
+  }

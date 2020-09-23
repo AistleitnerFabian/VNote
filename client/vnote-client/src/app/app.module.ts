@@ -46,6 +46,12 @@ import {UploadsComponent} from './webapp/uploads/uploads.component';
 import {HelpComponent} from './webapp/help/help.component';
 import {SettingsComponent} from './webapp/settings/settings.component';
 import {FormsModule} from '@angular/forms';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {EditorComponent} from './webapp/editor/editor.component';
+import {NgxPanZoomModule} from 'ngx-panzoom';
+import {NoteComponent} from './webapp/editor/note/note.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {ColorSketchModule} from "ngx-color/sketch";
 
 @NgModule({
   declarations: [
@@ -57,9 +63,12 @@ import {FormsModule} from '@angular/forms';
     BoardsComponent,
     UploadsComponent,
     HelpComponent,
-    SettingsComponent
+    SettingsComponent,
+    EditorComponent,
+    NoteComponent,
   ],
   imports: [
+    NgxPanZoomModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -95,7 +104,10 @@ import {FormsModule} from '@angular/forms';
     MatSortModule,
     MatPaginatorModule,
     MatRippleModule,
-    FormsModule
+    FormsModule,
+    FlexLayoutModule,
+    DragDropModule,
+    ColorSketchModule
   ],
   providers: [],
   bootstrap: [AppComponent],
