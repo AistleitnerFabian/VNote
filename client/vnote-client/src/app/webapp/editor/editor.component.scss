@@ -5,11 +5,11 @@
 }
 
 #grid {
-  height: 100000px;
-  width: 100000px;
+  height: calc(100% - 70px);
+  width: calc(100% - 70px);
   background-image: url("../../../assets/background.svg");
   background-repeat: repeat;
-  background-size: 300px;
+  background-position-x: 0px;
   position: absolute;
-  transform: translate(-50%, -50%);
 }
+
