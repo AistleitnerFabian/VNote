@@ -9,11 +9,15 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.HashMap;
+
 public class PostitRecognition {
     private Mat originalImage;
     private List<Rect> rects = new ArrayList<>();
     private List<Postit> postits = new ArrayList<>();
     List<Mat> croppedPostits = new ArrayList<>();
+
+    HashMap<Postit, Mat> hmap = new HashMap<Postit, Mat>();
 
     public PostitRecognition() {
     }
@@ -36,10 +40,10 @@ public class PostitRecognition {
                 this.postits = this.findPostits(edges);//draw boundings in original image to see which postits where recognized
 
                 //crop the postits for color recognition
-                this.cropPostits(this.originalImage);
+                //this.cropPostits(this.originalImage);
 
-                /*ColorRecognition cr = new ColorRecognition();
-                cr.cluster(this.croppedPostits.get(0));*/
+                ColorRecognition cr = new ColorRecognition();
+                this.postits = cr.recognize(hmap);
 
                 Wall w = new Wall(filename, postits.size(), postits);
 
@@ -77,6 +81,9 @@ public class PostitRecognition {
                 counter++;
                 rects.add(rect);
                 foundPostits.add(p);
+                Mat cropped = this.originalImage.submat(rect);
+                this.croppedPostits.add(cropped);
+                this.hmap.put(p, cropped);
                 Imgproc.rectangle(dst, rect.tl(), rect.br(), new Scalar(0, 0, 0), 10);
             }
         }

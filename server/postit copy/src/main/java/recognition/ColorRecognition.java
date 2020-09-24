@@ -4,64 +4,70 @@ import org.opencv.core.*;
 import org.opencv.imgcodecs.*;
 import org.opencv.imgproc.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import com.postit.webservice.model.*;
 
 public class ColorRecognition {
-
+    private List<Postit> postits = new ArrayList<>();
     public ColorRecognition(){}
-/*
-    public void cluster(Mat img){
-        //convert to 32f
-        Mat image32f = new Mat();
-        img.convertTo(image32f, CvType.CV_32F);
 
-        Mat labels = new Mat();
-        TermCriteria criteria = new TermCriteria(TermCriteria.COUNT, 100, 1);
-        Mat centers = new Mat();
-        Core.kmeans(image32f, 1, labels, criteria, 1, Core.KMEANS_PP_CENTERS, centers);
+    public List<Postit> recognize(HashMap<Postit, Mat> hmap){
 
-        centers.convertTo(centers, CvType.CV_8UC1, 255.0);
-        centers.reshape(3);
-
-        List<Mat> clusters = new ArrayList<>();
-        for(int i = 0; i < centers.rows(); i++){
-            clusters.add(Mat.zeros(img.size(), img.type()));
+        for(Postit p : hmap.keySet()){
+            Mat cropped = hmap.get(p);
+            String color = this.recognize(cropped);
+            p.setColor(color);
+            this.postits.add(p);
         }
 
-        Map<Integer, Integer> counts = new HashMap<Integer, Integer>();
-        for(int i = 0; i < centers.rows(); i++) counts.put(i, 0);
+        return this.postits;
+    }
 
-        int rows = 0;
-        for(int y = 0; y < img.rows(); y++) {
-            for(int x = 0; x <img.cols(); x++) {
-                int label = (int)labels.get(rows, 0)[0];
-                int r = (int)centers.get(label, 2)[0];
-                int g = (int)centers.get(label, 1)[0];
-                int b = (int)centers.get(label, 0)[0];
-                counts.put(label, counts.get(label) + 1);
-                clusters.get(label).put(y, x, b, g, r);
-                rows++;
-            }
-        }
-        System.out.println(counts);
+    private String recognize(Mat postit){
+        String color = "";
 
-        //System.out.println("l: " + label + ", r: " + r + ", g: " + g + ", b. " + b);
-    }*/
+        Mat hsv = new Mat();
+        Imgproc.cvtColor(postit, hsv, Imgproc.COLOR_BGR2HSV);
 
-/*
-    public void cluster(Mat src){
-        //convert to rgb
-        Imgproc.cvtColor(src, src, Imgproc.COLOR_BGR2GRAY);
+        //split into Hue, Saturation, Value
+        List<Mat> hsvPlanes = new ArrayList<>();
+        Core.split(hsv, hsvPlanes);
 
-        //src.reshape(1,3);
+        int histSize = 256;
+        MatOfFloat histRange = new MatOfFloat(0, 256);
 
-        Mat labels = new Mat();
-        Mat centers = new Mat();
-        TermCriteria criteria = new TermCriteria(TermCriteria.COUNT, 100, 1);
+        Mat hHist = new Mat();
 
-        Mat clt = Core.kmeans(src, 3, labels, );
-    }*/
+        //calculate the histogram for Hue
+        Imgproc.calcHist(hsvPlanes, new MatOfInt(0), new Mat(), hHist, new MatOfInt(histSize), histRange, false);
+
+        Core.MinMaxLocResult c = Core.minMaxLoc(hHist);
+        color = this.getColor((int) c.maxLoc.y);
+
+        return color;
+    }
+
+    private String getColor(int H){
+        String color;
+        if (H < 14)
+            color = "cRED";
+        else if (H < 25)
+            color = "cORANGE";
+        else if (H < 34)
+            color = "cYELLOW";
+        else if (H < 73)
+            color = "cGREEN";
+        else if (H < 102)
+            color = "cAQUA";
+        else if (H < 127)
+            color = "cBLUE";
+        else if (H < 149)
+            color = "cPURPLE";
+        else if (H < 175)
+            color = "cPINK";
+        else    // full circle
+            color = "cRED"; // back to Red
+        return color;
+    }
 }
