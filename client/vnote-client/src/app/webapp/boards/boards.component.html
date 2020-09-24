@@ -5,7 +5,11 @@
     <mat-icon class="material-icons-round" id="search-icon">search</mat-icon>
     <label for="search-input"></label><input id="search-input" placeholder="Search wall" type="text">
   </div>
-  <div id="board-container">
-    <div *ngFor="let item of items" class="board">{{item}}</div>
+  <div id="board-scroll">
+    <div id="board-container" fxLayout="row wrap" fxLayoutGap="30px grid">
+      <div fxFlex="30%" fxFlex.md="50%" fxFlex.sm="100%"
+           *ngFor="let num of [1,2,3,4,5,6]">
+        <div class="board"></div>
+      </div>
+    </div>
   </div>
-</div>

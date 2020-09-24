@@ -1,0 +1,15 @@
+
+#content {
+  height: 100%;
+  width: 100%;
+}
+
+#grid {
+  height: calc(100% - 70px);
+  width: calc(100% - 70px);
+  background-image: url("../../../assets/background.svg");
+  background-repeat: repeat;
+  background-position-x: 0px;
+  position: absolute;
+}
+

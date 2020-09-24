@@ -1,0 +1,30 @@
+<div id="note" cdkDrag>
+    <div id="menu" *ngIf="menuExtended" [@extendMenu] [style.border-color]="darkColor">
+        <button mat-icon-button [style.color]="'#545454'">
+            <mat-icon>title</mat-icon>
+        </button>
+        <button mat-icon-button [matMenuTriggerFor]="menu" [style.color]="lightColor">
+            <mat-icon>invert_colors</mat-icon>
+        </button>
+        <mat-menu id="colorMenu" #menu="matMenu" yPosition="above">
+            <color-sketch [color]="lightColor" (click)="$event.stopPropagation()" (onChange)="handleChange($event)"></color-sketch>
+        </mat-menu>
+        <span> </span>
+        <span> </span>
+        <button mat-icon-button [style.color]="'#ABABAB'" (click)="lock();">
+            <mat-icon *ngIf="!locked" >lock_open</mat-icon>
+            <mat-icon *ngIf="locked">lock</mat-icon>
+        </button>
+        <button mat-icon-button [style.color]="'#DB4848'">
+            <mat-icon>delete_forever</mat-icon>
+        </button>
+    </div>
+    <div id="header" [style.background-color]="darkColor">
+        <div id="menubutton" (click)="menuButtonPressed(this)" [style.background-color]="buttonColor">
+        </div>
+        <div *ngIf="!locked" id="dragHandle" cdkDragHandle></div>
+        <div *ngIf="locked" id="dragHandleDisabled" cdkDragHandle></div>
+    </div>
+    <div id="content" [style.background-color]="lightColor">
+    </div>
+</div>
