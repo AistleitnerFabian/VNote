@@ -4,7 +4,7 @@
 
   <pan-zoom [config]="panZoomConfig" #panzoom>
     <div style="position: absolute;">
-      <note></note>
+      <note (click)="zoomTo()"></note>
     </div>
   </pan-zoom>
 

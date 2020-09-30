@@ -42,6 +42,10 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
     this.grid.nativeElement.style.backgroundSize = this.panzoom.scale * this.gridSize + 'px';
   }
 
+  zoomTo(): void {
+    this.panZoomAPI.panDelta()
+  }
+
   onModelChanged(model: PanZoomModel): void {
     if (this.grid !== undefined) {
       console.log(this.panzoom.scale);
