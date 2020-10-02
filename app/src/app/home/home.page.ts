@@ -11,6 +11,7 @@ const {CameraPreview, Motion} = Plugins;
 import {CameraPreviewOptions, CameraPreviewPictureOptions} from '@capacitor-community/camera-preview';
 import {MenuController} from '@ionic/angular';
 import {DataService} from '../data.service';
+import {HTTP} from '@ionic-native/http/ngx';
 
 @Component({
     selector: 'app-home',
@@ -27,7 +28,8 @@ export class HomePage implements OnInit {
     constructor(public toastController: ToastController,
                 public menuController: MenuController,
                 public dataService: DataService,
-                public alertController: AlertController) {
+                public alertController: AlertController,
+                private http: HTTP) {
     }
 
     cameraPreviewOptions: CameraPreviewOptions = {
@@ -58,7 +60,7 @@ export class HomePage implements OnInit {
             header: 'Prompt!',
             inputs: [
                 {
-                    name: 'Server IP',
+                    name: 'serverip',
                     type: 'text',
                     placeholder: ''
                 }
@@ -66,8 +68,8 @@ export class HomePage implements OnInit {
             buttons: [
                 {
                     text: 'Ok',
-                    handler: () => {
-                        console.log('Confirm Ok');
+                    handler: (alertData) => {
+                        this.serverIP = alertData.serverip;
                     }
                 }
             ]
@@ -128,7 +130,19 @@ export class HomePage implements OnInit {
     }
 
     uploadImage() {
-        this.toast("Image Uploaded")
+        //TODO: HTTP Post call weitermochn
+        this.http.post('https://' + this.serverIP + '/uploadBase64Image', {}, {})
+            .then(data => {
+
+                this.toast("Image Uploaded")
+
+            })
+            .catch(error => {
+
+
+                this.toast("Error")
+
+            });
     }
 
     discardImage() {
