@@ -92,7 +92,7 @@ public class PostitController implements CommandLineRunner {
     }
 
     @PostMapping("/uploadBase64Image")
-    public void upload(@RequestParam("file") String base64Image){
+    public void upload(@RequestParam("base64") String base64Image){
         imageRepository.save(new Image(base64Image, LocalDateTime.now()));
     }
 
