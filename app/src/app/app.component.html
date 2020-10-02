@@ -23,6 +23,12 @@
             Dark Mode</ion-label>
             <ion-toggle [value]="dataService.darkmode" (click)="toogleDarkmode()"></ion-toggle>
         </ion-item>
+        <ion-item>
+            <ion-label
+            [style.color]="dataService.darkmode ? 'var(--ion-color-light)' : 'var(--ion-color-dark)'">
+            Dark Mode</ion-label>
+            <ion-toggle [value]="dataService.darkmode" (click)="toogleDarkmode()"></ion-toggle>
+        </ion-item>
       </ion-list>
     </ion-content>
   </ion-menu>

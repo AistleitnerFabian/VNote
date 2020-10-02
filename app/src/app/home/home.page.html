@@ -28,6 +28,7 @@
     <ion-fab-button (click)="takePhoto()" [color]="dataService.darkmode ? 'dark' : 'light'" id="photoButton">
       <ion-icon name="camera"></ion-icon>
     </ion-fab-button>
+    {{serverIP}}
     <ion-fab-button [color]="dataService.darkmode ? 'dark' : 'light'" id="galleryButton">
       <ion-icon name="image" style="font-size: 20px;" (click)="selectFromGallery()"></ion-icon>
     </ion-fab-button>
