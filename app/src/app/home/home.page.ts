@@ -22,8 +22,8 @@ export class HomePage implements OnInit {
     isCameraOn: boolean = false;
     showPhotoPreview: boolean = false;
     imageData: string;
+    imageBase64: string;
     isPhotoFromLibrary: boolean = false;
-    serverIP: string;
 
     constructor(public toastController: ToastController,
                 public menuController: MenuController,
@@ -69,7 +69,7 @@ export class HomePage implements OnInit {
                 {
                     text: 'Ok',
                     handler: (alertData) => {
-                        this.serverIP = alertData.serverip;
+                        this.dataService.serverIP = alertData.serverip;
                     }
                 }
             ]
@@ -89,15 +89,16 @@ export class HomePage implements OnInit {
 
     async takePhoto() {
         this.isPhotoFromLibrary = false;
-        this.imageData = ""
+        this.imageData = '';
         const cameraPreviewPictureOptions: CameraPreviewPictureOptions = {
             quality: 100
         };
         this.showPhotoPreview = true;
         try {
             const result = await CameraPreview.capture(cameraPreviewPictureOptions);
-            const base64PictureData = result.value;
+            const base64PictureData = result.value.toString();
             if (base64PictureData != "" && base64PictureData != null) {
+                this.imageBase64 = base64PictureData;
                 this.imageData = "url('data:image/png;base64," + base64PictureData + "')"
             } else {
                 this.discardImage();
@@ -121,6 +122,7 @@ export class HomePage implements OnInit {
             source: CameraSource.Photos
         }).then((image) => {
             if (image.base64String != "" && image.base64String != null) {
+                this.imageBase64 = image.base64String;
                 this.imageData = "url('data:image/png;base64," + image.base64String + "')"
             } else {
                 this.discardImage();
@@ -130,17 +132,24 @@ export class HomePage implements OnInit {
     }
 
     uploadImage() {
-        //TODO: HTTP Post call weitermochn
-        this.http.post('https://' + this.serverIP + '/uploadBase64Image', {}, {})
+        const headers = {
+            'Content-Type': 'multipart/image'
+        };
+        const postData = {
+            'base64Image': this.imageBase64
+        };
+
+        this.http.post('http://' + this.dataService.serverIP + '/uploadBase64Image', postData, headers)
             .then(data => {
 
+                console.log(this.imageData);
                 this.toast("Image Uploaded")
 
             })
             .catch(error => {
 
-
-                this.toast("Error")
+                console.error(error);
+                this.toast("Error");
 
             });
     }

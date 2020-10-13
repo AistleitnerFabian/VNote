@@ -1,10 +1,13 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class DataService {
 
-  public darkmode: boolean = false;
-  constructor() { }
+    public darkmode: boolean = false;
+    public serverIP: string;
+
+    constructor() {
+    }
 }

@@ -15,6 +15,8 @@ import { DataService } from './data.service';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 
+import {HTTP} from '@ionic-native/http/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -25,7 +27,8 @@ import { ImagePicker } from '@ionic-native/image-picker/ngx';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     DataService,
     ScreenOrientation,
-    ImagePicker
+    ImagePicker,
+    HTTP
   ],
   bootstrap: [AppComponent]
 })

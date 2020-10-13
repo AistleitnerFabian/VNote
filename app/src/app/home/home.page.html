@@ -1,48 +1,51 @@
 <ion-content [scrollY]="false" [scrollX]="false">
 
-  <!-- Photo Preview -->
-  <div *ngIf="showPhotoPreview" [style.backgroundImage]="imageData" id="photoPreview"
-    [style.background-color]="dataService.darkmode ? 'var(--ion-color-dark)' : 'var(--ion-color-light)'"
-    [style.backgroundSize]="isPhotoFromLibrary ? 'contain' : 'cover'">
-    <ion-spinner class="spinner" [style.color]="dataService.darkmode ? 'var(--ion-color-light)' : 'var(--ion-color-dark)'" *ngIf="imageData == null || imageData == ''"></ion-spinner>
-  </div>
+    <!-- Photo Preview -->
+    <div *ngIf="showPhotoPreview" [style.backgroundImage]="imageData" id="photoPreview"
+         [style.background-color]="dataService.darkmode ? 'var(--ion-color-dark)' : 'var(--ion-color-light)'"
+         [style.backgroundSize]="isPhotoFromLibrary ? 'contain' : 'cover'">
+        <ion-spinner class="spinner"
+                     [style.color]="dataService.darkmode ? 'var(--ion-color-light)' : 'var(--ion-color-dark)'"
+                     *ngIf="imageData == null || imageData == ''"></ion-spinner>
+    </div>
 
-  <!-- Profil -->
-  <ion-chip class="ion-color"
-    [style.background-color]="dataService.darkmode ? 'var(--ion-color-dark)' : 'var(--ion-color-light)'"
-    [style.color]="dataService.darkmode ? 'var(--ion-color-light)' : 'var(--ion-color-dark)'" id="profilChip"
-    (click)="openMenu()">
-    <ion-avatar>
-      <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
-    </ion-avatar>
-    <ion-label>Max Muster</ion-label>
-  </ion-chip>
+    <!-- Profil -->
+    <ion-chip class="ion-color"
+              [style.background-color]="dataService.darkmode ? 'var(--ion-color-dark)' : 'var(--ion-color-light)'"
+              [style.color]="dataService.darkmode ? 'var(--ion-color-light)' : 'var(--ion-color-dark)'" id="profilChip"
+              (click)="openMenu()">
+        <ion-avatar>
+            <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+        </ion-avatar>
+        <ion-label>Max Muster</ion-label>
+    </ion-chip>
 
-  <!-- Loading Camera -->
-  <div id="background">
-    <ion-spinner class="spinner" [style.color]="dataService.darkmode ? 'var(--ion-color-light)' : 'var(--ion-color-dark)'" *ngIf="!isCameraOn"></ion-spinner>
-  </div>
+    <!-- Loading Camera -->
+    <div id="background">
+        <ion-spinner class="spinner"
+                     [style.color]="dataService.darkmode ? 'var(--ion-color-light)' : 'var(--ion-color-dark)'"
+                     *ngIf="!isCameraOn"></ion-spinner>
+    </div>
 
-  <!-- Photo and Gallery Buttons -->
-  <ion-fab vertical="bottom" horizontal="center" slot="fixed" style="margin-bottom: 40px;" *ngIf="!showPhotoPreview">
-    <ion-fab-button (click)="takePhoto()" [color]="dataService.darkmode ? 'dark' : 'light'" id="photoButton">
-      <ion-icon name="camera"></ion-icon>
-    </ion-fab-button>
-    {{serverIP}}
-    <ion-fab-button [color]="dataService.darkmode ? 'dark' : 'light'" id="galleryButton">
-      <ion-icon name="image" style="font-size: 20px;" (click)="selectFromGallery()"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+    <!-- Photo and Gallery Buttons -->
+    <ion-fab vertical="bottom" horizontal="center" slot="fixed" style="margin-bottom: 40px;" *ngIf="!showPhotoPreview">
+        <ion-fab-button (click)="takePhoto()" [color]="dataService.darkmode ? 'dark' : 'light'" id="photoButton">
+            <ion-icon name="camera"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-button [color]="dataService.darkmode ? 'dark' : 'light'" id="galleryButton">
+            <ion-icon name="image" style="font-size: 20px;" (click)="selectFromGallery()"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
 
-  <!-- Photo-Preview Buttons -->
-  <ion-fab vertical="bottom" horizontal="center" slot="fixed" style="margin-bottom: 120px;" *ngIf="showPhotoPreview">
-    <ion-fab-button (click)="uploadImage()" [color]="'primary'" style="position: absolute; left: -80px;"
-      id="photoButton">
-      <ion-icon name="checkmark"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-button (click)="discardImage()" [color]="dataService.darkmode ? 'dark' : 'light'"
-      style="position: absolute; left: 80px" id="photoButton">
-      <ion-icon name="close"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+    <!-- Photo-Preview Buttons -->
+    <ion-fab vertical="bottom" horizontal="center" slot="fixed" style="margin-bottom: 120px;" *ngIf="showPhotoPreview">
+        <ion-fab-button (click)="uploadImage()" [color]="'primary'" style="position: absolute; left: -80px;"
+                        id="photoButton">
+            <ion-icon name="checkmark"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-button (click)="discardImage()" [color]="dataService.darkmode ? 'dark' : 'light'"
+                        style="position: absolute; left: 80px" id="photoButton">
+            <ion-icon name="close"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
 </ion-content>
