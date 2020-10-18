@@ -102,7 +102,7 @@ export class NoteComponent implements OnInit {
 
   @HostListener('document:mousemove', ['$event'])
   onMousemove(event: MouseEvent) {
-    if (this.dragAndDropService.isDraging && this.dragHandler.nativeElement === this.dragAndDropService.dragHandler) {
+    if (!this.locked && this.dragAndDropService.isDraging && this.dragHandler.nativeElement === this.dragAndDropService.dragHandler) {
 
       this.posX += (event.x - this.dragAndDropService.dragX) / this.dragAndDropService.scale;
       this.posY += (event.y - this.dragAndDropService.dragY) / this.dragAndDropService.scale;

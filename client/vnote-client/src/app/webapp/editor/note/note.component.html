@@ -23,7 +23,8 @@
   <div id="header" [style.background-color]="darkColor">
     <div id="menubutton" (click)="menuButtonPressed(this)" [style.background-color]="buttonColor">
     </div>
-    <div id="dragHandle" #dragHandle></div>
+    <div *ngIf="!locked" id="dragHandle" #dragHandle></div>
+    <div *ngIf="locked" id="lockedDragHandle" #dragHandle></div>
   </div>
   <div id="content" [style.background-color]="lightColor">
   </div>

@@ -61,6 +61,12 @@ button {
   cursor: move;
 }
 
+#lockedDragHandle {
+  width: 100%;
+  height: 100%;
+  cursor: default;
+}
+
 ::ng-deep .mat-menu-content {
   padding: 0px !important;
 }
