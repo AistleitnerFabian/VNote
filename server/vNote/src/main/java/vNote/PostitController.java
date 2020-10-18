@@ -1,5 +1,7 @@
 package vNote;
 
+import nu.pattern.OpenCV;
+import org.opencv.core.Core;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +14,7 @@ import vNote.recognition.PostitRecognition;
 import vNote.repositories.ImageRepository;
 import vNote.repositories.PostitRepository;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.security.cert.CollectionCertStoreParameters;
 import java.time.LocalDateTime;
 import java.util.Base64;
@@ -34,6 +33,8 @@ public class PostitController implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        //System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        OpenCV.loadLocally();
         postitRepository.deleteAll();
         imageRepository.deleteAll();
 
@@ -44,6 +45,8 @@ public class PostitController implements CommandLineRunner {
                 LocalDateTime.now()));
         imageRepository.save(new Image(encoder("src/main/resources/static/badposition2.jpg"),
                 LocalDateTime.now().plusDays(1)));
+
+        upload(encoder("src/main/resources/static/badposition2.jpg"));
     }
 
     public static String encoder(String imagePath) {
@@ -92,8 +95,11 @@ public class PostitController implements CommandLineRunner {
     }
 
     @PostMapping("/uploadBase64Image")
-    public void upload(@RequestParam("base64") String base64Image){
+    public void upload(@RequestBody String base64Image) throws UnsupportedEncodingException {
         imageRepository.save(new Image(base64Image, LocalDateTime.now()));
+
+        PostitRecognition pr = new PostitRecognition();
+        pr.recognizeBase64Image(base64Image);
     }
 
 

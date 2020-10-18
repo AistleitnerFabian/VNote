@@ -6,8 +6,12 @@ import vNote.model.Wall;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,33 +26,57 @@ public class PostitRecognition {
     public PostitRecognition() {
     }
 
-    public Wall recognize(String filename) {
-            Mat src = Imgcodecs.imread(filename);
-            if(src.empty()){
-                System.out.println("leeeeeeeer");
-                return null;
-            }else{
-                this.originalImage = src.clone(); //load image
+    public void recognizeBase64Image(String base64Image) throws UnsupportedEncodingException {
+        //decode base64
+        try {
+            byte[] bytes = Base64.getDecoder().decode(base64Image);
+            Mat src = Imgcodecs.imdecode(new MatOfByte(bytes), Imgcodecs.IMREAD_UNCHANGED);
 
-                Mat hsv = new Mat();
-                Imgproc.cvtColor(src, hsv, Imgproc.COLOR_BGR2HSV); //convert to hsv
-
-                Mat s = this.getSaturation(hsv); //extract the Saturation channel from the hsv image
-
-                Mat edges = this.performOtsu(s);//perform Otsu Algorithm for edge detection
-
-                this.postits = this.findPostits(edges);//draw boundings in original image to see which postits where recognized
-
-                //crop the postits for color recognition
-                //this.cropPostits(this.originalImage);
-
-                ColorRecognition cr = new ColorRecognition();
-                this.postits = cr.recognize(hmap);
-
-                Wall w = new Wall(filename, postits.size(), postits);
-
-                return w; //postit wall
+            if (src.empty()) {
+                System.out.println("image is empty");
+            } else {
+                Wall w = this.recognizePostits(src);
             }
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+
+    }
+
+    private Wall recognizePostits(Mat src) {
+        System.out.println("recognizing...");
+        this.originalImage = src.clone(); //load image
+
+        Mat hsv = new Mat();
+        Imgproc.cvtColor(src, hsv, Imgproc.COLOR_BGR2HSV); //convert to hsv
+
+        Mat s = this.getSaturation(hsv); //extract the Saturation channel from the hsv image
+
+        Mat edges = this.performOtsu(s);//perform Otsu Algorithm for edge detection
+
+        this.postits = this.findPostits(edges);//draw boundings in original image to see which postits where recognized
+
+        //crop the postits for color recognition
+        //this.cropPostits(this.originalImage);
+
+        ColorRecognition cr = new ColorRecognition();
+        this.postits = cr.recognize(hmap);
+
+        Wall w = new Wall("filename", postits.size(), postits);
+
+        return w; //postit wall
+    }
+
+    public Wall recognize(String filename) {
+        Mat src = Imgcodecs.imread(filename);
+        if (src.empty()) {
+            System.out.println("leeeeeeeer");
+            return null;
+        } else {
+            Wall w = recognizePostits(src);
+
+            return w; //postit wall
+        }
     }
 
     private List<Postit> findPostits(Mat src) {
@@ -91,39 +119,39 @@ public class PostitRecognition {
         return foundPostits;
     }
 
-        private Mat performOtsu (Mat src){
-            Mat dst = src.clone();
-            Imgproc.threshold(src, dst, 0, 255, Imgproc.THRESH_BINARY_INV + Imgproc.THRESH_OTSU);
-            return dst;
+    private Mat performOtsu(Mat src) {
+        Mat dst = src.clone();
+        Imgproc.threshold(src, dst, 0, 255, Imgproc.THRESH_BINARY_INV + Imgproc.THRESH_OTSU);
+        return dst;
+    }
+
+    private Mat getSaturation(Mat hsv) {
+        List<Mat> channels = new ArrayList<>();
+        Core.split(hsv, channels);
+        Mat s = channels.get(1);
+        return s;
+    }
+
+    private void cropPostits(Mat src) {
+
+        for (Rect r : rects) {
+            this.croppedPostits.add(src.submat(r));
         }
 
-        private Mat getSaturation (Mat hsv){
-            List<Mat> channels = new ArrayList<>();
-            Core.split(hsv, channels);
-            Mat s = channels.get(1);
-            return s;
+        //save cropped postits
+        //this.saveCroppedPostits();
+    }
+
+    private void saveCroppedPostits() {
+        int counter = 0;
+        for (Mat p : this.croppedPostits) {
+            this.write(p, "p" + counter);
+            counter++;
         }
+    }
 
-        private void cropPostits(Mat src){
-
-            for(Rect r : rects){
-                this.croppedPostits.add(src.submat(r));
-            }
-
-            //save cropped postits
-            //this.saveCroppedPostits();
-        }
-
-        private void saveCroppedPostits(){
-            int counter = 0;
-            for (Mat p: this.croppedPostits) {
-                this.write(p, "p"+counter);
-                counter++;
-            }
-        }
-
-    private void write(Mat src, String filename){
+    private void write(Mat src, String filename) {
         String dir = "src/main/resources/colorRecognition/";
-        Imgcodecs.imwrite(dir+filename+".jpg", src);
+        Imgcodecs.imwrite(dir + filename + ".jpg", src);
     }
 }
