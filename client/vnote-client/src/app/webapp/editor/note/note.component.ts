@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import {trigger, style, animate, transition} from '@angular/animations';
 import {ColorEvent} from 'ngx-color';
+import {DragAndDropService} from "../drag-and-drop.service";
 
 @Component({
   selector: 'note',
@@ -27,13 +28,16 @@ import {ColorEvent} from 'ngx-color';
   ]
 })
 export class NoteComponent implements OnInit {
+  @ViewChild('dragHandle') dragHandler;
+  posX = 200;
+  posY = 200;
   menuExtended = false;
   lightColor = '#FFA500';
   darkColor = this.LightenDarkenColor(this.lightColor, -30);
   buttonColor = this.darkColor;
   locked = false;
 
-  constructor() {
+  constructor(private dragAndDropService: DragAndDropService) {
   }
 
   ngOnInit(): void {
@@ -96,4 +100,15 @@ export class NoteComponent implements OnInit {
     return (usePound ? '#' : '') + (g | (b << 8) | (r << 16)).toString(16);
   }
 
+  @HostListener('document:mousemove', ['$event'])
+  onMousemove(event: MouseEvent) {
+    if (this.dragAndDropService.isDraging && this.dragHandler.nativeElement === this.dragAndDropService.dragHandler) {
+
+      this.posX += (event.x - this.dragAndDropService.dragX) / this.dragAndDropService.scale;
+      this.posY += (event.y - this.dragAndDropService.dragY) / this.dragAndDropService.scale;
+
+      this.dragAndDropService.dragX = event.x;
+      this.dragAndDropService.dragY = event.y;
+    }
+  }
 }

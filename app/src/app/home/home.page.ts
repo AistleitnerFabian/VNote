@@ -19,11 +19,11 @@ import {HTTP} from '@ionic-native/http/ngx';
     styleUrls: ['home.page.scss']
 })
 export class HomePage implements OnInit {
-    isCameraOn: boolean = false;
-    showPhotoPreview: boolean = false;
+    isCameraOn = false;
+    showPhotoPreview = false;
     imageData: string;
     imageBase64: string;
-    isPhotoFromLibrary: boolean = false;
+    isPhotoFromLibrary = false;
 
     constructor(public toastController: ToastController,
                 public menuController: MenuController,
@@ -48,7 +48,7 @@ export class HomePage implements OnInit {
 
     async toast(message) {
         const toast = await this.toastController.create({
-            message: message,
+            message,
             duration: 2000,
             position: 'top',
         });
@@ -97,9 +97,9 @@ export class HomePage implements OnInit {
         try {
             const result = await CameraPreview.capture(cameraPreviewPictureOptions);
             const base64PictureData = result.value.toString();
-            if (base64PictureData != "" && base64PictureData != null) {
+            if (base64PictureData != '' && base64PictureData != null) {
                 this.imageBase64 = base64PictureData;
-                this.imageData = "url('data:image/png;base64," + base64PictureData + "')"
+                this.imageData = 'url(\'data:image/png;base64,' + base64PictureData + '\')';
             } else {
                 this.discardImage();
             }
@@ -109,7 +109,7 @@ export class HomePage implements OnInit {
                 CameraPreview.start(this.cameraPreviewOptions);
                 this.discardImage();
                 this.isCameraOn = true;
-            })
+            });
         }
     }
 
@@ -121,9 +121,9 @@ export class HomePage implements OnInit {
             resultType: CameraResultType.Base64,
             source: CameraSource.Photos
         }).then((image) => {
-            if (image.base64String != "" && image.base64String != null) {
+            if (image.base64String != '' && image.base64String != null) {
                 this.imageBase64 = image.base64String;
-                this.imageData = "url('data:image/png;base64," + image.base64String + "')"
+                this.imageData = 'url(\'data:image/png;base64,' + image.base64String + '\')';
             } else {
                 this.discardImage();
             }
@@ -136,26 +136,26 @@ export class HomePage implements OnInit {
             'Content-Type': 'multipart/image'
         };
         const postData = {
-            'base64Image': this.imageBase64
+            base64Image: this.imageBase64
         };
 
-        this.http.post('http://' + this.dataService.serverIP + '/uploadBase64Image', postData, headers)
+        this.http.post('http://' + this.dataService.serverIP + '/uploadImage', postData, headers)
             .then(data => {
 
                 console.log(this.imageData);
-                this.toast("Image Uploaded")
+                this.toast('Image Uploaded');
 
             })
             .catch(error => {
 
                 console.error(error);
-                this.toast("Error");
+                this.toast('Error');
 
             });
     }
 
     discardImage() {
-        this.imageData = ""
+        this.imageData = '';
         this.showPhotoPreview = false;
     }
 

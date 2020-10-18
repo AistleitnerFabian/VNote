@@ -52,6 +52,7 @@ import {NgxPanZoomModule} from 'ngx-panzoom';
 import {NoteComponent} from './webapp/editor/note/note.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {ColorSketchModule} from "ngx-color/sketch";
+import {DragAndDropService} from "./webapp/editor/drag-and-drop.service";
 
 @NgModule({
   declarations: [
@@ -109,7 +110,7 @@ import {ColorSketchModule} from "ngx-color/sketch";
     DragDropModule,
     ColorSketchModule
   ],
-  providers: [],
+  providers: [DragAndDropService],
   bootstrap: [AppComponent],
 })
 export class AppModule {
