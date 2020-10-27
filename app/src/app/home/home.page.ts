@@ -138,7 +138,7 @@ export class HomePage implements OnInit {
         const postData = {
             base64Image: this.imageBase64
         };
-
+        console.error('http://' + this.dataService.serverIP + '/uploadImage');
         this.http.post('http://' + this.dataService.serverIP + '/uploadImage', postData, headers)
             .then(data => {
 
