@@ -53,6 +53,7 @@ import {NoteComponent} from './webapp/editor/note/note.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {ColorSketchModule} from "ngx-color/sketch";
 import {DragAndDropService} from "./webapp/editor/drag-and-drop.service";
+import { LandingpageComponent } from './landingpage/landingpage.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import {DragAndDropService} from "./webapp/editor/drag-and-drop.service";
     SettingsComponent,
     EditorComponent,
     NoteComponent,
+    LandingpageComponent,
   ],
   imports: [
     NgxPanZoomModule,

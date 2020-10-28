@@ -57,7 +57,7 @@ export class HomePage implements OnInit {
 
     async presentAlertPrompt() {
         const alert = await this.alertController.create({
-            header: 'Prompt!',
+            header: 'Server-IP:',
             inputs: [
                 {
                     name: 'serverip',
@@ -138,7 +138,6 @@ export class HomePage implements OnInit {
         const postData = {
             base64Image: this.imageBase64
         };
-        console.error('http://' + this.dataService.serverIP + '/uploadImage');
         this.http.post('http://' + this.dataService.serverIP + '/uploadImage', postData, headers)
             .then(data => {
 

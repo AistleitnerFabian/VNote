@@ -1,0 +1,145 @@
+@import "../../variables";
+
+#header {
+  height: 70px;
+  width: 100%;
+  background-color: white;
+}
+
+#header * {
+  float: left;
+}
+
+#logo {
+  width: 40px;
+  margin: 15px 30px;
+}
+
+#logoText {
+  font-weight: 700;
+  line-height: 66.5px;
+  font-size: 1.4em;
+  margin: 0;
+  color: $nav-button-selected;
+  user-select: none;
+}
+
+#menu {
+  margin-left: 100px;
+  line-height: 70px;
+  font-size: 1em;
+  color: $light-grey;
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#menu p {
+  margin: 0px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+
+#menu p:hover {
+  color: $nav-button-selected;
+}
+
+#menu #selected {
+  font-weight: 700;
+  color: $nav-button-selected;
+}
+
+#user-login {
+  position: absolute;
+  right: 15px;
+}
+
+#user-login {
+  float: right;
+  font-weight: 700;
+  font-size: 1em;
+}
+
+.button-wrapper {
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: 0 15px;
+}
+
+#signUp {
+  background-color: $nav-button-selected;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 6px;
+  width: 100px;
+  text-align: center;
+  transition: background-color 0.15s;
+}
+
+#signUp:hover {
+  background-color: $headline
+}
+
+#logIn {
+  color: $nav-button-selected;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  width: 100px;
+  transition: color 0.15s;
+}
+
+#logIn:hover {
+  color: $headline
+}
+
+#content {
+  height: calc(100% - 70px);
+  width: 100%;
+}
+
+#lp-image {
+  height: 80%;
+  margin-top: 5%;
+  float: left;
+}
+
+#main-text {
+  height: 400px;
+  width: 700px;
+  margin-top: 200px;
+  margin-left: 50px;
+  float: left;
+
+  h1 {
+    font-weight: 700;
+    font-size: 2.4em;
+  }
+
+  p {
+    font-size: 1.4em;
+    line-height: 1.5em;
+  }
+}
+
+#get-started {
+  background-color: $nav-button-selected;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  margin: 30px;
+  border-radius: 6px;
+  width: 100px;
+  text-align: center;
+  font-weight: 700;
+  transition: background-color 0.15s;
+}
+
+#get-started:hover {
+  background-color: $headline
+}

@@ -7,9 +7,11 @@ import {UploadsComponent} from './webapp/uploads/uploads.component';
 import {HelpComponent} from './webapp/help/help.component';
 import {SettingsComponent} from './webapp/settings/settings.component';
 import {EditorComponent} from "./webapp/editor/editor.component";
+import {LandingpageComponent} from './landingpage/landingpage.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/app', pathMatch: 'full'},
+  // {path: '', redirectTo: '/app', pathMatch: 'full'},
+  {path: '', component: LandingpageComponent},
   {
     path: 'app',
     component: WebappComponent,
