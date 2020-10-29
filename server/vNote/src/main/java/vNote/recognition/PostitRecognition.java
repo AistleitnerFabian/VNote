@@ -17,20 +17,15 @@ import java.util.List;
 
 public class PostitRecognition {
     private Mat originalImage;
-    private List<Rect> rects = new ArrayList<>();
     private List<Postit> postits;
     private List<Mat> croppedPostits;
     private ColorRecognition colorRecognition;
     private TextDetection textDetection;
 
-    HashMap<Postit, Mat> hmap;
-
     public PostitRecognition() {
         this.colorRecognition = new ColorRecognition();
-        this.rects = new ArrayList<>();
         this.postits = new ArrayList<>();
         this.croppedPostits = new ArrayList<>();
-        hmap = new HashMap<Postit, Mat>();
         this.textDetection = new TextDetection();
     }
 
@@ -71,12 +66,6 @@ public class PostitRecognition {
 
         this.postits = this.findPostits(edges);//draw boundings in original image to see which postits where recognized
 
-        //crop the postits for color recognition
-        //this.cropPostits(this.originalImage);
-
-       // TextDetection td = new TextDetection();
-       // Mat txtImg = td.detect(this.croppedPostits);
-
         Wall w = new Wall("filename", postits.size(), postits);
 
         return w; //postit wall
@@ -101,12 +90,9 @@ public class PostitRecognition {
 
         //find contours
         List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-        //Mat image32s = new Mat();
-        //src.convertTo(image32s, CvType.CV_32SC1);
         Imgproc.findContours(src, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
         //draw the contours on the image with colors
-        Mat mask = Mat.zeros(src.size(), src.type());
         MatOfPoint2f approxCurve = new MatOfPoint2f();
 
         RotatedRect[] minRect = new RotatedRect[contours.size()];
@@ -129,7 +115,6 @@ public class PostitRecognition {
                 Postit p = new Postit(rect.x, rect.y, this.colorRecognition.recognize(rotated));
                 Mat txt = this.textDetection.detect(rotated, p.getColor());
                 System.out.println(txt.toString());
-                rects.add(rect);
                 foundPostits.add(p);
             }
         }
@@ -178,24 +163,6 @@ public class PostitRecognition {
         Core.split(hsv, channels);
         Mat s = channels.get(1);
         return s;
-    }
-
-    private void cropPostits(Mat src) {
-
-        for (Rect r : rects) {
-            this.croppedPostits.add(src.submat(r));
-        }
-
-        //save cropped postits
-        //this.saveCroppedPostits();
-    }
-
-    private void saveCroppedPostits() {
-        int counter = 0;
-        for (Mat p : this.croppedPostits) {
-            this.write(p, "p" + counter);
-            counter++;
-        }
     }
 
     private void write(Mat src, String filename) {
