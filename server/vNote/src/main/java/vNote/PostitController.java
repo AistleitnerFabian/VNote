@@ -102,5 +102,11 @@ public class PostitController implements CommandLineRunner {
         pr.recognizeBase64Image(base64Image);
     }
 
+    @PostMapping("/uploadImage")
+    public String uploadImage(@RequestBody String img){
+        System.out.println("yeet");
+        System.out.println(img);
+        return "";
+    }
 
 }
