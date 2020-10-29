@@ -34,7 +34,7 @@ public class PostitController implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         //System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        OpenCV.loadLocally();
+
         postitRepository.deleteAll();
         imageRepository.deleteAll();
 
@@ -46,7 +46,7 @@ public class PostitController implements CommandLineRunner {
         imageRepository.save(new Image(encoder("src/main/resources/static/badposition2.jpg"),
                 LocalDateTime.now().plusDays(1)));
 
-        upload(encoder("src/main/resources/static/badposition2.jpg"));
+        //upload(encoder("src/main/resources/static/badposition2.jpg"));
     }
 
     public static String encoder(String imagePath) {
@@ -85,8 +85,8 @@ public class PostitController implements CommandLineRunner {
 
     @PostMapping("/recognize")
     public Wall recognize(@RequestBody String imagePath) {
-        String staticPath = "src/main/resources/static/" + imagePath;
-        //System.out.println(staticPath);
+        String staticPath = "src/main/resources/" + imagePath;
+        System.out.println(staticPath);
 
         PostitRecognition pr = new PostitRecognition();
         Wall w = pr.recognize(staticPath);
@@ -94,13 +94,30 @@ public class PostitController implements CommandLineRunner {
         return w;
     }
 
-    @PostMapping("/uploadBase64Image")
+    @PostMapping(value = "/uploadBase64Image")
     public void upload(@RequestBody String base64Image) throws UnsupportedEncodingException {
-        imageRepository.save(new Image(base64Image, LocalDateTime.now()));
+System.out.println(base64Image);
+        //byte[] b = Base64.getUrlDecoder().decode(base64Image.trim());
+        //Base64.getDecoder().decode(b[0].trim());
+        //String img = "data:image/png;base64,"+base64Image;
+        //String test = new String(b, "UTF-8");
+
+        /*imageRepository.save(new Image(test, LocalDateTime.now()));
+
+        //System.out.println(test);
+        System.out.println(test);
 
         PostitRecognition pr = new PostitRecognition();
-        pr.recognizeBase64Image(base64Image);
+        pr.recognizeBase64Image(test);*/
+        System.out.println("is base64: " + IsBase64String(base64Image));
     }
 
+    public boolean IsBase64String(String s)
+    {
+        s = s.trim();
+        String pattern = "@\"^[a-zA-Z0-9\\+/]*={0,3}$\"";
+        return s.matches(pattern);
+
+    }
 
 }
