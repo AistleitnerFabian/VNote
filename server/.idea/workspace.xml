@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2a25d8a4-3aba-45b0-a9b5-7d1f7daf067d" name="Default Changelist" comment="" />
+    <list default="true" id="2a25d8a4-3aba-45b0-a9b5-7d1f7daf067d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vNote/src/main/java/vNote/PostitController.java" beforeDir="false" afterPath="$PROJECT_DIR$/vNote/src/main/java/vNote/PostitController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vNote/src/main/java/vNote/recognition/PostitRecognition.java" beforeDir="false" afterPath="$PROJECT_DIR$/vNote/src/main/java/vNote/recognition/PostitRecognition.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -28,6 +32,9 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -44,10 +51,27 @@
       <workItem from="1600513716855" duration="449000" />
       <workItem from="1600517636966" duration="706000" />
       <workItem from="1600599505134" duration="139000" />
+      <workItem from="1603195071573" duration="2279000" />
+      <workItem from="1603273646345" duration="1170000" />
+      <workItem from="1603305483627" duration="639000" />
+      <workItem from="1603377840906" duration="2050000" />
+      <workItem from="1603540358508" duration="205000" />
+      <workItem from="1603641887741" duration="1252000" />
+      <workItem from="1603836132349" duration="172000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="320" y="115" key="#Deployment" timestamp="1603305523871">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="320" y="115" key="#Deployment/0.0.1440.900@0.0.1440.900" timestamp="1603305523871" />
+    <state x="208" y="31" key="SettingsEditor" timestamp="1603477618359">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="208" y="31" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1603477618359" />
   </component>
 </project>

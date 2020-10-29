@@ -18,12 +18,20 @@ import java.util.List;
 public class PostitRecognition {
     private Mat originalImage;
     private List<Rect> rects = new ArrayList<>();
-    private List<Postit> postits = new ArrayList<>();
-    List<Mat> croppedPostits = new ArrayList<>();
+    private List<Postit> postits;
+    private List<Mat> croppedPostits;
+    private ColorRecognition colorRecognition;
+    private TextDetection textDetection;
 
-    HashMap<Postit, Mat> hmap = new HashMap<Postit, Mat>();
+    HashMap<Postit, Mat> hmap;
 
     public PostitRecognition() {
+        this.colorRecognition = new ColorRecognition();
+        this.rects = new ArrayList<>();
+        this.postits = new ArrayList<>();
+        this.croppedPostits = new ArrayList<>();
+        hmap = new HashMap<Postit, Mat>();
+        this.textDetection = new TextDetection();
     }
 
     public void recognizeBase64Image(String base64Image) throws UnsupportedEncodingException {
@@ -43,6 +51,13 @@ public class PostitRecognition {
 
     }
 
+    /**
+     * Title: recognizePostits
+     * Description: The Postits will be recognized in ... steps. The first step is to convert the image into HSV. This
+     *              gives the possibility to extract the saturation-channel. In the next step on this saturation channel
+     *              a threshold method will be applied. This method returns a matrices where the background is back and
+     *              the postits are white (binarization). In the findPosits-method the postits will be find with help of
+     *              OpenCV's built in findContours-method. The last step is to calculate the color of the postit.**/
     private Wall recognizePostits(Mat src) {
         System.out.println("recognizing...");
         this.originalImage = src.clone(); //load image
@@ -59,8 +74,8 @@ public class PostitRecognition {
         //crop the postits for color recognition
         //this.cropPostits(this.originalImage);
 
-        ColorRecognition cr = new ColorRecognition();
-        this.postits = cr.recognize(hmap);
+       // TextDetection td = new TextDetection();
+       // Mat txtImg = td.detect(this.croppedPostits);
 
         Wall w = new Wall("filename", postits.size(), postits);
 
@@ -81,8 +96,8 @@ public class PostitRecognition {
 
     private List<Postit> findPostits(Mat src) {
         List<Postit> foundPostits = new ArrayList<>();
-        int counter = 0;
         Mat dst = this.originalImage.clone(); //image where the rectangles (found postits) will be drawn in
+        Mat rotated = new Mat();
 
         //find contours
         List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
@@ -94,6 +109,8 @@ public class PostitRecognition {
         Mat mask = Mat.zeros(src.size(), src.type());
         MatOfPoint2f approxCurve = new MatOfPoint2f();
 
+        RotatedRect[] minRect = new RotatedRect[contours.size()];
+
         for (int i = 0; i < contours.size(); i++) {
             MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
             double approxDistance = Imgproc.arcLength(contour2f, true) * 0.01;
@@ -102,21 +119,52 @@ public class PostitRecognition {
             MatOfPoint points = new MatOfPoint(approxCurve.toArray());
 
             Rect rect = Imgproc.boundingRect(points);
+            minRect[i] = Imgproc.minAreaRect(new MatOfPoint2f(contours.get(i).toArray())); //rotated rect
+            Point[] rectPoints = new Point[4];
+            minRect[i].points(rectPoints);
 
             if (rect.width < 1000 && rect.height < 1000 && rect.width > 30 && rect.height > 30) {
                 System.out.println(rect.width + ", " + rect.height);
-                Postit p = new Postit(rect.x, rect.y, "");
-                counter++;
+                rotated = this.cropRotatedRect(minRect[i], points, dst);
+                Postit p = new Postit(rect.x, rect.y, this.colorRecognition.recognize(rotated));
+                Mat txt = this.textDetection.detect(rotated, p.getColor());
+                System.out.println(txt.toString());
                 rects.add(rect);
                 foundPostits.add(p);
-                Mat cropped = this.originalImage.submat(rect);
-                this.croppedPostits.add(cropped);
-                this.hmap.put(p, cropped);
-                Imgproc.rectangle(dst, rect.tl(), rect.br(), new Scalar(0, 0, 0), 10);
             }
         }
-        System.out.println("found: " + counter);
+        System.out.println("found: " + foundPostits.size());
         return foundPostits;
+    }
+
+    private Mat cropRotatedRect(RotatedRect rotatedRect, MatOfPoint points, Mat img) {
+        Rect roi = Imgproc.boundingRect(points);
+        Mat m = img.submat(roi);
+        double angle = rotatedRect.angle;
+        Size rect_size = rotatedRect.size;
+
+        if (rotatedRect.angle < -45.) {
+            angle += 90.0;
+            //swap(rect_size.width, rect_size.height);
+            double tmp = rect_size.width;
+            rect_size.width = rect_size.height;
+            rect_size.height = tmp;
+        }
+
+        Mat rot = Imgproc.getRotationMatrix2D(rotatedRect.center, angle, 1.0);
+        double[] rot_0_2 = rot.get(0, 2);
+        for (int i = 0; i < rot_0_2.length; i++) {
+            rot_0_2[i] += rotatedRect.size.width / 2 - rotatedRect.center.x;
+        }
+        rot.put(0, 2, rot_0_2);
+        double[] rot_1_2 = rot.get(1, 2);
+        for (int i = 0; i < rot_1_2.length; i++) {
+            rot_1_2[i] += rotatedRect.size.height / 2 - rotatedRect.center.y;
+        }
+        rot.put(1, 2, rot_1_2);
+        Mat rotated = new Mat();
+        Imgproc.warpAffine(img, rotated, rot, rotatedRect.size);
+        return rotated;
     }
 
     private Mat performOtsu(Mat src) {

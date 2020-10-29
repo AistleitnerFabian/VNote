@@ -34,7 +34,7 @@ public class PostitController implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         //System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        OpenCV.loadLocally();
+
         postitRepository.deleteAll();
         imageRepository.deleteAll();
 
@@ -46,7 +46,7 @@ public class PostitController implements CommandLineRunner {
         imageRepository.save(new Image(encoder("src/main/resources/static/badposition2.jpg"),
                 LocalDateTime.now().plusDays(1)));
 
-        upload(encoder("src/main/resources/static/badposition2.jpg"));
+        //upload(encoder("src/main/resources/static/badposition2.jpg"));
     }
 
     public static String encoder(String imagePath) {
@@ -107,6 +107,12 @@ public class PostitController implements CommandLineRunner {
         System.out.println("yeet");
         System.out.println(img);
         return "";
+    }
+
+    public boolean IsBase64String(String s) {
+        s = s.trim();
+        String pattern = "@\"^[a-zA-Z0-9\\+/]*={0,3}$\"";
+        return s.matches(pattern);
     }
 
 }

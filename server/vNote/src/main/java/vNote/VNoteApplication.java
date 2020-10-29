@@ -13,7 +13,7 @@ public class VNoteApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(VNoteApplication.class, args);
-		//OpenCV.loadLocally();
+		OpenCV.loadLocally();
 	}
 
 }
