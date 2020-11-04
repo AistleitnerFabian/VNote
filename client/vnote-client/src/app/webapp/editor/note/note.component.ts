@@ -2,6 +2,8 @@ import {Component, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import {trigger, style, animate, transition} from '@angular/animations';
 import {ColorEvent} from 'ngx-color';
 import {DragAndDropService} from "../drag-and-drop.service";
+import {AngularEditorConfig} from "@kolkov/angular-editor";
+import {Note} from "../model/note";
 
 @Component({
   selector: 'note',
@@ -29,13 +31,51 @@ import {DragAndDropService} from "../drag-and-drop.service";
 })
 export class NoteComponent implements OnInit {
   @ViewChild('dragHandle') dragHandler;
-  posX = 200;
-  posY = 200;
+  @Input() note: Note;
   menuExtended = false;
   lightColor = '#FFA500';
   darkColor = this.LightenDarkenColor(this.lightColor, -30);
   buttonColor = this.darkColor;
   locked = false;
+  htmlContent: any;
+
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: false,
+    sanitize: true,
+    toolbarHiddenButtons: [
+      [
+        'undo',
+        'redo',
+        'strikeThrough',
+        'subscript',
+        'superscript',
+        'justifyLeft',
+        'justifyCenter',
+        'justifyRight',
+        'justifyFull',
+        'indent',
+        'outdent',
+        'insertUnorderedList',
+        'insertOrderedList',
+        'heading',
+        'fontName'
+      ],
+      [
+        'fontSize',
+        'textColor',
+        'backgroundColor',
+        'customClasses',
+        'link',
+        'unlink',
+        'insertImage',
+        'insertVideo',
+        'insertHorizontalRule',
+        'removeFormat',
+        'toggleEditorMode'
+      ]
+    ]
+  };
 
   constructor(private dragAndDropService: DragAndDropService) {
   }
@@ -56,6 +96,9 @@ export class NoteComponent implements OnInit {
 
   lock(): void {
     this.locked = !this.locked;
+  }
+
+  edit(): void {
   }
 
   handleChange($event: ColorEvent): void {
@@ -104,8 +147,8 @@ export class NoteComponent implements OnInit {
   onMousemove(event: MouseEvent) {
     if (!this.locked && this.dragAndDropService.isDraging && this.dragHandler.nativeElement === this.dragAndDropService.dragHandler) {
 
-      this.posX += (event.x - this.dragAndDropService.dragX) / this.dragAndDropService.scale;
-      this.posY += (event.y - this.dragAndDropService.dragY) / this.dragAndDropService.scale;
+      this.note.x += (event.x - this.dragAndDropService.dragX) / this.dragAndDropService.scale;
+      this.note.y += (event.y - this.dragAndDropService.dragY) / this.dragAndDropService.scale;
 
       this.dragAndDropService.dragX = event.x;
       this.dragAndDropService.dragY = event.y;

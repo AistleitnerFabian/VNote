@@ -3,11 +3,8 @@
 <div id="content">
 
   <pan-zoom [config]="panZoomConfig" #panzoom>
-    <div style="position: absolute;">
-      <note (click)="zoomTo()"></note>
-    </div>
-    <div style="position: absolute;">
-      <note (click)="zoomTo()"></note>
+    <div style="position: absolute;" *ngFor="let note of noteArray">
+      <note [note]="note" (dblclick)="zoomTo(note.x, note.y)"></note>
     </div>
   </pan-zoom>
 
