@@ -38,8 +38,8 @@ public class PostitController implements CommandLineRunner {
         postitRepository.deleteAll();
         imageRepository.deleteAll();
 
-        postitRepository.save(new Postit(0, 100, "RED"));
-        postitRepository.save(new Postit(380, 1337, "GREEN"));
+        postitRepository.save(new Postit(0, 100, "RED", ""));
+        postitRepository.save(new Postit(380, 1337, "GREEN", ""));
 
         imageRepository.save(new Image(encoder("src/main/resources/static/badposition1.jpg"),
                 LocalDateTime.now()));
@@ -85,13 +85,11 @@ public class PostitController implements CommandLineRunner {
 
     @PostMapping("/recognize")
     public Wall recognize(@RequestBody String imagePath) {
-        String staticPath = "src/main/resources/" + imagePath;
+        String staticPath = "src/main/resources/static/" + imagePath;
         System.out.println(staticPath);
 
         PostitRecognition pr = new PostitRecognition();
-        Wall w = pr.recognize(staticPath);
-
-        return w;
+        return pr.recognize(staticPath);
     }
 
     @PostMapping(value = "/uploadBase64Image")

@@ -11,11 +11,20 @@ public class Postit {
     private double x;
     private double y;
     private String color;
+    private String textImage;
 
-    public Postit(double x, double y, String color){
+    public Postit(double x, double y, String color, String textImage){
         setColor(color);
         setX(x);
         setY(y);
+        setTextImage(textImage);
+    }
+
+    public void setTextImage(String textImage){
+        this.textImage = textImage;
+    }
+    public String getTextImage(){
+        return this.textImage;
     }
 
     public double getX() {
@@ -39,7 +48,7 @@ public class Postit {
     }
 
     public void setColor(String color) {
-        if(color == ""){
+        if(color.equals("")){
             this.color = "#FFC0CB";
         }else {
             this.color = color;

@@ -77,19 +77,17 @@ public class PostitRecognition {
             System.out.println("leeeeeeeer");
             return null;
         } else {
-            Wall w = recognizePostits(src);
-
-            return w; //postit wall
+            return recognizePostits(src); //postit wall
         }
     }
 
     private List<Postit> findPostits(Mat src) {
         List<Postit> foundPostits = new ArrayList<>();
         Mat dst = this.originalImage.clone(); //image where the rectangles (found postits) will be drawn in
-        Mat rotated = new Mat();
+        Mat rotated;
 
         //find contours
-        List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
+        List<MatOfPoint> contours = new ArrayList<>();
         Imgproc.findContours(src, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
         //draw the contours on the image with colors
@@ -112,9 +110,10 @@ public class PostitRecognition {
             if (rect.width < 1000 && rect.height < 1000 && rect.width > 30 && rect.height > 30) {
                 System.out.println(rect.width + ", " + rect.height);
                 rotated = this.cropRotatedRect(minRect[i], points, dst);
-                Postit p = new Postit(rect.x, rect.y, this.colorRecognition.recognize(rotated));
-                Mat txt = this.textDetection.detect(rotated, p.getColor());
-                System.out.println(txt.toString());
+                String color = this.colorRecognition.recognize(rotated);
+                String txtImage = this.textDetection.detect(rotated, color);
+                Postit p = new Postit(rect.x, rect.y, color, txtImage);
+                System.out.println(txtImage);
                 foundPostits.add(p);
             }
         }
@@ -161,8 +160,7 @@ public class PostitRecognition {
     private Mat getSaturation(Mat hsv) {
         List<Mat> channels = new ArrayList<>();
         Core.split(hsv, channels);
-        Mat s = channels.get(1);
-        return s;
+        return channels.get(1);
     }
 
     private void write(Mat src, String filename) {
