@@ -10,8 +10,10 @@ export class DragAndDropService {
   dragY = 0;
   dragHandler: HTMLElement;
   scale = 1;
+  panZoomAPI;
 
   constructor() {
   }
+
 
 }

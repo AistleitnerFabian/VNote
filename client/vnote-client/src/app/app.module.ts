@@ -6,6 +6,7 @@ import {AppComponent} from './app.component';
 import {DashboardComponent} from './webapp/dashboard/dashboard.component';
 import {ToolbarComponent} from './toolbar/toolbar.component';
 import {SidebarComponent} from './sidebar/sidebar.component';
+import {AngularEditorModule} from '@kolkov/angular-editor';
 
 // Angular Material Components
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -53,7 +54,8 @@ import {NoteComponent} from './webapp/editor/note/note.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {ColorSketchModule} from "ngx-color/sketch";
 import {DragAndDropService} from "./webapp/editor/drag-and-drop.service";
-import { LandingpageComponent } from './landingpage/landingpage.component';
+import {LandingpageComponent} from './landingpage/landingpage.component';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -71,6 +73,8 @@ import { LandingpageComponent } from './landingpage/landingpage.component';
     LandingpageComponent,
   ],
   imports: [
+    HttpClientModule,
+    AngularEditorModule,
     NgxPanZoomModule,
     BrowserModule,
     AppRoutingModule,

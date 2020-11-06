@@ -11,5 +11,9 @@
   background-repeat: repeat;
   background-position-x: 0px;
   position: absolute;
+  transition: opacity 0.20s ease;
 }
 
+note {
+  position: absolute;
+}

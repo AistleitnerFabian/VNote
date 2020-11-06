@@ -18,6 +18,11 @@ body {
   margin: 0;
 }
 
+.angular-editor-textarea {
+  resize: none !important;
+  border: none !important;
+  outline: none !important;
+}
 
 @import '~@angular/material/theming';
 
