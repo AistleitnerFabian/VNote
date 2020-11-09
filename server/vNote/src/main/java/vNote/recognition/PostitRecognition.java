@@ -26,7 +26,7 @@ public class PostitRecognition {
         this.textDetection = new TextDetection();
     }
 
-    public void recognizeBase64Image(String base64Image) throws UnsupportedEncodingException {
+    public Board recognizeBase64Image(String base64Image) throws UnsupportedEncodingException {
         //decode base64
         try {
             byte[] bytes = Base64.getDecoder().decode(base64Image);
@@ -35,12 +35,12 @@ public class PostitRecognition {
             if (src.empty()) {
                 System.out.println("image is empty");
             } else {
-                Board w = this.recognizePostits(src);
+                return this.recognizePostits(src);
             }
         } catch (Exception e) {
             System.out.println("Exception: " + e);
         }
-
+        return null;
     }
 
     /**

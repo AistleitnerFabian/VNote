@@ -108,14 +108,16 @@ System.out.println(base64Image);
     }
 
     @PostMapping("/uploadImage")
-    public String uploadImage(@RequestBody String img){
+    public String uploadImage(@RequestBody String img) throws UnsupportedEncodingException {
 
         //System.out.println("yeet");
         System.out.println(img.substring(13));
         System.out.println(IsBase64String(img));
-        byte[] b = Base64.getUrlDecoder().decode(img.substring(12));
-        Mat mat = Imgcodecs.imdecode(new MatOfByte(b), Imgcodecs.IMREAD_UNCHANGED);
-        return "";
+        //byte[] b = Base64.getMimeDecoder().decode(img.substring(12));
+        //Mat mat = Imgcodecs.imdecode(new MatOfByte(b), Imgcodecs.IMREAD_UNCHANGED);
+        PostitRecognition pr = new PostitRecognition();
+        Board b = pr.recognizeBase64Image(img);
+        return img;
     }
 
     public boolean IsBase64String(String s)
