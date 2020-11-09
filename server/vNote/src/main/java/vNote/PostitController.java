@@ -110,6 +110,13 @@ System.out.println(base64Image);
         System.out.println("is base64: " + IsBase64String(base64Image));
     }
 
+    @PostMapping("/uploadImage")
+    public String uploadImage(@RequestBody String img){
+        System.out.println("yeet");
+        System.out.println(img);
+        return "";
+    }
+
     public boolean IsBase64String(String s)
     {
         s = s.trim();
