@@ -5,11 +5,9 @@ import org.opencv.core.MatOfByte;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import vNote.model.Board;
-import vNote.model.Image;
-import vNote.model.Postit;
-import vNote.model.Test;
+import vNote.model.*;
 import vNote.recognition.PostitRecognition;
 import vNote.repositories.ImageRepository;
 import vNote.repositories.PostitRepository;
@@ -107,13 +105,13 @@ System.out.println(base64Image);
         System.out.println("is base64: " + IsBase64String(base64Image));
     }
 
-    @PostMapping("/uploadImage")
-    public String uploadImage(@RequestBody String img){
+    @PostMapping(path = "/uploadImage", consumes = "application/json")
+    @CrossOrigin(origins = "*")
+    public String uploadImage(@RequestBody imageDataDTO imgDTO){
 
-        //System.out.println("yeet");
-        System.out.println(img.substring(13));
-        System.out.println(IsBase64String(img));
-        byte[] b = Base64.getUrlDecoder().decode(img.substring(12));
+        System.out.println(imgDTO.user);
+        System.out.println(IsBase64String(imgDTO.base64Image));
+        byte[] b = Base64.getUrlDecoder().decode(imgDTO.base64Image);
         Mat mat = Imgcodecs.imdecode(new MatOfByte(b), Imgcodecs.IMREAD_UNCHANGED);
         return "";
     }
