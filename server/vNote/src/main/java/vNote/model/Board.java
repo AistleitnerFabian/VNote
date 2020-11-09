@@ -1,15 +1,23 @@
 package vNote.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.List;
 
-public class Wall {
+@Document
+public class Board {
+
+    @Id
+    private String id;
+
     private String imgPath;
     private int numberOfPostits;
     private List<Postit> postits;
     private double imgWidth;
     private double imgHeight;
 
-    public Wall(String imgPath, int numberOfPostits, List<Postit> postits, double imgWidth, double imgHeight){
+    public Board(String imgPath, int numberOfPostits, List<Postit> postits, double imgWidth, double imgHeight){
         setImgPath(imgPath);
         setNumberOfPostits(numberOfPostits);
         setPostits(postits);

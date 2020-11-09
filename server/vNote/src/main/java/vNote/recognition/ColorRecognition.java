@@ -1,8 +1,6 @@
 package vNote.recognition;
 
 import vNote.model.Postit;
-import vNote.model.Test;
-import vNote.model.Wall;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfFloat;

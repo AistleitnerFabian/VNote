@@ -1,18 +1,15 @@
 package vNote.recognition;
 
+import vNote.model.Board;
 import vNote.model.Postit;
-import vNote.model.Test;
-import vNote.model.Wall;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
-import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.HashMap;
 import java.util.List;
 
 public class PostitRecognition {
@@ -38,7 +35,7 @@ public class PostitRecognition {
             if (src.empty()) {
                 System.out.println("image is empty");
             } else {
-                Wall w = this.recognizePostits(src);
+                Board w = this.recognizePostits(src);
             }
         } catch (Exception e) {
             System.out.println("Exception: " + e);
@@ -53,7 +50,7 @@ public class PostitRecognition {
      *              a threshold method will be applied. This method returns a matrices where the background is back and
      *              the postits are white (binarization). In the findPosits-method the postits will be find with help of
      *              OpenCV's built in findContours-method. The last step is to calculate the color of the postit.**/
-    private Wall recognizePostits(Mat src) {
+    private Board recognizePostits(Mat src) {
         System.out.println("recognizing...");
         this.originalImage = src.clone(); //load image
 
@@ -66,12 +63,12 @@ public class PostitRecognition {
 
         this.postits = this.findPostits(edges);//draw boundings in original image to see which postits where recognized
 
-        Wall w = new Wall("filename", postits.size(), postits, this.originalImage.width(), this.originalImage.height());
+        Board w = new Board("filename", postits.size(), postits, this.originalImage.width(), this.originalImage.height());
 
         return w; //postit wall
     }
 
-    public Wall recognize(String filename) {
+    public Board recognize(String filename) {
         Mat src = Imgcodecs.imread(filename);
         if (src.empty()) {
             System.out.println("leeeeeeeer");

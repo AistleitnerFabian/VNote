@@ -1,26 +1,23 @@
 package vNote;
 
-import nu.pattern.OpenCV;
-import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfByte;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import vNote.model.Board;
 import vNote.model.Image;
 import vNote.model.Postit;
 import vNote.model.Test;
-import vNote.model.Wall;
 import vNote.recognition.PostitRecognition;
 import vNote.repositories.ImageRepository;
 import vNote.repositories.PostitRepository;
 
 import java.io.*;
-import java.security.cert.CollectionCertStoreParameters;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 @RestController
 public class PostitController implements CommandLineRunner {
@@ -84,7 +81,7 @@ public class PostitController implements CommandLineRunner {
 
 
     @PostMapping("/recognize")
-    public Wall recognize(@RequestBody String imagePath) {
+    public Board recognize(@RequestBody String imagePath) {
         String staticPath = "src/main/resources/static/" + imagePath;
         System.out.println(staticPath);
 
@@ -112,8 +109,12 @@ System.out.println(base64Image);
 
     @PostMapping("/uploadImage")
     public String uploadImage(@RequestBody String img){
-        System.out.println("yeet");
-        System.out.println(img);
+
+        //System.out.println("yeet");
+        System.out.println(img.substring(13));
+        System.out.println(IsBase64String(img));
+        byte[] b = Base64.getUrlDecoder().decode(img.substring(12));
+        Mat mat = Imgcodecs.imdecode(new MatOfByte(b), Imgcodecs.IMREAD_UNCHANGED);
         return "";
     }
 

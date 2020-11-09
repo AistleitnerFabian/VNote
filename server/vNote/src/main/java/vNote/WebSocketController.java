@@ -16,7 +16,7 @@ public class WebSocketController {
     //Scheduler is grod nur zum testen!
     @Scheduled(fixedRate = 2000)
     public void fireGreeting() {
-        System.out.println("Fire");
+        //System.out.println("Fire");
         this.template.convertAndSend("/app", "test-payload");
     }
 }
