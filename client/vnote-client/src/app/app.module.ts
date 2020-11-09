@@ -56,22 +56,24 @@ import {ColorSketchModule} from "ngx-color/sketch";
 import {DragAndDropService} from "./webapp/editor/drag-and-drop.service";
 import {LandingpageComponent} from './landingpage/landingpage.component';
 import {HttpClientModule} from "@angular/common/http";
+import {BoardComponent} from "./webapp/boards/board/board.component";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    DashboardComponent,
-    ToolbarComponent,
-    SidebarComponent,
-    WebappComponent,
-    BoardsComponent,
-    UploadsComponent,
-    HelpComponent,
-    SettingsComponent,
-    EditorComponent,
-    NoteComponent,
-    LandingpageComponent,
-  ],
+    declarations: [
+        AppComponent,
+        DashboardComponent,
+        ToolbarComponent,
+        SidebarComponent,
+        WebappComponent,
+        BoardsComponent,
+        UploadsComponent,
+        HelpComponent,
+        SettingsComponent,
+        EditorComponent,
+        NoteComponent,
+        LandingpageComponent,
+        BoardComponent,
+    ],
   imports: [
     HttpClientModule,
     AngularEditorModule,

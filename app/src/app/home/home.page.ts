@@ -11,7 +11,9 @@ const {CameraPreview, Motion} = Plugins;
 import {CameraPreviewOptions, CameraPreviewPictureOptions} from '@capacitor-community/camera-preview';
 import {MenuController} from '@ionic/angular';
 import {DataService} from '../data.service';
-import {HTTP} from '@ionic-native/http/ngx';
+import {imageDataDTO} from './imageDataDTO';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+
 
 @Component({
     selector: 'app-home',
@@ -29,7 +31,7 @@ export class HomePage implements OnInit {
                 public menuController: MenuController,
                 public dataService: DataService,
                 public alertController: AlertController,
-                private http: HTTP) {
+                private http: HttpClient) {
     }
 
     cameraPreviewOptions: CameraPreviewOptions = {
@@ -132,25 +134,16 @@ export class HomePage implements OnInit {
     }
 
     uploadImage() {
-        const headers = {
-            'Content-Type': 'multipart/image'
-        };
-        const postData = {
-            base64Image: this.imageBase64
-        };
-        this.http.post('http://' + this.dataService.serverIP + '/uploadImage', postData, headers)
-            .then(data => {
-
-                console.log(this.imageData);
-                this.toast('Image Uploaded');
-
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
             })
-            .catch(error => {
-
-                console.error(error);
-                this.toast('Error');
-
-            });
+        };
+        const postData: imageDataDTO = new imageDataDTO(this.imageBase64, 'Max Muster');
+        this.http.post<imageDataDTO>('http://' + this.dataService.serverIP + '/uploadImage', postData, httpOptions).subscribe(data => {
+            console.log(data);
+        });
     }
 
     discardImage() {
