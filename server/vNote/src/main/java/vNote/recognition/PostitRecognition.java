@@ -66,7 +66,7 @@ public class PostitRecognition {
 
         this.postits = this.findPostits(edges);//draw boundings in original image to see which postits where recognized
 
-        Wall w = new Wall("filename", postits.size(), postits);
+        Wall w = new Wall("filename", postits.size(), postits, this.originalImage.width(), this.originalImage.height());
 
         return w; //postit wall
     }

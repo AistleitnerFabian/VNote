@@ -6,11 +6,29 @@ public class Wall {
     private String imgPath;
     private int numberOfPostits;
     private List<Postit> postits;
+    private double imgWidth;
+    private double imgHeight;
 
-    public Wall(String imgPath, int numberOfPostits, List<Postit> postits){
+    public Wall(String imgPath, int numberOfPostits, List<Postit> postits, double imgWidth, double imgHeight){
         setImgPath(imgPath);
         setNumberOfPostits(numberOfPostits);
         setPostits(postits);
+    }
+
+    public void setImgWidth(double imgWidth){
+        this.imgWidth = imgWidth;
+    }
+
+    public double getImgWidth(){
+        return this.imgWidth;
+    }
+
+    public void setImgHeight(double imgHeight){
+        this.imgHeight = imgHeight;
+    }
+
+    public double getImgHeight(){
+        return this.imgHeight;
     }
 
     public String getImgPath() {
