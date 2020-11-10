@@ -34,7 +34,12 @@
     <div *ngIf="locked" id="lockedDragHandle" #dragHandle></div>
   </div>
   <div id="content" [style.background-color]="lightColor">
-    <div id="content-text" [innerHTML]="htmlContent">
+    <div id="content-text" [innerHTML]="htmlContent" *ngIf="note.text != null">
+    </div>
+
+    <div id="content-image" *ngIf="note.text == null">
+      <div id="text-image" [style.background-image]="'url(\'data:image/png;base64,'+ note.textImage+'\''">
+      </div>
     </div>
   </div>
 </div>
