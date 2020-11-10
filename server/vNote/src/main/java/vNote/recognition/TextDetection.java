@@ -2,6 +2,7 @@ package vNote.recognition;
 
 import org.bson.internal.Base64;
 import org.opencv.core.*;
+import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
@@ -12,10 +13,11 @@ public class TextDetection {
     public TextDetection(){}
 
     public String detect(Mat postit, String c){
+        Imgproc.GaussianBlur(postit, postit, new Size(17,17), -1);
         List<Mat> channels = new ArrayList<>();
         Core.split(postit, channels);
         Mat channel;
-        if(c.equals("cPINK") || c.equals("cORANGE")){  //switch instead
+        if(c.equals("cPINK") || c.equals("cORANGE")|| c.equals("cRED")){  //switch instead
             channel = channels.get(2);
         }else{
             channel = channels.get(1);
@@ -25,8 +27,8 @@ public class TextDetection {
         Imgproc.threshold(channel, dst, 0, 255, Imgproc.THRESH_BINARY + Imgproc.THRESH_OTSU);
 
         Mat connected = new Mat();
-        Mat morphKernel = Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(23,7));
-        Imgproc.morphologyEx(dst, connected, Imgproc.MORPH_CLOSE, morphKernel);
+        Mat morphKernel = Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(11,7));
+        Imgproc.morphologyEx(dst, dst, Imgproc.MORPH_CLOSE, morphKernel);
 
         Mat paddingImage;
         double paddingWidth = Math.floor(postit.width() * 0.1);

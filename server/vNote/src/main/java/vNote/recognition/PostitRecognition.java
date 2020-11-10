@@ -118,7 +118,7 @@ public class PostitRecognition {
                 String color = this.colorRecognition.recognize(rotated);
                 String txtImage = this.textDetection.detect(rotated, color);
                 Postit p = new Postit(rect.x, rect.y, color, txtImage);
-                //System.out.println(txtImage);
+                System.out.println(txtImage);
                 foundPostits.add(p);
             }
         }
