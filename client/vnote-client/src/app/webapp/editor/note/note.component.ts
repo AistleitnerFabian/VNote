@@ -1,9 +1,9 @@
 import {Component, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import {trigger, style, animate, transition} from '@angular/animations';
 import {ColorEvent} from 'ngx-color';
-import {DragAndDropService} from "../drag-and-drop.service";
-import {AngularEditorConfig} from "@kolkov/angular-editor";
-import {Note} from "../model/note";
+import {DragAndDropService} from '../drag-and-drop.service';
+import {AngularEditorConfig} from '@kolkov/angular-editor';
+import {Note} from '../../model/note';
 
 @Component({
   selector: 'note',
@@ -30,6 +30,18 @@ import {Note} from "../model/note";
   ]
 })
 export class NoteComponent implements OnInit {
+  // Color Map
+  colorMap = {
+    cRED: '#FF6962',
+    cORANGE: '#F99853',
+    cYELLOW: '#F8D568',
+    cGREEN: '#8FE381',
+    cAQUA: '#C5ECE3',
+    cBLUE: '#AAE5EF',
+    cPURPLE: '#B19CD8',
+    cPINK: '#F17FC5'
+  };
+
   @ViewChild('dragHandle') dragHandler;
   @Input() note: Note;
   menuExtended = false;
@@ -81,6 +93,9 @@ export class NoteComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.lightColor = this.colorMap[this.note.color];
+    this.darkColor = this.LightenDarkenColor(this.lightColor, -30);
+    this.buttonColor = this.darkColor;
   }
 
   menuButtonPressed(element): void {

@@ -25,20 +25,12 @@ public class Board {
         setImgHeight(imgHeight);
     }
 
-    public void setImgWidth(double imgWidth){
-        this.imgWidth = imgWidth;
+    public String getId() {
+        return id;
     }
 
-    public double getImgWidth(){
-        return this.imgWidth;
-    }
-
-    public void setImgHeight(double imgHeight){
-        this.imgHeight = imgHeight;
-    }
-
-    public double getImgHeight(){
-        return this.imgHeight;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getImgPath() {
@@ -63,5 +55,21 @@ public class Board {
 
     public void setPostits(List<Postit> postits) {
         this.postits = postits;
+    }
+
+    public double getImgWidth() {
+        return imgWidth;
+    }
+
+    public void setImgWidth(double imgWidth) {
+        this.imgWidth = imgWidth;
+    }
+
+    public double getImgHeight() {
+        return imgHeight;
+    }
+
+    public void setImgHeight(double imgHeight) {
+        this.imgHeight = imgHeight;
     }
 }

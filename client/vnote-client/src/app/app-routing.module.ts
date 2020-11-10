@@ -33,6 +33,10 @@ const routes: Routes = [
         path: 'settings',
         component: SettingsComponent
       }, {
+        path: 'editor/:bid',
+        component: EditorComponent
+      },
+      {
         path: 'editor',
         component: EditorComponent
       }

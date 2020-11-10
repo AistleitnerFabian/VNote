@@ -57,23 +57,26 @@ import {DragAndDropService} from "./webapp/editor/drag-and-drop.service";
 import {LandingpageComponent} from './landingpage/landingpage.component';
 import {HttpClientModule} from "@angular/common/http";
 import {BoardComponent} from "./webapp/boards/board/board.component";
+import {HttpService} from "./webapp/http.service";
+import {WebsocketService} from "./webapp/websocket.service";
+import {DataService} from "./webapp/data.service";
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        DashboardComponent,
-        ToolbarComponent,
-        SidebarComponent,
-        WebappComponent,
-        BoardsComponent,
-        UploadsComponent,
-        HelpComponent,
-        SettingsComponent,
-        EditorComponent,
-        NoteComponent,
-        LandingpageComponent,
-        BoardComponent,
-    ],
+  declarations: [
+    AppComponent,
+    DashboardComponent,
+    ToolbarComponent,
+    SidebarComponent,
+    WebappComponent,
+    BoardsComponent,
+    UploadsComponent,
+    HelpComponent,
+    SettingsComponent,
+    EditorComponent,
+    NoteComponent,
+    LandingpageComponent,
+    BoardComponent,
+  ],
   imports: [
     HttpClientModule,
     AngularEditorModule,
@@ -118,7 +121,7 @@ import {BoardComponent} from "./webapp/boards/board/board.component";
     DragDropModule,
     ColorSketchModule
   ],
-  providers: [DragAndDropService],
+  providers: [DragAndDropService, HttpService, WebsocketService, DataService],
   bootstrap: [AppComponent],
 })
 export class AppModule {

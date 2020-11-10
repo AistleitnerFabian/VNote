@@ -1,7 +1,10 @@
 export class Note {
-  x: number = 0;
-  y: number = 0;
-  text: string = '';
+  id: string;
+  x: number;
+  y: number;
+  color: string;
+  textImage: string;
+  text: string;
 
   constructor(x, y, text) {
     this.x = x;
