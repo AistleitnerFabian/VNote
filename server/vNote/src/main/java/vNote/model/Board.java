@@ -21,6 +21,8 @@ public class Board {
         setImgPath(imgPath);
         setNumberOfPostits(numberOfPostits);
         setPostits(postits);
+        setImgWidth(imgWidth);
+        setImgHeight(imgHeight);
     }
 
     public void setImgWidth(double imgWidth){
