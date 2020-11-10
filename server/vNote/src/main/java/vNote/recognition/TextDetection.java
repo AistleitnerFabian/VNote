@@ -13,7 +13,7 @@ public class TextDetection {
     public TextDetection(){}
 
     public String detect(Mat postit, String c){
-        Imgproc.GaussianBlur(postit, postit, new Size(17,17), -1);
+        Imgproc.GaussianBlur(postit, postit, new Size(3,3), -1);
         List<Mat> channels = new ArrayList<>();
         Core.split(postit, channels);
         Mat channel;
@@ -27,8 +27,8 @@ public class TextDetection {
         Imgproc.threshold(channel, dst, 0, 255, Imgproc.THRESH_BINARY + Imgproc.THRESH_OTSU);
 
         Mat connected = new Mat();
-        Mat morphKernel = Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(11,7));
-        Imgproc.morphologyEx(dst, dst, Imgproc.MORPH_CLOSE, morphKernel);
+        Mat morphKernel = Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(5,3));
+        Imgproc.morphologyEx(dst, dst, Imgproc.MORPH_OPEN, morphKernel);
 
         Mat paddingImage;
         double paddingWidth = Math.floor(postit.width() * 0.1);
