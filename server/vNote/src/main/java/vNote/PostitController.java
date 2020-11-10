@@ -75,6 +75,10 @@ public class PostitController implements CommandLineRunner {
         return postitRepository.findAll();
     }
 
+    @GetMapping("/findAllBoards")
+    public List<Board> findAllBoards(){
+        return boardRepository.findAll();
+    }
 
     @GetMapping("/findAllImages")
     public List<Image> findAllImages(){
