@@ -11,6 +11,15 @@ export class BoardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.ellipsizeTextBox();
   }
 
+  ellipsizeTextBox() {
+    var el = document.getElementById('desc');
+    var wordArray = el.innerHTML.split(' ');
+    while (el.scrollHeight > el.offsetHeight) {
+      wordArray.pop();
+      el.innerHTML = wordArray.join(' ') + '...';
+    }
+  }
 }

@@ -12,13 +12,13 @@ import {DataService} from './data.service';
 
 import {ScreenOrientation} from '@ionic-native/screen-orientation/ngx';
 import {ImagePicker} from '@ionic-native/image-picker/ngx';
+import {HttpClientModule} from '@angular/common/http';
 
-import {HTTP} from '@ionic-native/http/ngx';
 
 @NgModule({
     declarations: [AppComponent],
     entryComponents: [],
-    imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+    imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
     providers: [
         StatusBar,
         SplashScreen,
@@ -26,7 +26,6 @@ import {HTTP} from '@ionic-native/http/ngx';
         DataService,
         ScreenOrientation,
         ImagePicker,
-        HTTP
     ],
     bootstrap: [AppComponent]
 })
