@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import vNote.model.*;
 import vNote.recognition.PostitRecognition;
+import vNote.repositories.BoardRepository;
 import vNote.repositories.ImageRepository;
 import vNote.repositories.PostitRepository;
 
@@ -25,6 +26,9 @@ public class PostitController implements CommandLineRunner {
 
     @Autowired
     private ImageRepository imageRepository;
+
+    @Autowired
+    private BoardRepository boardRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -107,16 +111,16 @@ System.out.println(base64Image);
 
     @PostMapping(path = "/uploadImage", consumes = "application/json")
     @CrossOrigin(origins = "*")
-    public String uploadImage(@RequestBody imageDataDTO imgDTO){
+    public imageDataDTO uploadImage(@RequestBody imageDataDTO imgDTO) throws UnsupportedEncodingException {
 
         //System.out.println("yeet");
-        System.out.println(img.substring(13));
-        System.out.println(IsBase64String(img));
+        System.out.println(imgDTO.user);
         //byte[] b = Base64.getMimeDecoder().decode(img.substring(12));
         //Mat mat = Imgcodecs.imdecode(new MatOfByte(b), Imgcodecs.IMREAD_UNCHANGED);
         PostitRecognition pr = new PostitRecognition();
-        Board b = pr.recognizeBase64Image(img);
-        return img;
+        Board b = pr.recognizeBase64Image(imgDTO.base64Image);
+        boardRepository.save(b);
+        return imgDTO;
     }
 
     public boolean IsBase64String(String s)

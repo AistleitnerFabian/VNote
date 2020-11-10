@@ -54,6 +54,8 @@ public class PostitRecognition {
         System.out.println("recognizing...");
         this.originalImage = src.clone(); //load image
 
+        //Mat cntr = this.increaseContrast(src);
+
         Mat hsv = new Mat();
         Imgproc.cvtColor(src, hsv, Imgproc.COLOR_BGR2HSV); //convert to hsv
 
@@ -66,6 +68,12 @@ public class PostitRecognition {
         Board w = new Board("filename", postits.size(), postits, this.originalImage.width(), this.originalImage.height());
 
         return w; //postit wall
+    }
+
+    private Mat increaseContrast(Mat src) {
+        Mat dst = new Mat(src.rows(), src.cols(), src.type());
+        src.convertTo(dst, -1, 2, 0);
+        return dst;
     }
 
     public Board recognize(String filename) {
@@ -110,7 +118,7 @@ public class PostitRecognition {
                 String color = this.colorRecognition.recognize(rotated);
                 String txtImage = this.textDetection.detect(rotated, color);
                 Postit p = new Postit(rect.x, rect.y, color, txtImage);
-                System.out.println(txtImage);
+                //System.out.println(txtImage);
                 foundPostits.add(p);
             }
         }
