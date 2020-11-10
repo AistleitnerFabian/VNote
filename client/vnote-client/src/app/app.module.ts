@@ -59,6 +59,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {BoardComponent} from "./webapp/boards/board/board.component";
 import {HttpService} from "./webapp/http.service";
 import {WebsocketService} from "./webapp/websocket.service";
+import {DataService} from "./webapp/data.service";
 
 @NgModule({
   declarations: [
@@ -120,7 +121,7 @@ import {WebsocketService} from "./webapp/websocket.service";
     DragDropModule,
     ColorSketchModule
   ],
-  providers: [DragAndDropService, HttpService, WebsocketService],
+  providers: [DragAndDropService, HttpService, WebsocketService, DataService],
   bootstrap: [AppComponent],
 })
 export class AppModule {

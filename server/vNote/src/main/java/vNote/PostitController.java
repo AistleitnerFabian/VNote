@@ -90,6 +90,11 @@ public class PostitController implements CommandLineRunner {
         }).collect(Collectors.toList());
     }
 
+    @GetMapping("/findBoardById/{bid}")
+    public Board findAllBoards(@PathVariable String bid){
+        return boardRepository.findBoardById(bid);
+    }
+
     @GetMapping("/findAllImages")
     public List<Image> findAllImages(){
         return imageRepository.findAll();

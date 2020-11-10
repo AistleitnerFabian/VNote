@@ -11,7 +11,11 @@ import {PanZoomConfig, PanZoomAPI, PanZoomModel} from 'ngx-panzoom';
 import {Subscription} from 'rxjs';
 import {DragAndDropService} from './drag-and-drop.service';
 import {Note} from '../model/note';
-import {animate, style, transition, trigger} from "@angular/animations";
+import {animate, style, transition, trigger} from '@angular/animations';
+import {DataService} from '../data.service';
+import {ActivatedRoute} from '@angular/router';
+import {HttpService} from '../http.service';
+import {Board} from '../model/board';
 
 @Component({
   selector: 'app-editor',
@@ -24,14 +28,17 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
   private panZoomAPI: PanZoomAPI;
   private apiSubscription: Subscription;
   private modelChangedSubscription: Subscription;
+  private routeSubscription: Subscription;
   gridSize = 150;
   @ViewChild('grid') grid;
   @ViewChild('panzoom') panzoom;
-  noteArray = [];
+  board: Board;
   gridVisible = true;
   focused = {x: null, y: null};
+  private boardSubscription: Subscription;
 
-  constructor(private dragAndDropService: DragAndDropService) {
+  constructor(private dragAndDropService: DragAndDropService, private dataService: DataService,
+              private route: ActivatedRoute, private httpService: HttpService) {
     this.panZoomConfig = new PanZoomConfig();
     this.panZoomConfig.zoomLevels = 20;
     this.panZoomConfig.neutralZoomLevel = 15;
@@ -44,16 +51,29 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.checkPathParam();
     this.apiSubscription = this.panZoomConfig.api.subscribe((api: PanZoomAPI) => this.panZoomAPI = api);
     this.modelChangedSubscription = this.panZoomConfig.modelChanged.subscribe((model: PanZoomModel) => this.onModelChanged(model));
-    this.noteArray.push(new Note(200, 200, 'text'));
-    this.noteArray.push(new Note(600, 600, 'text'));
   }
 
   ngOnDestroy(): void {
-    this.apiSubscription.unsubscribe();  // don't forget to unsubscribe.  you don't want a memory leak!
-    this.modelChangedSubscription.unsubscribe();  // don't forget to unsubscribe.  you don't want a memory leak!
+    this.apiSubscription.unsubscribe();
+    this.modelChangedSubscription.unsubscribe();
+    this.routeSubscription.unsubscribe();
   }
+
+  checkPathParam(): void {
+    this.routeSubscription = this.route.params.subscribe(params => {
+      if (params.bid !== null && params.bid !== undefined && params.bid !== '') {
+        this.loadBoard(params.bid);
+      }
+    });
+  }
+
+  loadBoard(bid): void {
+    this.boardSubscription = this.httpService.getBoardById(bid).subscribe(value => this.board = value);
+  }
+
 
   ngAfterViewInit(): void {
     this.grid.nativeElement.style.backgroundSize = this.panzoom.scale * this.gridSize + 'px';

@@ -3,7 +3,7 @@
     <div id="headline">
       Max Muster
     </div>
-    <div id="open-button">
+    <div id="open-button" (click)="openBoard()">
       <span class="material-icons">
       open_in_new
       </span>
@@ -27,7 +27,7 @@
       assignment
     </span>
       <p>
-        0 Notes
+        {{board.numberOfPostits}} Notes
       <p>
     </div>
   </div>

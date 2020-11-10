@@ -1,4 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Note} from '../../model/note';
+import {Board} from '../../model/board';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'board',
@@ -6,20 +9,25 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit {
+  @Input() board: Board;
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit(): void {
     this.ellipsizeTextBox();
   }
 
-  ellipsizeTextBox() {
-    var el = document.getElementById('desc');
-    var wordArray = el.innerHTML.split(' ');
+  ellipsizeTextBox(): void {
+    let el = document.getElementById('desc');
+    let wordArray = el.innerHTML.split(' ');
     while (el.scrollHeight > el.offsetHeight) {
       wordArray.pop();
       el.innerHTML = wordArray.join(' ') + '...';
     }
+  }
+
+  openBoard(): void {
+    this.router.navigateByUrl('app/editor/' + this.board.id);
   }
 }

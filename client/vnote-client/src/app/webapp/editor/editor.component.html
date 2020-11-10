@@ -3,7 +3,7 @@
 <div id="content">
 
   <pan-zoom [config]="panZoomConfig" #panzoom>
-    <note [note]="note" (dblclick)="zoomTo(note.x, note.y)" *ngFor="let note of noteArray"></note>
+    <note [note]="note" (dblclick)="zoomTo(note.x, note.y)" *ngFor="let note of board.postits"></note>
   </pan-zoom>
 
 </div>
