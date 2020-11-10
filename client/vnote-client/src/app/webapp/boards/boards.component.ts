@@ -1,4 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {HttpService} from '../http.service';
+import {WebsocketService} from "../websocket.service";
 
 @Component({
   selector: 'app-boards',
@@ -6,12 +9,16 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./boards.component.scss']
 })
 export class BoardsComponent implements OnInit {
-  items = ['1', '2', '3', '4', '5', '6'];
+  boards;
 
-  constructor() {
+  constructor(private httpService: HttpService, private websocketService: WebsocketService) {
   }
 
   ngOnInit(): void {
+    this.httpService.getAllBoards().subscribe(value => this.boards = value);
+    this.websocketService.websocketUpdate.addListener('updateBoards', () => {
+      this.httpService.getAllBoards().subscribe(value => this.boards = value);
+    });
   }
 
 }

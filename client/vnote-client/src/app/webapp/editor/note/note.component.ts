@@ -3,7 +3,7 @@ import {trigger, style, animate, transition} from '@angular/animations';
 import {ColorEvent} from 'ngx-color';
 import {DragAndDropService} from "../drag-and-drop.service";
 import {AngularEditorConfig} from "@kolkov/angular-editor";
-import {Note} from "../model/note";
+import {Note} from "../../model/note";
 
 @Component({
   selector: 'note',

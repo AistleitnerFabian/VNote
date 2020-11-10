@@ -10,7 +10,7 @@ import {
 import {PanZoomConfig, PanZoomAPI, PanZoomModel} from 'ngx-panzoom';
 import {Subscription} from 'rxjs';
 import {DragAndDropService} from './drag-and-drop.service';
-import {Note} from './model/note';
+import {Note} from '../model/note';
 import {animate, style, transition, trigger} from "@angular/animations";
 
 @Component({

@@ -6,7 +6,7 @@
     <label for="search-input"></label><input id="search-input" placeholder="Search wall" type="text">
   </div>
   <div id="board-scroll">
-    <div id="board-container" fxLayout="row wrap" fxLayoutGap="30px grid">
-      <board></board>
+    <div id="board-container">
+      <board *ngFor="let board of boards" class="board"></board>
     </div>
   </div>

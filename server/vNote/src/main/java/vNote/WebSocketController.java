@@ -13,10 +13,8 @@ public class WebSocketController {
     private SimpMessagingTemplate template;
 
     //Websocket Broadcast
-    //Scheduler is grod nur zum testen!
-    @Scheduled(fixedRate = 2000)
-    public void fireGreeting() {
+    public void update(String payload) {
         //System.out.println("Fire");
-        this.template.convertAndSend("/app", "test-payload");
+        this.template.convertAndSend("/app", payload);
     }
 }

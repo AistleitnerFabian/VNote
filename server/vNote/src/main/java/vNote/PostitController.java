@@ -15,10 +15,14 @@ import vNote.repositories.PostitRepository;
 
 import java.io.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class PostitController implements CommandLineRunner {
 
     @Autowired
@@ -29,6 +33,9 @@ public class PostitController implements CommandLineRunner {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private WebSocketController webSocketController;
 
     @Override
     public void run(String... args) throws Exception {
@@ -77,7 +84,10 @@ public class PostitController implements CommandLineRunner {
 
     @GetMapping("/findAllBoards")
     public List<Board> findAllBoards(){
-        return boardRepository.findAll();
+        return boardRepository.findAll().stream().map(board -> {
+            board.setPostits(new LinkedList<Postit>());
+            return board;
+        }).collect(Collectors.toList());
     }
 
     @GetMapping("/findAllImages")
@@ -114,7 +124,6 @@ System.out.println(base64Image);
     }
 
     @PostMapping(path = "/uploadImage", consumes = "application/json")
-    @CrossOrigin(origins = "*")
     public imageDataDTO uploadImage(@RequestBody imageDataDTO imgDTO) throws UnsupportedEncodingException {
 
         //System.out.println("yeet");
@@ -124,6 +133,7 @@ System.out.println(base64Image);
         PostitRecognition pr = new PostitRecognition();
         Board b = pr.recognizeBase64Image(imgDTO.base64Image);
         boardRepository.save(b);
+        webSocketController.update("updateBoards");
         return imgDTO;
     }
 
