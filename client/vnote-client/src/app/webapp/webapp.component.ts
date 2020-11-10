@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {WebsocketService} from './websocket.service';
+import {DataService} from './data.service';
 
 @Component({
   selector: 'app-webapp',
@@ -8,7 +9,7 @@ import {WebsocketService} from './websocket.service';
 })
 export class WebappComponent implements OnInit {
 
-  constructor(private websocketService: WebsocketService) {
+  constructor(private websocketService: WebsocketService, public dataService: DataService) {
     this.websocketService.initializeWebSocketConnection();
   }
 

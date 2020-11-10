@@ -1,5 +1,6 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {trigger, style, animate, transition} from '@angular/animations';
+import {DataService} from "../webapp/data.service";
 
 @Component({
   selector: 'app-toolbar',
@@ -33,7 +34,7 @@ export class ToolbarComponent implements OnInit {
   username = 'Max Muster';
   isMenuOpened = false;
 
-  constructor() {
+  constructor(private dataService: DataService) {
   }
 
   ngOnInit(): void {
