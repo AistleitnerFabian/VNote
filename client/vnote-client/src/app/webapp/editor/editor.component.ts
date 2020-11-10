@@ -51,12 +51,14 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.dataService.isEditorOpen = true;
     this.checkPathParam();
     this.apiSubscription = this.panZoomConfig.api.subscribe((api: PanZoomAPI) => this.panZoomAPI = api);
     this.modelChangedSubscription = this.panZoomConfig.modelChanged.subscribe((model: PanZoomModel) => this.onModelChanged(model));
   }
 
   ngOnDestroy(): void {
+    this.dataService.isEditorOpen = false;
     this.apiSubscription.unsubscribe();
     this.modelChangedSubscription.unsubscribe();
     this.routeSubscription.unsubscribe();
