@@ -13,30 +13,21 @@ public class TextDetection {
     public TextDetection(){}
 
     public String detect(Mat postit, String c){
-        Imgproc.GaussianBlur(postit, postit, new Size(3,3), -1);
-        List<Mat> channels = new ArrayList<>();
-        Core.split(postit, channels);
-        Mat channel;
-        if(c.equals("cPINK") || c.equals("cORANGE")|| c.equals("cRED")){  //switch instead
-            channel = channels.get(2);
-        }else{
-            channel = channels.get(1);
-        }
 
-        Mat dst = channel.clone();
-        Imgproc.threshold(channel, dst, 0, 255, Imgproc.THRESH_BINARY + Imgproc.THRESH_OTSU);
-
-        Mat connected = new Mat();
-        Mat morphKernel = Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(5,3));
-        Imgproc.morphologyEx(dst, dst, Imgproc.MORPH_OPEN, morphKernel);
+        Imgproc.cvtColor(postit, postit, Imgproc.COLOR_BGR2GRAY);
 
         Mat paddingImage;
         double paddingWidth = Math.floor(postit.width() * 0.1);
         double paddingHeight = Math.floor(postit.height() * 0.15);
         Rect roi = new Rect(new Point(paddingWidth, paddingHeight), new Point(postit.width()-paddingWidth, postit.height() - paddingHeight));
-        paddingImage = dst.submat(roi);
+        paddingImage = postit.submat(roi);
 
-        return this.convertToBase64(paddingImage);
+        Mat dst = new Mat();
+        Core.inRange(paddingImage, new Scalar(0,0,0), new Scalar(50, 50, 50), dst);
+
+        Core.bitwise_not(dst, dst);
+
+        return this.convertToBase64(dst);
     }
 
     private String convertToBase64(Mat paddingImage){
