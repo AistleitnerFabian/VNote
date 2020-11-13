@@ -27,6 +27,9 @@ public class TextDetection {
 
         Core.bitwise_not(dst, dst);
 
+        Mat morphKernel = Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, new Size(5,3));
+        Imgproc.morphologyEx(dst, dst, Imgproc.MORPH_OPEN, morphKernel);
+
         return this.convertToBase64(dst);
     }
 
