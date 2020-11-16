@@ -16,14 +16,15 @@
 #headcontent {
   padding: 40px;
   width: 500px;
-  height: 50%;
+  height: 70%;
   float: left;
+  margin-right: 40px;
 }
 
 #notificationContent {
   padding: 40px;
   width: 500px;
-  height: 50%;
+  height: 70%;
   float: left;
 }
 
@@ -31,7 +32,7 @@
   width: 45%;
   margin-top: 30px;
   filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
-  height: 200px;
+  height: 60%;
   float: left;
   cursor: pointer;
 
@@ -64,7 +65,7 @@
 #welcome {
   width: 100%;
   margin-top: 30px;
-  height: 25%;
+  height: 30%;
   background-color: white;
   filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
 
@@ -75,10 +76,22 @@
   }
 }
 
+#headBox {
+  margin-top: 30px;
+  height: 100%;
+  width: 100%;
+}
+
 #notificationBox {
   margin-top: 30px;
   height: 100%;
   width: 100%;
   background-color: white;
   filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
+}
+
+#top, #bottom {
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
 }
