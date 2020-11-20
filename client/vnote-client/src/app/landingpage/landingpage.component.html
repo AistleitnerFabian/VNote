@@ -1,31 +1,45 @@
-<div id="header">
+<div id="header" [ngClass]="{'headerTop': !isTop}">
   <img src="../../assets/Logo.svg" id="logo" alt="logo">
   <p id="logoText">VNote</p>
   <div id="menu">
-    <p id="selected">Home</p>
-    <p>App</p>
-    <p>About Us</p>
-    <p>Info</p>
+    <p routerLink="/home" [ngClass]="{'active' : isActive('home')}">Home</p>
+    <p routerLink="/app" [ngClass]="{'active' : isActive('app')}">App</p>
+    <p routerLink="/about" [ngClass]="{'active' : isActive('about')}">About Us</p>
+    <p routerLink="/info" [ngClass]="{'active' : isActive('info')}">Info</p>
   </div>
   <div id="user-login">
-    <div class="button-wrapper">
+    <div class="button-wrapper" routerLink="../register">
       <div id="signUp">Sign Up Free</div>
     </div>
-    <div class="button-wrapper">
+    <div class="button-wrapper" routerLink="../login">
       <div id="logIn">Log In</div>
     </div>
   </div>
 </div>
-<div id="content">
-  <img id="lp-image" src="./assets/landingPageBackground.svg">
-  <div id="main-text">
-    <h1>Smart Sticky-Note digitalization</h1>
-    <p>Lorem ipsum dolor sit amet, consetetur<br>
-      sadipscing elitr, sed diam nonumy eirmod<br>
-      tempor invidunt ut labore et dolore magna<br>
-      aliquyam erat, sed diam voluptua.<br>
-    </p>
+<div class="section" #homesection>
+  <div id="content" [ngClass]="{'contentTop': isTop}">
+    <img id="lp-image" src="./assets/landingPageBackground.svg">
+    <div id="main-text">
+      <h1>Smart Sticky-Note digitalization</h1>
+      <p>Lorem ipsum dolor sit amet, consetetur<br>
+        sadipscing elitr, sed diam nonumy eirmod<br>
+        tempor invidunt ut labore et dolore magna<br>
+        aliquyam erat, sed diam voluptua.<br>
+      </p>
 
-    <div id="get-started">Get Started!</div>
+      <div id="get-started">Get Started!</div>
+    </div>
   </div>
+</div>
+<div class="section" #appsection>
+  <app-section-app>
+  </app-section-app>
+</div>
+<div class="section" #aboutsection>
+  <app-section-about>
+  </app-section-about>
+</div>
+<div class="section" #infosection>
+  <app-section-info>
+  </app-section-info>
 </div>

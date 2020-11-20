@@ -4,17 +4,7 @@
   height: 70px;
   width: 100%;
   background-color: white;
-  position: fixed;
-  top: 0px;
-  transition: filter 0.3s;
-}
-
-.headerTop {
-  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3)) !important;
-}
-
-.contentTop {
-  background-color: white !important;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
 }
 
 #header * {
@@ -50,27 +40,15 @@
   cursor: pointer;
   font-weight: 500;
   transition: color 0.15s;
-  outline: none;
-}
-
-.section {
-  height: 100%;
-  width: 100%;
 }
 
 #menu p:hover {
   color: $nav-button-selected;
 }
 
-#menu {
+#menu #selected {
   font-weight: 700;
   color: $nav-button-selected;
-}
-
-.active {
-
-  font-weight: 700 !important;
-  color: $nav-button-selected !important;
 }
 
 #user-login {
@@ -124,16 +102,14 @@
 }
 
 #content {
-  height: 100%;
+  height: calc(100% - 70px);
   width: 100%;
   background-color: $content-bg;
-  overflow: hidden;
-  transition: background-color 0.3s;
 }
 
 #lp-image {
-  height: 75%;
-  margin-top: 7%;
+  height: 80%;
+  margin-top: 5%;
   float: left;
 }
 

@@ -6,12 +6,15 @@ import {BoardsComponent} from './webapp/boards/boards.component';
 import {UploadsComponent} from './webapp/uploads/uploads.component';
 import {HelpComponent} from './webapp/help/help.component';
 import {SettingsComponent} from './webapp/settings/settings.component';
-import {EditorComponent} from "./webapp/editor/editor.component";
+import {EditorComponent} from './webapp/editor/editor.component';
 import {LandingpageComponent} from './landingpage/landingpage.component';
+import {LoginComponent} from './login/login.component';
+import {RegisterComponent} from './register/register.component';
 
 const routes: Routes = [
-  // {path: '', redirectTo: '/app', pathMatch: 'full'},
+  {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '', component: LandingpageComponent},
+  {path: ':page', component: LandingpageComponent},
   {
     path: 'app',
     component: WebappComponent,
