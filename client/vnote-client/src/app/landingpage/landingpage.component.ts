@@ -8,8 +8,8 @@ import {
   ViewChild,
   ViewRef
 } from '@angular/core';
-import {Subscription} from "rxjs";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Subscription} from 'rxjs';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-landingpage',
@@ -18,6 +18,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class LandingpageComponent implements OnInit, AfterViewInit {
 
+  URLPath = 'vnote/';
   isTop = true;
   routeSubscription: Subscription;
   isRedirect = true;
@@ -82,7 +83,7 @@ export class LandingpageComponent implements OnInit, AfterViewInit {
 
 
   isActive(route): boolean {
-    return '/' + route === this.router.url;
+    return '/' + this.URLPath + route === this.router.url;
   }
 
   private checkSection(scrollY): void {
@@ -109,7 +110,7 @@ export class LandingpageComponent implements OnInit, AfterViewInit {
     });
     if (!this.isActive(routes[routeIndex])) {
       this.isRedirect = false;
-      this.router.navigate([routes[routeIndex]]);
+      this.router.navigate([this.URLPath + routes[routeIndex]]);
     }
   }
 }

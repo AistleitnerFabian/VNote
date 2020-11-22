@@ -1,0 +1,138 @@
+@import "../../variables";
+
+#header {
+  height: 70px;
+  width: 100%;
+  background-color: white;
+  position: fixed;
+  top: 0px;
+  transition: filter 0.3s;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3)) !important;
+}
+
+#header * {
+  float: left;
+}
+
+#logo {
+  width: 40px;
+  margin: 15px 30px;
+}
+
+#logoText {
+  font-weight: 700;
+  line-height: 66.5px;
+  font-size: 1.4em;
+  margin: 0;
+  color: $nav-button-selected;
+  user-select: none;
+}
+
+#menu {
+  margin-left: 100px;
+  line-height: 70px;
+  font-size: 1em;
+  color: $light-grey;
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#menu p {
+  margin: 0px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.15s;
+  outline: none;
+}
+
+#user-login {
+  position: absolute;
+  right: 15px;
+}
+
+#user-login {
+  float: right;
+  font-weight: 700;
+  font-size: 1em;
+}
+
+.button-wrapper {
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: 0 15px;
+  outline: 0;
+  user-select: none;
+}
+
+#signUp {
+  background-color: $nav-button-selected;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 6px;
+  width: 100px;
+  text-align: center;
+  transition: background-color 0.15s;
+}
+
+#signUp:hover {
+  background-color: $headline
+}
+
+#logIn {
+  color: $nav-button-selected;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  width: 100px;
+  transition: color 0.15s;
+}
+
+#logIn:hover {
+  color: $headline
+}
+
+#menu p:hover {
+  color: $nav-button-selected;
+}
+
+#content {
+  height: 100%;
+  width: 100%;
+  background-color: $content-bg;
+  overflow: hidden;
+}
+
+#lp-image {
+  height: 110%;
+  margin-top: -1%;
+  margin-left: 10%;
+  float: left;
+  position: fixed;
+}
+
+#form {
+  margin-top: calc(70px + 5%);
+  margin-left: 48%;
+  height: 65%;
+  width: 25%;
+  background-color: white;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3)) !important;
+}
+
+#form-head {
+  height: 20%;
+  width: 100%;
+  padding-top: 80px;
+}
+
+#form-headline {
+  line-height: 100%;
+  color: $nav-button-selected;
+  font-weight: 700;
+  font-size: 3em;
+}

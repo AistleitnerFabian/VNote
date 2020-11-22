@@ -12,9 +12,10 @@ import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: '', component: LandingpageComponent},
-  {path: ':page', component: LandingpageComponent},
+  {path: '', redirectTo: 'vnote/home', pathMatch: 'full'},
+  {path: 'vnote', redirectTo: 'vnote/home', pathMatch: 'full'},
+  {path: 'vnote/:page', component: LandingpageComponent},
+  {path: 'register', component: RegisterComponent},
   {
     path: 'app',
     component: WebappComponent,
