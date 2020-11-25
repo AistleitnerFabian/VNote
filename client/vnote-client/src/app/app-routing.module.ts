@@ -16,6 +16,7 @@ const routes: Routes = [
   {path: 'vnote', redirectTo: 'vnote/home', pathMatch: 'full'},
   {path: 'vnote/:page', component: LandingpageComponent},
   {path: 'register', component: RegisterComponent},
+  {path: 'login', component: LoginComponent},
   {
     path: 'app',
     component: WebappComponent,

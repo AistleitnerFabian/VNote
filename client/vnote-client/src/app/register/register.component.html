@@ -17,12 +17,45 @@
   </div>
 </div>
 <div id="content">
-  <!--
+
   <img id="lp-image" src="./assets/registerPageBackground.svg">
-  -->
+
   <div id="form">
     <div id="form-head">
-      <p id="form-headline">HEADLINE</p>
+      <div id="marker"></div>
+      <p id="form-headline">REGISTER</p>
+    </div>
+    <div id="form-content">
+      <div id="input-name">
+        <mat-form-field id="firstname">
+          <mat-label>First Name</mat-label>
+          <input matInput>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Last Name</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input type="email" matInput>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input type="password" matInput>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Re-type Password</mat-label>
+        <input type="password" matInput>
+      </mat-form-field>
+
+      <mat-checkbox color="primary"> &nbsp; I have read the terms of use and I accept them.</mat-checkbox>
+      <div id="create-Button">
+        <p>Create Account</p>
+      </div>
     </div>
   </div>
 </div>

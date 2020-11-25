@@ -8,6 +8,7 @@
   top: 0px;
   transition: filter 0.3s;
   filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3)) !important;
+  z-index: 1;
 }
 
 #header * {
@@ -113,21 +114,23 @@
   margin-left: 10%;
   float: left;
   position: fixed;
+  z-index: 0;
 }
 
 #form {
   margin-top: calc(70px + 5%);
   margin-left: 48%;
-  height: 65%;
-  width: 25%;
+  padding-bottom: 1px;
+  height: fit-content;
+  width: 500px;
   background-color: white;
   filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3)) !important;
 }
 
 #form-head {
-  height: 20%;
+  height: 10%;
   width: 100%;
-  padding-top: 80px;
+  padding-top: 60px;
 }
 
 #form-headline {
@@ -135,4 +138,59 @@
   color: $nav-button-selected;
   font-weight: 700;
   font-size: 3em;
+}
+
+#marker {
+  width: 7px;
+  transform: translateY(-5px);
+  height: calc(3em + 10px);
+  border-radius: 15px;
+  background-color: $nav-button-selected;
+  float: left;
+  margin-right: 40px;
+}
+
+#form-content {
+  padding: 0 50px;
+}
+
+#input-name mat-form-field {
+  width: calc(50% - 20px) !important;
+}
+
+#firstname {
+  margin-right: 40px;
+}
+
+#form-content mat-form-field {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+mat-form-field {
+  font-size: 1.25em;
+}
+
+#create-Button {
+  margin-top: 30px;
+  background-color: $nav-button-selected;
+  width: 100%;
+  height: fit-content;
+  margin-bottom: 40px;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s;
+}
+
+#create-Button:hover {
+  background-color: $headline;
+}
+
+
+#create-Button p {
+  color: white;
+  font-weight: 500;
+  font-size: 1.5em;
+  text-align: center;
+  padding: 25px;
 }
