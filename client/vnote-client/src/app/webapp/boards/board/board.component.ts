@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Note} from '../../model/note';
-import {Board} from '../../model/board';
+import {Note} from '../../../model/note';
+import {Board} from '../../../model/board';
 import {Router} from '@angular/router';
 
 @Component({
