@@ -29,32 +29,53 @@
       <div id="input-name">
         <mat-form-field id="firstname">
           <mat-label>First Name</mat-label>
-          <input matInput [(ngModel)]="user.firstname" [ngModelOptions]="{standalone: true}">
+          <input matInput [formControl]="firstnameFormControl" [(ngModel)]="user.firstname">
+          <mat-error *ngIf="firstnameFormControl.hasError('required')">
+            First Name is <strong>required</strong>
+          </mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Last Name</mat-label>
-          <input matInput [(ngModel)]="user.lastname" [ngModelOptions]="{standalone: true}">
+          <input matInput [formControl]="lastnameFormControl" [(ngModel)]="user.lastname">
+          <mat-error *ngIf=" lastnameFormControl.hasError('required')">
+            Last Name is <strong>required</strong>
+          </mat-error>
         </mat-form-field>
       </div>
 
       <mat-form-field>
         <mat-label>Email</mat-label>
-        <input type="email" matInput [(ngModel)]="user.email" [ngModelOptions]="{standalone: true}">
+        <input type="email" matInput [formControl]="emailFormControl" [(ngModel)]="user.email">
+        <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="emailFormControl.hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Password</mat-label>
-        <input type="password" matInput [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}">
+        <input type="password" matInput [formControl]="passwordFormControl" [(ngModel)]="user.password">
+        <mat-error *ngIf=" passwordFormControl.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Re-type Password</mat-label>
-        <input type="password" matInput [(ngModel)]="retypedPassword" [ngModelOptions]="{standalone: true}">
+        <input type="password" matInput [formControl]="retypedPasswordFormControl" [(ngModel)]="retypedPassword">
+        <mat-error *ngIf=" retypedPasswordFormControl.hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
       </mat-form-field>
 
-      <mat-checkbox color="primary" [(ngModel)]="GTCChecked" [ngModelOptions]="{standalone: true}"> &nbsp; I have read
+      <mat-checkbox color="primary" [(ngModel)]="GTCChecked" [formControl]="GTCFormControl"> &nbsp; I have read
         the terms of use and I accept them.
       </mat-checkbox>
+      <mat-error style="position: absolute" *ngIf="GTCFormControl.invalid && GTCFormControl.dirty">
+        The checkbox has to be checked
+      </mat-error>
       <div id="create-Button" (click)="register()">
         <p>Create Account</p>
       </div>
