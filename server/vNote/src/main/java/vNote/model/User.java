@@ -3,6 +3,9 @@ package vNote.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Document
@@ -10,12 +13,19 @@ public class User {
     @Id
     private String id;
 
+    @Size(min=1, max=100)
     private String firstname;
+
+    @Size(min=1, max=100)
     private String lastname;
+
+    @Email
     private String email;
+
+    @Size(min=1, max=100)
     private String password;
 
-    public User(String id, String firstname, String lastname, String email, String password, Boolean enabled) {
+    public User(String id, String firstname, String lastname, String email, String password) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;

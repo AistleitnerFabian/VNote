@@ -26,7 +26,6 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     if (this.loginForm.valid) {
-      alert('login');
     }
   }
 }
