@@ -7,14 +7,8 @@
   position: fixed;
   top: 0px;
   transition: filter 0.3s;
-}
-
-.headerTop {
   filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3)) !important;
-}
-
-.contentTop {
-  background-color: white !important;
+  z-index: 1;
 }
 
 #header * {
@@ -51,22 +45,6 @@
   font-weight: 500;
   transition: color 0.15s;
   outline: none;
-}
-
-.section {
-  height: 100%;
-  width: 100%;
-}
-
-#menu p:hover {
-  color: $nav-button-selected;
-}
-
-
-.active {
-
-  font-weight: 700 !important;
-  color: $nav-button-selected !important;
 }
 
 #user-login {
@@ -119,51 +97,100 @@
   color: $headline
 }
 
+#menu p:hover {
+  color: $nav-button-selected;
+}
+
 #content {
   height: 100%;
   width: 100%;
   background-color: $content-bg;
   overflow: hidden;
-  transition: background-color 0.3s;
 }
 
 #lp-image {
-  height: 75%;
-  margin-top: 7%;
+  height: 110%;
+  margin-top: -1%;
+  margin-left: 10%;
   float: left;
+  position: fixed;
+  z-index: 0;
 }
 
-#main-text {
-  height: 400px;
-  width: 700px;
-  margin-top: 200px;
-  margin-left: 50px;
-  float: left;
-
-  h1 {
-    font-weight: 700;
-    font-size: 2.4em;
-  }
-
-  p {
-    font-size: 1.4em;
-    line-height: 1.5em;
-  }
+#form {
+  margin-top: calc(70px + 5%);
+  margin-left: 48%;
+  padding-bottom: 1px;
+  height: fit-content;
+  width: 500px;
+  background-color: white;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3)) !important;
 }
 
-#get-started {
-  background-color: $nav-button-selected;
-  color: white;
-  cursor: pointer;
-  padding: 10px;
-  margin: 30px;
-  border-radius: 6px;
-  width: 100px;
-  text-align: center;
+#form-head {
+  height: 10%;
+  width: 100%;
+  padding-top: 60px;
+}
+
+#form-headline {
+  line-height: 100%;
+  color: $nav-button-selected;
   font-weight: 700;
+  font-size: 3em;
+}
+
+#marker {
+  width: 7px;
+  transform: translateY(-5px);
+  height: calc(3em + 10px);
+  border-radius: 15px;
+  background-color: $nav-button-selected;
+  float: left;
+  margin-right: 40px;
+}
+
+#form-content {
+  padding: 0 50px;
+}
+
+#input-name mat-form-field {
+  width: calc(50% - 20px) !important;
+}
+
+#firstname {
+  margin-right: 40px;
+}
+
+#form-content mat-form-field {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+mat-form-field {
+  font-size: 1.25em;
+}
+
+#create-Button {
+  margin-top: 30px;
+  background-color: $nav-button-selected;
+  width: 100%;
+  height: fit-content;
+  margin-bottom: 40px;
+  cursor: pointer;
+  user-select: none;
   transition: background-color 0.15s;
 }
 
-#get-started:hover {
-  background-color: $headline
+#create-Button:hover {
+  background-color: $headline;
+}
+
+
+#create-Button p {
+  color: white;
+  font-weight: 500;
+  font-size: 1.5em;
+  text-align: center;
+  padding: 25px;
 }

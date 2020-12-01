@@ -1,6 +1,6 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {trigger, style, animate, transition} from '@angular/animations';
-import {DataService} from "../webapp/data.service";
+import {DataService} from "../service/data.service";
 
 @Component({
   selector: 'app-toolbar',

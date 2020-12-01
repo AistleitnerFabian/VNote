@@ -46,20 +46,25 @@ import {BoardsComponent} from './webapp/boards/boards.component';
 import {UploadsComponent} from './webapp/uploads/uploads.component';
 import {HelpComponent} from './webapp/help/help.component';
 import {SettingsComponent} from './webapp/settings/settings.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {EditorComponent} from './webapp/editor/editor.component';
 import {NgxPanZoomModule} from 'ngx-panzoom';
 import {NoteComponent} from './webapp/editor/note/note.component';
 import {DragDropModule} from '@angular/cdk/drag-drop';
-import {ColorSketchModule} from "ngx-color/sketch";
-import {DragAndDropService} from "./webapp/editor/drag-and-drop.service";
+import {ColorSketchModule} from 'ngx-color/sketch';
+import {DragAndDropService} from './webapp/editor/drag-and-drop.service';
 import {LandingpageComponent} from './landingpage/landingpage.component';
-import {HttpClientModule} from "@angular/common/http";
-import {BoardComponent} from "./webapp/boards/board/board.component";
-import {HttpService} from "./webapp/http.service";
-import {WebsocketService} from "./webapp/websocket.service";
-import {DataService} from "./webapp/data.service";
+import {HttpClientModule} from '@angular/common/http';
+import {BoardComponent} from './webapp/boards/board/board.component';
+import {HttpService} from './service/http.service';
+import {WebsocketService} from './service/websocket.service';
+import {DataService} from './service/data.service';
+import {LoginComponent} from './login/login.component';
+import {RegisterComponent} from './register/register.component';
+import { SectionAppComponent } from './landingpage/section-app/section-app.component';
+import { SectionAboutComponent } from './landingpage/section-about/section-about.component';
+import { SectionInfoComponent } from './landingpage/section-info/section-info.component';
 
 @NgModule({
   declarations: [
@@ -76,51 +81,57 @@ import {DataService} from "./webapp/data.service";
     NoteComponent,
     LandingpageComponent,
     BoardComponent,
+    LoginComponent,
+    RegisterComponent,
+    SectionAppComponent,
+    SectionAboutComponent,
+    SectionInfoComponent,
   ],
-  imports: [
-    HttpClientModule,
-    AngularEditorModule,
-    NgxPanZoomModule,
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    BrowserModule,
-    MatCheckboxModule,
-    MatButtonModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatSliderModule,
-    MatSlideToggleModule,
-    MatMenuModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatListModule,
-    MatGridListModule,
-    MatCardModule,
-    MatStepperModule,
-    MatTabsModule,
-    MatExpansionModule,
-    MatButtonToggleModule,
-    MatChipsModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatProgressBarModule,
-    MatDialogModule,
-    MatTooltipModule,
-    MatSnackBarModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatRippleModule,
-    FormsModule,
-    FlexLayoutModule,
-    DragDropModule,
-    ColorSketchModule
-  ],
+    imports: [
+        HttpClientModule,
+        AngularEditorModule,
+        NgxPanZoomModule,
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        BrowserModule,
+        MatCheckboxModule,
+        MatButtonModule,
+        MatInputModule,
+        MatAutocompleteModule,
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatRadioModule,
+        MatSelectModule,
+        MatSliderModule,
+        MatSlideToggleModule,
+        MatMenuModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatListModule,
+        MatGridListModule,
+        MatCardModule,
+        MatStepperModule,
+        MatTabsModule,
+        MatExpansionModule,
+        MatButtonToggleModule,
+        MatChipsModule,
+        MatIconModule,
+        MatProgressSpinnerModule,
+        MatProgressBarModule,
+        MatDialogModule,
+        MatTooltipModule,
+        MatSnackBarModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatRippleModule,
+        FormsModule,
+        FlexLayoutModule,
+        DragDropModule,
+        ColorSketchModule,
+        ReactiveFormsModule
+    ],
   providers: [DragAndDropService, HttpService, WebsocketService, DataService],
   bootstrap: [AppComponent],
 })

@@ -1,0 +1,63 @@
+<div id="header">
+  <img src="../../assets/Logo.svg" id="logo" alt="logo">
+  <p id="logoText">VNote</p>
+  <div id="menu">
+    <p routerLink="/vnote/home">Home</p>
+    <p routerLink="/vnote/app">App</p>
+    <p routerLink="/vnote/about">About Us</p>
+    <p routerLink="/vnote/info">Info</p>
+  </div>
+  <div id="user-login">
+    <div class="button-wrapper" routerLink="/register">
+      <div id="signUp">Sign Up Free</div>
+    </div>
+    <div class="button-wrapper" routerLink="/login">
+      <div id="logIn">Log In</div>
+    </div>
+  </div>
+</div>
+<div id="content">
+
+  <img id="lp-image" src="./assets/registerPageBackground.svg">
+
+  <div id="form">
+    <div id="form-head">
+      <div id="marker"></div>
+      <p id="form-headline">LOGIN</p>
+    </div>
+    <div id="form-content">
+      <form [formGroup]="loginForm">
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input type="email" matInput formControlName="emailFormControl">
+          <mat-error
+            *ngIf="loginForm.get('emailFormControl').hasError('email') && !loginForm.get('emailFormControl').hasError('required')">
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="loginForm.get('emailFormControl').hasError('required')">
+            Email is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input type="password" matInput formControlName="passwordFormControl">
+          <mat-error *ngIf="loginForm.get('passwordFormControl').hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <div id="login-Button" (click)="login()">
+          <p>Login</p>
+        </div>
+        <div id="sep-text">
+          <hr>
+          <p>or</p>
+        </div>
+        <div id="create-Button" routerLink="/register">
+          <p>Create a new account</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

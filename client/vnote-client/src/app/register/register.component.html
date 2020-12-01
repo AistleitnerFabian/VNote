@@ -1,0 +1,90 @@
+<div id="header">
+  <img src="../../assets/Logo.svg" id="logo" alt="logo">
+  <p id="logoText">VNote</p>
+  <div id="menu">
+    <p routerLink="/vnote/home">Home</p>
+    <p routerLink="/vnote/app">App</p>
+    <p routerLink="/vnote/about">About Us</p>
+    <p routerLink="/vnote/info">Info</p>
+  </div>
+  <div id="user-login">
+    <div class="button-wrapper" routerLink="/register">
+      <div id="signUp">Sign Up Free</div>
+    </div>
+    <div class="button-wrapper" routerLink="/login">
+      <div id="logIn">Log In</div>
+    </div>
+  </div>
+</div>
+<div id="content">
+
+  <img id="lp-image" src="./assets/registerPageBackground.svg">
+
+  <div id="form">
+    <form [formGroup]="registerForm">
+      <div id="form-head">
+        <div id="marker"></div>
+        <p id="form-headline">REGISTER</p>
+      </div>
+      <div id="form-content">
+        <div id="input-name">
+          <mat-form-field id="firstname">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstnameFormControl" [(ngModel)]="user.firstname">
+            <mat-error *ngIf="registerForm.get('firstnameFormControl').hasError('required')">
+              First Name is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastnameFormControl" [(ngModel)]="user.lastname">
+            <mat-error *ngIf=" registerForm.get('lastnameFormControl').hasError('required')">
+              Last Name is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input type="email" matInput formControlName="emailFormControl" [(ngModel)]="user.email">
+          <mat-error
+            *ngIf="registerForm.get('emailFormControl').hasError('email') && !registerForm.get('emailFormControl').hasError('required')">
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="registerForm.get('emailFormControl').hasError('required')">
+            Email is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>
+            Password
+          </mat-label>
+          <input type="password" matInput formControlName="passwordFormControl" [(ngModel)]="user.password">
+          <mat-error *ngIf="registerForm.get('passwordFormControl').hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Re-type Password</mat-label>
+          <input type="password" matInput formControlName="retypedPasswordFormControl" [(ngModel)]="retypedPassword">
+          <mat-error *ngIf="registerForm.get('retypedPasswordFormControl').hasError('required')">
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-checkbox color="primary" [(ngModel)]="GTCChecked" formControlName="GTCFormControl"> &nbsp; I have read
+          the terms of use and I accept them.
+        </mat-checkbox>
+        <mat-error style="position: absolute"
+                   *ngIf="registerForm.get('GTCFormControl').invalid && registerForm.get('GTCFormControl').dirty">
+          The checkbox has to be checked
+        </mat-error>
+        <div id="create-Button" (click)="register()">
+          <p>Create Account</p>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
