@@ -1,5 +1,6 @@
 package vNote.recognition;
 
+import org.opencv.highgui.HighGui;
 import vNote.model.Board;
 import vNote.model.Postit;
 import org.opencv.core.*;
@@ -18,6 +19,7 @@ public class PostitRecognition {
     private List<Mat> croppedPostits;
     private ColorRecognition colorRecognition;
     private TextDetection textDetection;
+    private List<RotatedRect> rects;
 
     public PostitRecognition() {
         this.colorRecognition = new ColorRecognition();
@@ -64,7 +66,7 @@ public class PostitRecognition {
         Mat edges = this.performOtsu(s);//perform Otsu Algorithm for edge detection
 
         this.postits = this.findPostits(edges);//draw boundings in original image to see which postits where recognized
-
+System.out.print(this.postits.size());
         Board w = new Board("filename", postits.size(), postits, src.width(), src.height());
 
         return w; //postit wall
@@ -122,8 +124,25 @@ public class PostitRecognition {
                 foundPostits.add(p);
             }
         }
+
         System.out.println("found: " + foundPostits.size());
         return foundPostits;
+    }
+
+    private List<RotatedRect> checkFalsePostits(List<RotatedRect> rects) {
+        List<RotatedRect> tmp = new ArrayList<>();
+        tmp.addAll(rects);
+        for(RotatedRect r: rects){
+            for(int i = 0; i < rects.size(); i++){
+                if(!r.equals(rects.get(i))){
+                    if(r.boundingRect().tl().inside(rects.get(i).boundingRect()) && r.boundingRect().br()
+                            .inside(rects.get(i).boundingRect())){
+                        tmp.remove(r);
+                    }
+                }
+            }
+        }
+        return tmp;
     }
 
     private Mat cropRotatedRect(RotatedRect rotatedRect, MatOfPoint points, Mat img) {
