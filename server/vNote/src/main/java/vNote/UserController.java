@@ -1,18 +1,28 @@
 package vNote;
 
+import com.sun.el.parser.Token;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import vNote.model.Postit;
 import vNote.model.User;
 import vNote.repositories.UserRepository;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -24,6 +34,9 @@ public class UserController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @PostMapping("/register")
     public String register(@RequestBody @Valid User user, BindingResult bindingResult) {
@@ -42,12 +55,22 @@ public class UserController {
             }
     }
 
-    @GetMapping("/login")
-        public User login(@RequestBody User user) {
+    @PostMapping("/login")
+        public User login(@RequestBody User user, HttpServletRequest req) {
         Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
         if(optionalUser.isPresent()){
              User userObj = optionalUser.get();
              if(passwordEncoder.matches(user.getPassword(), userObj.getPassword())){
+
+                 SecurityContext securityContext = SecurityContextHolder.getContext();
+                 Authentication authentication = authenticationManager.authenticate(
+                         new UsernamePasswordAuthenticationToken(userObj.getEmail(), userObj.getPassword())
+                 );
+                 securityContext.setAuthentication(authentication);
+                 HttpSession session = req.getSession(true);
+                 session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, securityContext);
+
+
                  return userObj;
              }
         }
@@ -58,4 +81,5 @@ public class UserController {
     public List<User> findAllUser(){
         return userRepository.findAll();
     }
+
 }
