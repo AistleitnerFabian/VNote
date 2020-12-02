@@ -7,9 +7,9 @@ import {DataService} from './data.service';
 import {NavigationBarPlugin} from 'capacitor-navigationbar';
 import {ScreenOrientation} from '@ionic-native/screen-orientation/ngx';
 
-import {Plugins, Toast} from '@capacitor/core';
-import {Router} from "@angular/router";
-import {User} from "./user";
+import {Plugins} from '@capacitor/core';
+import {Router} from '@angular/router';
+import {User} from './user';
 
 @Component({
     selector: 'app-root',
@@ -32,7 +32,7 @@ export class AppComponent {
 
     toogleDarkmode() {
         this.NavigationBar = Plugins.NavigationBar as NavigationBarPlugin;
-        this.dataService.darkmode = !this.dataService.darkmode
+        this.dataService.darkmode = !this.dataService.darkmode;
         this.NavigationBar.setBackgroundColor({color: this.dataService.darkmode ? 'black' : 'white'});
     }
 
