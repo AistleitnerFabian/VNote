@@ -8,6 +8,8 @@ import {NavigationBarPlugin} from 'capacitor-navigationbar';
 import {ScreenOrientation} from '@ionic-native/screen-orientation/ngx';
 
 import {Plugins, Toast} from '@capacitor/core';
+import {Router} from "@angular/router";
+import {User} from "./user";
 
 @Component({
     selector: 'app-root',
@@ -22,7 +24,8 @@ export class AppComponent {
         private splashScreen: SplashScreen,
         private statusBar: StatusBar,
         public dataService: DataService,
-        private screenOrientation: ScreenOrientation
+        private screenOrientation: ScreenOrientation,
+        private router: Router
     ) {
         this.initializeApp();
     }
@@ -41,5 +44,11 @@ export class AppComponent {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
         });
+    }
+
+    logout() {
+        this.router.navigateByUrl('/login');
+        this.dataService.loggedIn = false;
+        this.dataService.loggedInUser = new User();
     }
 }

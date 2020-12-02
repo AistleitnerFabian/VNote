@@ -1,9 +1,9 @@
 export class imageDataDTO {
     base64Image;
-    user;
+    userId;
 
-    constructor(base64Image, user) {
+    constructor(base64Image, userId) {
         this.base64Image = base64Image;
-        this.user = user;
+        this.userId = userId;
     }
 }

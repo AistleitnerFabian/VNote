@@ -1,36 +1,39 @@
 <ion-app>
-  <ion-menu side="start" menuId="first" contentId="main">
-    <ion-header style="height: 15%;">
-      <ion-toolbar color="primary" style="height: 100%; display: flex; justify-content: space-around; flex-direction: column;">
-        <ion-item style="height: fit-content;" lines="none">
-          <ion-avatar slot="start" style="border: 2px solid white; height: 8vh; width: 8vh;">
-            <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
-          </ion-avatar>
-          <ion-label>
-            <p style="font-weight: bolder; font-size: 120%; line-height: 110%; color: white;">Max Muster</p>
-            <p style="opacity: 0.6; line-height: 110%; font-size: 90%; color: white;">max.muster@gmail.com</p>
-          </ion-label>
-        </ion-item>       
-      </ion-toolbar>
-    </ion-header>
-    <ion-content 
-    class="ion-color" 
-    [style.background-color]="dataService.darkmode ? 'var(--ion-color-dark)' : 'var(--ion-color-light)'">
-      <ion-list>
-        <ion-item>
-            <ion-label 
-            [style.color]="dataService.darkmode ? 'var(--ion-color-light)' : 'var(--ion-color-dark)'">
-            Dark Mode</ion-label>
-            <ion-toggle [value]="dataService.darkmode" (click)="toogleDarkmode()"></ion-toggle>
-        </ion-item>
-        <ion-item>
-            <ion-label
-            [style.color]="dataService.darkmode ? 'var(--ion-color-light)' : 'var(--ion-color-dark)'">
-            Dark Mode</ion-label>
-            <ion-toggle [value]="dataService.darkmode" (click)="toogleDarkmode()"></ion-toggle>
-        </ion-item>
-      </ion-list>
-    </ion-content>
-  </ion-menu>
-  <ion-router-outlet id="main"></ion-router-outlet>
+    <ion-menu side="start" menuId="first" contentId="main" *ngIf="dataService.loggedIn">
+        <ion-header style="height: 15%;">
+            <ion-toolbar color="primary"
+                         style="height: 100%; display: flex; justify-content: space-around; flex-direction: column;">
+                <ion-item style="height: fit-content;" lines="none">
+                    <ion-avatar slot="start" style="border: 2px solid white; height: 8vh; width: 8vh;">
+                        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+                    </ion-avatar>
+                    <ion-label>
+                        <p style="font-weight: bolder; font-size: 120%; line-height: 110%; color: white;">{{dataService.loggedInUser.firstname}} {{dataService.loggedInUser.lastname}}</p>
+                        <p style="opacity: 0.6; line-height: 110%; font-size: 90%; color: white;">
+                            {{dataService.loggedInUser.email}}</p>
+                    </ion-label>
+                </ion-item>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content
+                class="ion-color"
+                [style.background-color]="dataService.darkmode ? 'var(--ion-color-dark)' : 'var(--ion-color-light)'">
+            <ion-list>
+                <ion-item (click)="toogleDarkmode()">
+                    <ion-label
+                            [style.color]="dataService.darkmode ? 'var(--ion-color-light)' : 'var(--ion-color-dark)'">
+                        Dark Mode
+                    </ion-label>
+                    <ion-toggle [checked]="dataService.darkmode"></ion-toggle>
+                </ion-item>
+                <ion-item (click)="logout()">
+                    <ion-label
+                            [style.color]="dataService.darkmode ? 'var(--ion-color-light)' : 'var(--ion-color-dark)'">
+                        Logout
+                    </ion-label>
+                </ion-item>
+            </ion-list>
+        </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main"></ion-router-outlet>
 </ion-app>

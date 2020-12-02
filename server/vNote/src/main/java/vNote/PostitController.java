@@ -133,14 +133,14 @@ System.out.println(base64Image);
     public imageDataDTO uploadImage(@RequestBody imageDataDTO imgDTO) throws Exception {
 
         //System.out.println("yeet");
-        System.out.println(imgDTO.user);
+        System.out.println(imgDTO.userId);
         //byte[] b = Base64.getMimeDecoder().decode(img.substring(12));
         //Mat mat = Imgcodecs.imdecode(new MatOfByte(b), Imgcodecs.IMREAD_UNCHANGED);
         PostitRecognition pr = new PostitRecognition();
         Board b = pr.recognizeBase64Image(imgDTO.base64Image);
+        b.setUserId(imgDTO.userId);
         boardRepository.save(b);
         webSocketController.update("updateBoards");
-        TextRecognition.detectText("src/main/resources/static/p114.jpg");
         return imgDTO;
     }
 

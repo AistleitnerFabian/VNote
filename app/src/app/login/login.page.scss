@@ -1,0 +1,35 @@
+#login-Button {
+  width: 65vw;
+  height: 20vw;
+  margin: 17.5vw;
+  background-color: blue;
+}
+
+#logo {
+  width: 30vw;
+  height: 30vw;
+  margin: 35vw 35vw 10vw;
+  background-image: url("../../assets/Logo.svg");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+#login-text {
+  width: 100vw;
+  text-align: center;
+}
+
+#login-text p {
+  font-size: 1.5em;
+  line-height: 1.5em;
+}
+
+ion-item {
+  width: 65vw;
+  margin-left: 17.5vw;
+}
+
+ion-item {
+  --highlight-color-valid: var(--ion-color-primary) !important;
+}
