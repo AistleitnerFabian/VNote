@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {Plugins, CameraResultType, CameraSource} from '@capacitor/core';
 
@@ -20,7 +20,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
     templateUrl: 'home.page.html',
     styleUrls: ['home.page.scss']
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnDestroy {
     isCameraOn = false;
     showPhotoPreview = false;
     imageData: string;
@@ -45,7 +45,6 @@ export class HomePage implements OnInit {
     ngOnInit() {
         this.cameraOn();
         this.menuController.enable(true, 'first');
-        this.presentAlertPrompt();
     }
 
     async toast(message) {
@@ -55,29 +54,6 @@ export class HomePage implements OnInit {
             position: 'top',
         });
         await toast.present();
-    }
-
-    async presentAlertPrompt() {
-        const alert = await this.alertController.create({
-            header: 'Server-IP:',
-            inputs: [
-                {
-                    name: 'serverip',
-                    type: 'text',
-                    placeholder: ''
-                }
-            ],
-            buttons: [
-                {
-                    text: 'Ok',
-                    handler: (alertData) => {
-                        this.dataService.serverIP = alertData.serverip;
-                    }
-                }
-            ]
-        });
-
-        await alert.present();
     }
 
     openMenu() {
@@ -140,7 +116,7 @@ export class HomePage implements OnInit {
                 'Access-Control-Allow-Origin': '*'
             })
         };
-        const postData: imageDataDTO = new imageDataDTO(this.imageBase64, 'Max Muster');
+        const postData: imageDataDTO = new imageDataDTO(this.imageBase64, this.dataService.loggedInUser.id);
         this.http.post<imageDataDTO>('http://' + this.dataService.serverIP + '/uploadImage', postData, httpOptions).subscribe(data => {
             console.log(data);
         });
@@ -151,4 +127,7 @@ export class HomePage implements OnInit {
         this.showPhotoPreview = false;
     }
 
+    ngOnDestroy() {
+        CameraPreview.stop();
+    }
 }

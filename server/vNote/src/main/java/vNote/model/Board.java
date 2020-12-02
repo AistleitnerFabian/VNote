@@ -11,18 +11,22 @@ public class Board {
     @Id
     private String id;
 
+    private String userId;
+
     private String imgPath;
     private int numberOfPostits;
     private List<Postit> postits;
     private double imgWidth;
     private double imgHeight;
 
-    public Board(String imgPath, int numberOfPostits, List<Postit> postits, double imgWidth, double imgHeight){
-        setImgPath(imgPath);
-        setNumberOfPostits(numberOfPostits);
-        setPostits(postits);
-        setImgWidth(imgWidth);
-        setImgHeight(imgHeight);
+    public Board(String id, String userId, String imgPath, int numberOfPostits, List<Postit> postits, double imgWidth, double imgHeight) {
+        this.id = id;
+        this.userId = userId;
+        this.imgPath = imgPath;
+        this.numberOfPostits = numberOfPostits;
+        this.postits = postits;
+        this.imgWidth = imgWidth;
+        this.imgHeight = imgHeight;
     }
 
     public String getId() {
@@ -31,6 +35,14 @@ public class Board {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getImgPath() {
