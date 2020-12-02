@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import vNote.model.*;
 import vNote.recognition.PostitRecognition;
+import vNote.recognition.TextRecognition;
 import vNote.repositories.BoardRepository;
 import vNote.repositories.ImageRepository;
 import vNote.repositories.PostitRepository;
@@ -129,7 +130,7 @@ System.out.println(base64Image);
     }
 
     @PostMapping(path = "/uploadImage", consumes = "application/json")
-    public imageDataDTO uploadImage(@RequestBody imageDataDTO imgDTO) throws UnsupportedEncodingException {
+    public imageDataDTO uploadImage(@RequestBody imageDataDTO imgDTO) throws Exception {
 
         //System.out.println("yeet");
         System.out.println(imgDTO.user);
@@ -139,6 +140,7 @@ System.out.println(base64Image);
         Board b = pr.recognizeBase64Image(imgDTO.base64Image);
         boardRepository.save(b);
         webSocketController.update("updateBoards");
+        TextRecognition.detectText("src/main/resources/static/p114.jpg");
         return imgDTO;
     }
 
