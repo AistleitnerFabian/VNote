@@ -66,7 +66,7 @@ public class PostitRecognition {
         Mat edges = this.performOtsu(s);//perform Otsu Algorithm for edge detection
 
         this.postits = this.findPostits(edges);//draw boundings in original image to see which postits where recognized
-System.out.print(this.postits.size());
+        System.out.print(this.postits.size());
         Board w = new Board("filename", postits.size(), postits, src.width(), src.height());
 
         return w; //postit wall
@@ -117,10 +117,17 @@ System.out.print(this.postits.size());
             if (rect.width < 1000 && rect.height < 1000 && rect.width > 30 && rect.height > 30) {
                 System.out.println(rect.width + ", " + rect.height);
                 rotated = this.cropRotatedRect(minRect[i], points, dst);
-                String color = this.colorRecognition.recognize(rotated);
-                String txtImage = this.textDetection.detect(rotated, color);
-                Postit p = new Postit(rect.x, rect.y, color, txtImage);
-                //System.out.println(txtImage);
+                this.write(rotated, "p" + i);
+                String color = this.colorRecognition.recognize(rotated.clone());
+                String txtImage = this.textDetection.detect(rotated.clone(), color);
+                String text = null;
+                try{
+                    text = TextRecognition.detectText("p"+i);
+                }catch(Exception e){
+                    System.err.print(e);
+                }
+                Postit p = new Postit(rect.x, rect.y, color, txtImage, text);
+                System.out.println(p.getText());
                 foundPostits.add(p);
             }
         }
@@ -188,7 +195,7 @@ System.out.print(this.postits.size());
     }
 
     private void write(Mat src, String filename) {
-        String dir = "src/main/resources/colorRecognition/";
+        String dir = "src/main/resources/static/textRecognition/";
         Imgcodecs.imwrite(dir + filename + ".jpg", src);
     }
 }

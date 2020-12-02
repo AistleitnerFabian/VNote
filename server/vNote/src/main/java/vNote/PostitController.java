@@ -1,22 +1,16 @@
 package vNote;
 
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfByte;
-import org.opencv.imgcodecs.Imgcodecs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import vNote.model.*;
 import vNote.recognition.PostitRecognition;
-import vNote.recognition.TextRecognition;
 import vNote.repositories.BoardRepository;
 import vNote.repositories.ImageRepository;
 import vNote.repositories.PostitRepository;
 
 import java.io.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.LinkedList;
 import java.util.List;
@@ -45,8 +39,8 @@ public class PostitController implements CommandLineRunner {
         postitRepository.deleteAll();
         imageRepository.deleteAll();
 
-        postitRepository.save(new Postit(0, 100, "RED", ""));
-        postitRepository.save(new Postit(380, 1337, "GREEN", ""));
+        postitRepository.save(new Postit(0, 100, "RED", "", ""));
+        postitRepository.save(new Postit(380, 1337, "GREEN", "", ""));
 
         imageRepository.save(new Image(encoder("src/main/resources/static/badposition1.jpg"),
                 LocalDateTime.now()));
@@ -73,8 +67,8 @@ public class PostitController implements CommandLineRunner {
     }
 
     @GetMapping("/test")
-    public Test testServer(){
-        return new Test("maja");
+    public Text testServer(){
+        return new Text("maja");
     }
 
 
@@ -140,7 +134,7 @@ System.out.println(base64Image);
         Board b = pr.recognizeBase64Image(imgDTO.base64Image);
         boardRepository.save(b);
         webSocketController.update("updateBoards");
-        TextRecognition.detectText("src/main/resources/static/p114.jpg");
+        //TextRecognition.detectText("src/main/resources/static/p114.jpg");
         return imgDTO;
     }
 

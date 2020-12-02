@@ -12,13 +12,18 @@ public class Postit {
     private double y;
     private String color;
     private String textImage;
+    private String text;
 
-    public Postit(double x, double y, String color, String textImage){
+    public Postit(double x, double y, String color, String textImage, String text){
         setColor(color);
         setX(x);
         setY(y);
         setTextImage(textImage);
+        setText(text);
     }
+
+    public void setText(String text){ this.text = text; }
+    public String getText(){ return this.text; }
 
     public void setTextImage(String textImage){
         this.textImage = textImage;
@@ -53,5 +58,17 @@ public class Postit {
         }else {
             this.color = color;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Postit{" +
+                "id='" + id + '\'' +
+                ", x=" + x +
+                ", y=" + y +
+                ", color='" + color + '\'' +
+                ", textImage='" + textImage + '\'' +
+                ", text='" + text + '\'' +
+                '}';
     }
 }
