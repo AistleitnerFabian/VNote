@@ -19,14 +19,16 @@ public class Board {
     private double imgWidth;
     private double imgHeight;
 
+    public Board(){}
+
     public Board(String id, String userId, String imgPath, int numberOfPostits, List<Postit> postits, double imgWidth, double imgHeight) {
-        this.id = id;
-        this.userId = userId;
-        this.imgPath = imgPath;
-        this.numberOfPostits = numberOfPostits;
-        this.postits = postits;
-        this.imgWidth = imgWidth;
-        this.imgHeight = imgHeight;
+        setId(id);
+        setUserId(userId);
+        setImgPath(imgPath);
+        setNumberOfPostits(numberOfPostits);
+        setPostits(postits);
+        setImgWidth(imgWidth);
+        setImgHeight(imgHeight);
     }
 
     public String getId() {

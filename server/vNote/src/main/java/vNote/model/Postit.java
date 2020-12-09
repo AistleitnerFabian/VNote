@@ -11,26 +11,17 @@ public class Postit {
     private double x;
     private double y;
     private String color;
-    private String textImage;
-    private String text;
+    private Text text;
 
-    public Postit(double x, double y, String color, String textImage, String text){
+    public Postit(double x, double y, String color, Text text){
         setColor(color);
         setX(x);
         setY(y);
-        setTextImage(textImage);
         setText(text);
     }
 
-    public void setText(String text){ this.text = text; }
-    public String getText(){ return this.text; }
-
-    public void setTextImage(String textImage){
-        this.textImage = textImage;
-    }
-    public String getTextImage(){
-        return this.textImage;
-    }
+    public void setText(Text text){ this.text = text; }
+    public Text getText(){ return this.text; }
 
     public double getX() {
         return x;
@@ -67,7 +58,6 @@ public class Postit {
                 ", x=" + x +
                 ", y=" + y +
                 ", color='" + color + '\'' +
-                ", textImage='" + textImage + '\'' +
                 ", text='" + text + '\'' +
                 '}';
     }

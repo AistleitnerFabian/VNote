@@ -7,6 +7,7 @@ import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.core.Mat;
+import vNote.model.Text;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class PostitRecognition {
         this.textDetection = new TextDetection();
     }
 
-    public Board recognizeBase64Image(String base64Image) throws UnsupportedEncodingException {
+    public Board recognizeBase64Image(String base64Image){
         //decode base64
         try {
             byte[] bytes = Base64.getDecoder().decode(base64Image);
@@ -67,8 +68,8 @@ public class PostitRecognition {
 
         this.postits = this.findPostits(edges);//draw boundings in original image to see which postits where recognized
         System.out.print(this.postits.size());
-        Board w = new Board(null, null, "filename", postits.size(), postits, src.width(), src.height());
-
+        Board w = new Board(null, "", "filename", postits.size(), postits, src.width(), src.height());
+        System.out.print(w);
         return w; //postit wall
     }
 
@@ -119,15 +120,17 @@ public class PostitRecognition {
                 rotated = this.cropRotatedRect(minRect[i], points, dst);
                 this.write(rotated, "p" + i);
                 String color = this.colorRecognition.recognize(rotated.clone());
-                String txtImage = this.textDetection.detect(rotated.clone(), color);
-                String text = null;
+                Text text = new Text("", "", false, 0, 0);
                 try{
-                    text = TextRecognition.detectText("p"+i);
+                    text = TextRecognition.recognizeText("p"+i);
+                    text.setTextImage(this.textDetection.detect(rotated.clone(), color));
                 }catch(Exception e){
-                    System.err.print(e);
+                    System.err.println(e);
                 }
-                Postit p = new Postit(rect.x, rect.y, color, txtImage, text);
-                System.out.println(p.getText());
+                System.out.println(text.getText());
+                //String txtImage = this.textDetection.detect(rotated.clone(), color);
+                Postit p = new Postit(rect.x, rect.y, color, text);
+
                 foundPostits.add(p);
             }
         }

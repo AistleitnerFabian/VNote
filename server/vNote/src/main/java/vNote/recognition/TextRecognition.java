@@ -3,60 +3,96 @@ package vNote.recognition;
 import com.google.cloud.vision.v1.*;
 import com.google.protobuf.ByteString;
 import org.opencv.core.Mat;
-import org.opencv.core.MatOfByte;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
+import vNote.model.Text;
 
-import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class TextRecognition {
-    public static String detectText(String p) throws Exception, IOException{
+    public static Text recognizeText(String p) throws Exception{
 
         String dir = "src/main/resources/static/textRecognition/"+p+".jpg";
 
         //byte[] b = new byte[(int) (src.total() * src.channels())];
         //src.get(0, 0, b);
 
-        String text = "";
+        Text text;
         //AIzaSyAz6OlANQZ2atDWRCZZ3DpBMbnaNBGvrDY
         List<AnnotateImageRequest> requests = new ArrayList<>();
 
         ByteString imgBytes = ByteString.readFrom(new FileInputStream(dir));
-        //ByteString imgBytes = ByteString.copyFrom(b);
 
         Image img = Image.newBuilder().setContent(imgBytes).build();
 
-        //mage image = Image.newBuilder().setSource(img).build();
+        //Image img = Image.newBuilder().setSource(ImageSource.parseFrom(imgBytes)).build();
 
         Feature feature = Feature.newBuilder().setType(Feature.Type.TEXT_DETECTION).build();
         AnnotateImageRequest request = AnnotateImageRequest.newBuilder().addFeatures(feature).setImage(img).build();
         requests.add(request);
 
-        AnnotateImageResponse visionResponse = null;
+        AnnotateImageResponse visionResponse;
         try(ImageAnnotatorClient client = ImageAnnotatorClient.create()) {
             visionResponse = client.batchAnnotateImages(requests).getResponses(0);
 
+            System.out.print(visionResponse.getFullTextAnnotation()
+                    .getPages(0)
+                    .getBlocks(0)
+                    .getBoundingBox()
+                    .getVertices(0)
+                    .getX());
+
+            BoundingPoly block = visionResponse.getFullTextAnnotation()
+                    .getPages(0)
+                    .getBlocks(0)
+                    .getBoundingBox();
+
             if(visionResponse == null || !visionResponse.hasFullTextAnnotation()){
                 System.out.println("no text");
-                return "";
+
+                return new Text(null, null, false, 0, 0);
             }
 
             if(visionResponse.hasError()){
-                System.err.println(visionResponse.getError());
-                return "";
+                System.err.println("Error at visionResponse: " + visionResponse.getError());
+                return new Text("","", false, 0, 0);
             }
         }catch(Exception e){
-            System.err.print(e.getMessage());
+            System.err.print("Error at try catch: " + e.getMessage());
+            deleteImages();
+            return new Text(null, "", false, 0, 0);
         }
+       // System.out.println(visionResponse.toString());
+        int x = visionResponse.getFullTextAnnotation()
+                .getPages(0)
+                .getBlocks(0)
+                .getBoundingBox()
+                .getVertices(0)
+                .getX();
+        int y = visionResponse.getFullTextAnnotation()
+                .getPages(0)
+                .getBlocks(0)
+                .getBoundingBox()
+                .getVertices(0)
+                .getY();
 
-        text = visionResponse.getFullTextAnnotation().getText();
-        System.out.println(text);
+        text = new Text(visionResponse.getFullTextAnnotation().getText(),"", true, x, y);
 
+        deleteImages();
 
         return text;
+    }
+
+    private static void deleteImages() {
+        File folder = new File( "src/main/resources/static/textRecognition");
+        for(File file : folder.listFiles()){
+            if (!file.isDirectory()) {
+                file.delete();
+            }
+        }
     }
 }

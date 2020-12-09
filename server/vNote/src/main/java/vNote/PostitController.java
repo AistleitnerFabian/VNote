@@ -33,14 +33,14 @@ public class PostitController implements CommandLineRunner {
     private WebSocketController webSocketController;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args){
         //System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 
         postitRepository.deleteAll();
         imageRepository.deleteAll();
 
-        postitRepository.save(new Postit(0, 100, "RED", "", ""));
-        postitRepository.save(new Postit(380, 1337, "GREEN", "", ""));
+        postitRepository.save(new Postit(0, 100, "RED", new Text("","", false, 0, 0)));
+        postitRepository.save(new Postit(380, 1337, "GREEN", new Text("","", false, 0, 0)));
 
         imageRepository.save(new Image(encoder("src/main/resources/static/badposition1.jpg"),
                 LocalDateTime.now()));
@@ -67,8 +67,8 @@ public class PostitController implements CommandLineRunner {
     }
 
     @GetMapping("/test")
-    public Text testServer(){
-        return new Text("maja");
+    public String testServer(){
+        return "server works";
     }
 
 
@@ -105,34 +105,14 @@ public class PostitController implements CommandLineRunner {
         return pr.recognize(staticPath);
     }
 
-    @PostMapping(value = "/uploadBase64Image")
-    public void upload(@RequestBody String base64Image) throws UnsupportedEncodingException {
-System.out.println(base64Image);
-        //byte[] b = Base64.getUrlDecoder().decode(base64Image.trim());
-        //Base64.getDecoder().decode(b[0].trim());
-        //String img = "data:image/png;base64,"+base64Image;
-        //String test = new String(b, "UTF-8");
-
-        /*imageRepository.save(new Image(test, LocalDateTime.now()));
-
-        //System.out.println(test);
-        System.out.println(test);
-
-        PostitRecognition pr = new PostitRecognition();
-        pr.recognizeBase64Image(test);*/
-        System.out.println("is base64: " + IsBase64String(base64Image));
-    }
-
     @PostMapping(path = "/uploadImage", consumes = "application/json")
     public imageDataDTO uploadImage(@RequestBody imageDataDTO imgDTO) throws Exception {
-
-        //System.out.println("yeet");
-        System.out.println(imgDTO.userId);
-        //byte[] b = Base64.getMimeDecoder().decode(img.substring(12));
-        //Mat mat = Imgcodecs.imdecode(new MatOfByte(b), Imgcodecs.IMREAD_UNCHANGED);
+        System.out.println("userid: "+imgDTO.userId);
         PostitRecognition pr = new PostitRecognition();
-        Board b = pr.recognizeBase64Image(imgDTO.base64Image);
+        Board b;
+        b = pr.recognizeBase64Image(imgDTO.base64Image);
         b.setUserId(imgDTO.userId);
+        System.out.println(b.getUserId());
         boardRepository.save(b);
         webSocketController.update("updateBoards");
         return imgDTO;
