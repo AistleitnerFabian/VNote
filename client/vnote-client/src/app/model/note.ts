@@ -1,10 +1,11 @@
+import {TextDTO} from './text';
+
 export class Note {
   id: string;
   x: number;
   y: number;
   color: string;
-  textImage: string;
-  text: string;
+  text: TextDTO;
 
   constructor(x, y, text) {
     this.x = x;
