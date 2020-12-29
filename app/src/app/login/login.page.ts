@@ -55,7 +55,7 @@ export class LoginPage implements OnInit {
                 'Access-Control-Allow-Origin': '*'
             })
         };
-        this.http.post<User>('http://' + this.dataService.serverIP + '/login', this.loginUser, httpOptions).subscribe(data => {
+        this.http.post<User>('http://' + this.dataService.serverIP + '/api/login', this.loginUser, httpOptions).subscribe(data => {
             if (data != null) {
                 this.dataService.loggedInUser = data;
                 this.router.navigateByUrl('/home');

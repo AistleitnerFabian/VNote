@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/api")
 @CrossOrigin(origins = "*")
 public class PostitController implements CommandLineRunner {
 
@@ -66,18 +67,18 @@ public class PostitController implements CommandLineRunner {
         return base64Image;
     }
 
-    @GetMapping("/test")
+    @GetMapping("test")
     public String testServer(){
         return "server works";
     }
 
 
-    @GetMapping("/findAllPostits")
+    @GetMapping("findAllPostits")
     public List<Postit> findAllPostits(){
         return postitRepository.findAll();
     }
 
-    @GetMapping("/findAllBoards")
+    @GetMapping("findAllBoards")
     public List<Board> findAllBoards(){
         return boardRepository.findAll().stream().map(board -> {
             board.setPostits(new LinkedList<Postit>());
@@ -85,18 +86,18 @@ public class PostitController implements CommandLineRunner {
         }).collect(Collectors.toList());
     }
 
-    @GetMapping("/findBoardById/{bid}")
+    @GetMapping("findBoardById/{bid}")
     public Board findAllBoards(@PathVariable String bid){
         return boardRepository.findBoardById(bid);
     }
 
-    @GetMapping("/findAllImages")
+    @GetMapping("findAllImages")
     public List<Image> findAllImages(){
         return imageRepository.findAll();
     }
 
 
-    @PostMapping("/recognize")
+    @PostMapping("recognize")
     public Board recognize(@RequestBody String imagePath) {
         String staticPath = "src/main/resources/static/" + imagePath;
         System.out.println(staticPath);
@@ -105,7 +106,7 @@ public class PostitController implements CommandLineRunner {
         return pr.recognize(staticPath);
     }
 
-    @PostMapping(path = "/uploadImage", consumes = "application/json")
+    @PostMapping(path = "uploadImage", consumes = "application/json")
     public imageDataDTO uploadImage(@RequestBody imageDataDTO imgDTO) throws Exception {
         System.out.println("userid: "+imgDTO.userId);
         PostitRecognition pr = new PostitRecognition();

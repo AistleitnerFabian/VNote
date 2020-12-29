@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Board} from '../model/board';
 import {Observable} from 'rxjs';
 import {User} from "../model/user";
@@ -8,7 +8,7 @@ import {User} from "../model/user";
   providedIn: 'root'
 })
 export class HttpService {
-  URL = 'http://localhost:8080';
+  URL = 'http://localhost:4200/api';
 
   constructor(private http: HttpClient) {
   }
@@ -23,5 +23,21 @@ export class HttpService {
 
   registerUser(user: User): Observable<any> {
     return this.http.post<any>(this.URL + '/register', user);
+  }
+
+  login(user: User): Observable<User> {
+    /*
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Credentials': 'true',
+      }), withCredentials: true
+    };
+    */
+    return this.http.post<User>(this.URL + '/login', user);
+  }
+
+  isAuthenticated(): Observable<boolean> {
+    return this.http.get<boolean>(this.URL + '/isAuthenticated');
   }
 }

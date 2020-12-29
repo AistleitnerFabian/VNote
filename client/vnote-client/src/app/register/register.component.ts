@@ -52,7 +52,9 @@ export class RegisterComponent implements OnInit {
     this.registerForm.markAllAsTouched();
     if (this.registerForm.valid) {
       if (this.retypedPassword === this.user.password) {
-        this.httpService.registerUser(this.user).subscribe(value => console.log(value));
+        this.httpService.registerUser(this.user).subscribe(value => {
+          console.log(value);
+        });
       }
     }
   }

@@ -117,7 +117,7 @@ export class HomePage implements OnInit, OnDestroy {
             })
         };
         const postData: imageDataDTO = new imageDataDTO(this.imageBase64, this.dataService.loggedInUser.id);
-        this.http.post<imageDataDTO>('http://' + this.dataService.serverIP + '/uploadImage', postData, httpOptions).subscribe(data => {
+        this.http.post<imageDataDTO>('http://' + this.dataService.serverIP + '/api/uploadImage', postData, httpOptions).subscribe(data => {
             console.log(data);
         });
     }

@@ -29,7 +29,7 @@
       <form [formGroup]="loginForm">
         <mat-form-field>
           <mat-label>Email</mat-label>
-          <input type="email" matInput formControlName="emailFormControl">
+          <input type="email" matInput formControlName="emailFormControl" [(ngModel)]="user.email">
           <mat-error
             *ngIf="loginForm.get('emailFormControl').hasError('email') && !loginForm.get('emailFormControl').hasError('required')">
             Please enter a valid email address
@@ -41,7 +41,7 @@
 
         <mat-form-field>
           <mat-label>Password</mat-label>
-          <input type="password" matInput formControlName="passwordFormControl">
+          <input type="password" matInput formControlName="passwordFormControl" [(ngModel)]="user.password">
           <mat-error *ngIf="loginForm.get('passwordFormControl').hasError('required')">
             Password is <strong>required</strong>
           </mat-error>
