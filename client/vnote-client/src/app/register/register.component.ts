@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {User} from '../model/user';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {HttpService} from "../service/http.service";
+import {DataService} from "../service/data.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -40,7 +42,7 @@ export class RegisterComponent implements OnInit {
     )
   });
 
-  constructor(private httpService: HttpService) {
+  constructor(private httpService: HttpService, private dataService: DataService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -53,9 +55,21 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.valid) {
       if (this.retypedPassword === this.user.password) {
         this.httpService.registerUser(this.user).subscribe(value => {
-          console.log(value);
+          if (value != null) {
+            this.login(this.user);
+          }
         });
       }
     }
+  }
+
+  login(loginUser): void {
+    this.httpService.login(loginUser).subscribe(user => {
+      if (user != null) {
+        console.log(user);
+        this.dataService.authenticatedUser = user;
+        this.router.navigate(['app']);
+      }
+    });
   }
 }

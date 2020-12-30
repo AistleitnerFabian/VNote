@@ -60,12 +60,11 @@ public class UserController {
     }
 
     @PostMapping("login")
-        public User login(@RequestBody User user, HttpServletRequest req) {
+    public User login(@RequestBody User user, HttpServletRequest req) {
         Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
         if(optionalUser.isPresent()){
              User userObj = optionalUser.get();
              if(passwordEncoder.matches(user.getPassword(), userObj.getPassword())){
-
                  SecurityContext securityContext = SecurityContextHolder.getContext();
                  Authentication authentication = authenticationManager.authenticate(
                          new UsernamePasswordAuthenticationToken(userObj.getEmail(), userObj.getPassword())

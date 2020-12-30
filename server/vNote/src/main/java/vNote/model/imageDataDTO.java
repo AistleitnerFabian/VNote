@@ -7,5 +7,5 @@ import java.time.LocalDateTime;
 
 public class imageDataDTO {
     public String base64Image;
-    public String userId;
+    public User user;
 }

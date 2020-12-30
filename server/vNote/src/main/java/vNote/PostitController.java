@@ -2,18 +2,21 @@ package vNote;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import vNote.model.*;
 import vNote.recognition.PostitRecognition;
 import vNote.repositories.BoardRepository;
 import vNote.repositories.ImageRepository;
 import vNote.repositories.PostitRepository;
+import vNote.repositories.UserRepository;
 
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -32,6 +35,12 @@ public class PostitController implements CommandLineRunner {
 
     @Autowired
     private WebSocketController webSocketController;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args){
@@ -108,15 +117,22 @@ public class PostitController implements CommandLineRunner {
 
     @PostMapping(path = "uploadImage", consumes = "application/json")
     public imageDataDTO uploadImage(@RequestBody imageDataDTO imgDTO) throws Exception {
-        System.out.println("userid: "+imgDTO.userId);
-        PostitRecognition pr = new PostitRecognition();
-        Board b;
-        b = pr.recognizeBase64Image(imgDTO.base64Image);
-        b.setUserId(imgDTO.userId);
-        System.out.println(b.getUserId());
-        boardRepository.save(b);
-        webSocketController.update("updateBoards");
-        return imgDTO;
+        Optional<User> optionalUser = userRepository.findByEmail(imgDTO.user.getEmail());
+        if(optionalUser.isPresent()) {
+            User userObj = optionalUser.get();
+            if (passwordEncoder.matches(imgDTO.user.getPassword(), userObj.getPassword())) {
+                System.out.println("userid: " + userObj.getId());
+                PostitRecognition pr = new PostitRecognition();
+                Board b;
+                b = pr.recognizeBase64Image(imgDTO.base64Image);
+                b.setUserId(userObj.getId());
+                System.out.println(b.getUserId());
+                boardRepository.save(b);
+                webSocketController.update("updateBoards");
+                return imgDTO;
+            }
+        }
+        return null;
     }
 
     public boolean IsBase64String(String s)

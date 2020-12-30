@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
         if (user != null) {
           console.log(user);
           this.dataService.authenticatedUser = user;
-          //this.router.navigate(['app']);
+          this.router.navigate(['app']);
         }
       });
     }
