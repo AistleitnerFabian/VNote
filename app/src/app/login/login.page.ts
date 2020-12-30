@@ -57,7 +57,7 @@ export class LoginPage implements OnInit {
         };
         this.http.post<User>('http://' + this.dataService.serverIP + '/api/login', this.loginUser, httpOptions).subscribe(data => {
             if (data != null) {
-                this.dataService.loggedInUser = data;
+                this.dataService.loggedInUser = this.loginUser;
                 this.router.navigateByUrl('/home');
                 this.dataService.loggedIn = true;
             }
