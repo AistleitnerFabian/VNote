@@ -8,8 +8,7 @@ import {EventEmitter} from "events";
 })
 export class WebsocketService {
 
-  private serverUrl = 'http://127.0.0.1:8080/socket';
-  private title = 'WebSockets chat';
+  private serverUrl = 'http://localhost:4200/socket';
   topic: string = '/app';
   private stompClient;
   public websocketUpdate: EventEmitter = new EventEmitter();
@@ -21,7 +20,7 @@ export class WebsocketService {
     console.log('Initialize WebSocket Connection');
     let ws = new SockJS(this.serverUrl);
     this.stompClient = Stomp.over(ws);
-    this.stompClient.debug = null
+    this.stompClient.debug = null;
     const _this = this;
     _this.stompClient.connect({}, (frame) => {
       _this.stompClient.subscribe(_this.topic, (sdkEvent) => {
@@ -29,7 +28,7 @@ export class WebsocketService {
       });
       _this.stompClient.reconnect_delay = 2000;
     }, (error) => {
-      console.log("errorCallBack -> " + error);
+      console.log('errorCallBack -> ' + error);
       setTimeout(() => {
         this.initializeWebSocketConnection();
       }, 5000);
