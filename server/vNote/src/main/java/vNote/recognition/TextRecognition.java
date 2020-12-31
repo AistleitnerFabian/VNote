@@ -2,14 +2,10 @@ package vNote.recognition;
 
 import com.google.cloud.vision.v1.*;
 import com.google.protobuf.ByteString;
-import org.opencv.core.Mat;
-import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
 import vNote.model.Text;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,18 +14,12 @@ public class TextRecognition {
 
         String dir = "src/main/resources/static/textRecognition/"+p+".jpg";
 
-        //byte[] b = new byte[(int) (src.total() * src.channels())];
-        //src.get(0, 0, b);
-
         Text text;
-        //AIzaSyAz6OlANQZ2atDWRCZZ3DpBMbnaNBGvrDY
         List<AnnotateImageRequest> requests = new ArrayList<>();
 
         ByteString imgBytes = ByteString.readFrom(new FileInputStream(dir));
 
         Image img = Image.newBuilder().setContent(imgBytes).build();
-
-        //Image img = Image.newBuilder().setSource(ImageSource.parseFrom(imgBytes)).build();
 
         Feature feature = Feature.newBuilder().setType(Feature.Type.TEXT_DETECTION).build();
         AnnotateImageRequest request = AnnotateImageRequest.newBuilder().addFeatures(feature).setImage(img).build();
@@ -39,19 +29,20 @@ public class TextRecognition {
         try(ImageAnnotatorClient client = ImageAnnotatorClient.create()) {
             visionResponse = client.batchAnnotateImages(requests).getResponses(0);
 
-            System.out.print(visionResponse.getFullTextAnnotation()
+            System.out.println(visionResponse.getFullTextAnnotation()
                     .getPages(0)
                     .getBlocks(0)
                     .getBoundingBox()
                     .getVertices(0)
                     .getX());
 
+
             BoundingPoly block = visionResponse.getFullTextAnnotation()
                     .getPages(0)
                     .getBlocks(0)
                     .getBoundingBox();
 
-            if(visionResponse == null || !visionResponse.hasFullTextAnnotation()){
+            if(visionResponse.equals(null) || !visionResponse.hasFullTextAnnotation()){
                 System.out.println("no text");
 
                 return new Text(null, null, false, 0, 0);
@@ -66,7 +57,7 @@ public class TextRecognition {
             deleteImages();
             return new Text(null, "", false, 0, 0);
         }
-       // System.out.println(visionResponse.toString());
+
         int x = visionResponse.getFullTextAnnotation()
                 .getPages(0)
                 .getBlocks(0)
