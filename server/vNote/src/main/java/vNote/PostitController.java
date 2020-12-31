@@ -2,21 +2,25 @@ package vNote;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import vNote.model.*;
 import vNote.recognition.PostitRecognition;
 import vNote.repositories.BoardRepository;
 import vNote.repositories.ImageRepository;
 import vNote.repositories.PostitRepository;
+import vNote.repositories.UserRepository;
 
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/api")
 @CrossOrigin(origins = "*")
 public class PostitController implements CommandLineRunner {
 
@@ -31,6 +35,12 @@ public class PostitController implements CommandLineRunner {
 
     @Autowired
     private WebSocketController webSocketController;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args){
@@ -66,18 +76,18 @@ public class PostitController implements CommandLineRunner {
         return base64Image;
     }
 
-    @GetMapping("/test")
+    @GetMapping("test")
     public String testServer(){
         return "server works";
     }
 
 
-    @GetMapping("/findAllPostits")
+    @GetMapping("findAllPostits")
     public List<Postit> findAllPostits(){
         return postitRepository.findAll();
     }
 
-    @GetMapping("/findAllBoards")
+    @GetMapping("findAllBoards")
     public List<Board> findAllBoards(){
         return boardRepository.findAll().stream().map(board -> {
             board.setPostits(new LinkedList<Postit>());
@@ -85,18 +95,18 @@ public class PostitController implements CommandLineRunner {
         }).collect(Collectors.toList());
     }
 
-    @GetMapping("/findBoardById/{bid}")
+    @GetMapping("findBoardById/{bid}")
     public Board findAllBoards(@PathVariable String bid){
         return boardRepository.findBoardById(bid);
     }
 
-    @GetMapping("/findAllImages")
+    @GetMapping("findAllImages")
     public List<Image> findAllImages(){
         return imageRepository.findAll();
     }
 
 
-    @PostMapping("/recognize")
+    @PostMapping("recognize")
     public Board recognize(@RequestBody String imagePath) {
         String staticPath = "src/main/resources/static/" + imagePath;
         System.out.println(staticPath);
@@ -105,17 +115,24 @@ public class PostitController implements CommandLineRunner {
         return pr.recognize(staticPath);
     }
 
-    @PostMapping(path = "/uploadImage", consumes = "application/json")
+    @PostMapping(path = "uploadImage", consumes = "application/json")
     public imageDataDTO uploadImage(@RequestBody imageDataDTO imgDTO) throws Exception {
-        System.out.println("userid: "+imgDTO.userId);
-        PostitRecognition pr = new PostitRecognition();
-        Board b;
-        b = pr.recognizeBase64Image(imgDTO.base64Image);
-        b.setUserId(imgDTO.userId);
-        System.out.println(b.getUserId());
-        boardRepository.save(b);
-        webSocketController.update("updateBoards");
-        return imgDTO;
+        Optional<User> optionalUser = userRepository.findByEmail(imgDTO.user.getEmail());
+        if(optionalUser.isPresent()) {
+            User userObj = optionalUser.get();
+            if (passwordEncoder.matches(imgDTO.user.getPassword(), userObj.getPassword())) {
+                System.out.println("userid: " + userObj.getId());
+                PostitRecognition pr = new PostitRecognition();
+                Board b;
+                b = pr.recognizeBase64Image(imgDTO.base64Image);
+                b.setUserId(userObj.getId());
+                System.out.println(b.getUserId());
+                boardRepository.save(b);
+                webSocketController.update("updateBoards");
+                return imgDTO;
+            }
+        }
+        return null;
     }
 
     public boolean IsBase64String(String s)

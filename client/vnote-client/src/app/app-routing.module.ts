@@ -10,6 +10,7 @@ import {EditorComponent} from './webapp/editor/editor.component';
 import {LandingpageComponent} from './landingpage/landingpage.component';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
+import {AuthGuardService} from './service/auth-guard.service';
 
 const routes: Routes = [
   {path: '', redirectTo: 'vnote/home', pathMatch: 'full'},
@@ -20,6 +21,7 @@ const routes: Routes = [
   {
     path: 'app',
     component: WebappComponent,
+    canActivate: [AuthGuardService],
     children: [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {

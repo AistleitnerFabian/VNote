@@ -1,9 +1,11 @@
+import {User} from '../user';
+
 export class imageDataDTO {
     base64Image;
-    userId;
+    user: User;
 
-    constructor(base64Image, userId) {
+    constructor(base64Image, user) {
         this.base64Image = base64Image;
-        this.userId = userId;
+        this.user = user;
     }
 }

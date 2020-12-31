@@ -55,16 +55,16 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import {ColorSketchModule} from 'ngx-color/sketch';
 import {DragAndDropService} from './webapp/editor/drag-and-drop.service';
 import {LandingpageComponent} from './landingpage/landingpage.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {BoardComponent} from './webapp/boards/board/board.component';
 import {HttpService} from './service/http.service';
 import {WebsocketService} from './service/websocket.service';
 import {DataService} from './service/data.service';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
-import { SectionAppComponent } from './landingpage/section-app/section-app.component';
-import { SectionAboutComponent } from './landingpage/section-about/section-about.component';
-import { SectionInfoComponent } from './landingpage/section-info/section-info.component';
+import {SectionAppComponent} from './landingpage/section-app/section-app.component';
+import {SectionAboutComponent} from './landingpage/section-about/section-about.component';
+import {SectionInfoComponent} from './landingpage/section-info/section-info.component';
 
 @NgModule({
   declarations: [
@@ -87,52 +87,56 @@ import { SectionInfoComponent } from './landingpage/section-info/section-info.co
     SectionAboutComponent,
     SectionInfoComponent,
   ],
-    imports: [
-        HttpClientModule,
-        AngularEditorModule,
-        NgxPanZoomModule,
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        BrowserModule,
-        MatCheckboxModule,
-        MatButtonModule,
-        MatInputModule,
-        MatAutocompleteModule,
-        MatDatepickerModule,
-        MatFormFieldModule,
-        MatRadioModule,
-        MatSelectModule,
-        MatSliderModule,
-        MatSlideToggleModule,
-        MatMenuModule,
-        MatSidenavModule,
-        MatToolbarModule,
-        MatListModule,
-        MatGridListModule,
-        MatCardModule,
-        MatStepperModule,
-        MatTabsModule,
-        MatExpansionModule,
-        MatButtonToggleModule,
-        MatChipsModule,
-        MatIconModule,
-        MatProgressSpinnerModule,
-        MatProgressBarModule,
-        MatDialogModule,
-        MatTooltipModule,
-        MatSnackBarModule,
-        MatTableModule,
-        MatSortModule,
-        MatPaginatorModule,
-        MatRippleModule,
-        FormsModule,
-        FlexLayoutModule,
-        DragDropModule,
-        ColorSketchModule,
-        ReactiveFormsModule
-    ],
-  providers: [DragAndDropService, HttpService, WebsocketService, DataService],
+  imports: [
+    HttpClientModule,
+    AngularEditorModule,
+    NgxPanZoomModule,
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    BrowserModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatSliderModule,
+    MatSlideToggleModule,
+    MatMenuModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule,
+    MatGridListModule,
+    MatCardModule,
+    MatStepperModule,
+    MatTabsModule,
+    MatExpansionModule,
+    MatButtonToggleModule,
+    MatChipsModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+    MatDialogModule,
+    MatTooltipModule,
+    MatSnackBarModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatRippleModule,
+    FormsModule,
+    FlexLayoutModule,
+    DragDropModule,
+    ColorSketchModule,
+    ReactiveFormsModule
+  ],
+  providers: [
+    DragAndDropService,
+    HttpService,
+    WebsocketService,
+    DataService],
   bootstrap: [AppComponent],
 })
 export class AppModule {

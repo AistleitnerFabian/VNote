@@ -116,8 +116,8 @@ export class HomePage implements OnInit, OnDestroy {
                 'Access-Control-Allow-Origin': '*'
             })
         };
-        const postData: imageDataDTO = new imageDataDTO(this.imageBase64, this.dataService.loggedInUser.id);
-        this.http.post<imageDataDTO>('http://' + this.dataService.serverIP + '/uploadImage', postData, httpOptions).subscribe(data => {
+        const postData: imageDataDTO = new imageDataDTO(this.imageBase64, this.dataService.loggedInUser);
+        this.http.post<imageDataDTO>('http://' + this.dataService.serverIP + '/api/uploadImage', postData, httpOptions).subscribe(data => {
             console.log(data);
         });
     }
