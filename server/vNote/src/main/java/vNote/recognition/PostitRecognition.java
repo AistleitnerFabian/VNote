@@ -136,14 +136,14 @@ public class PostitRecognition {
             String color = this.colorRecognition.recognize(rotated.clone());
             Text text = new Text("", "", false, 0, 0);
             try{
-                text = TextRecognition.recognizeText("p"+i);
+                //text = TextRecognition.recognizeText("p"+i);
                 text.setTextImage(this.textDetection.detect(rotated.clone(), color));
             }catch(Exception e){
                 System.err.println(e);
             }
             System.out.println(text.getText());
             //String txtImage = this.textDetection.detect(rotated.clone(), color);
-            Postit p = new Postit(null, checkedPosits.get(i).boundingRect().x, checkedPosits.get(i).boundingRect().y, color, text, "");
+            Postit p = new Postit(null,null, checkedPosits.get(i).boundingRect().x, checkedPosits.get(i).boundingRect().y, color, text, "");
 
             foundPostits.add(p);
         }

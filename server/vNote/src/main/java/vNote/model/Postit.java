@@ -16,13 +16,25 @@ public class Postit {
     private Text text;
     private String notepadText;
 
-    public Postit(String boardId, double x, double y, String color, Text text, String notepadText){
+    public Postit() {
+    }
+
+    public Postit(String id, String boardId, double x, double y, String color, Text text, String notepadText){
+        setId(id);
         setBoardId(boardId);
         setColor(color);
         setX(x);
         setY(y);
         setText(text);
         setNotepadText(notepadText);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setText(Text text){ this.text = text; }

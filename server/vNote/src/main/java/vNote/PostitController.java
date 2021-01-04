@@ -100,6 +100,10 @@ public class PostitController implements CommandLineRunner {
         return postitRepository.findByBoardId(bid);
     }
 
+    @PutMapping("updateNote")
+    public Postit updateNote(@RequestBody Postit postit){
+        return postitRepository.save(postit);
+    }
 
     @GetMapping("findAllImages")
     public List<Image> findAllImages(){

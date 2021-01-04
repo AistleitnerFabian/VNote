@@ -41,4 +41,8 @@ export class HttpService {
   getUserDataForId(userId: string): Observable<User> {
     return this.http.post<User>(this.URL + '/getUserDataForId', userId);
   }
+
+  updateNote(note: Note): Observable<Note> {
+    return this.http.put<Note>(this.URL + '/updateNote', note);
+  }
 }

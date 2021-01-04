@@ -7,7 +7,7 @@
       <mat-icon>invert_colors</mat-icon>
       <mat-menu id="colorMenu" #colorMenu yPosition="above">
         <div id="color-menu-div">
-          <color-circle id="color-circle" [width]="168" [color]="lightColor" [colors]="colors"
+          <color-circle id="color-circle" [width]="168" [color]="lightColor" [colors]="getColorPallete()"
                         (click)="$event.stopPropagation()"
                         (onChange)="handleChange($event)"></color-circle>
         </div>
@@ -48,6 +48,7 @@
   </div>
 
   <div id="notepad" *ngIf="notepadExtended" [@extendNotepad] [style.border-color]="darkColor">
-    <textarea id="notepadTextarea" maxlength="253"></textarea>
+    <textarea id="notepadTextarea" maxlength="253" [(ngModel)]="note.notepadText"
+              (ngModelChange)="noteChanged()"></textarea>
   </div>
 </div>

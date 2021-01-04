@@ -4,6 +4,7 @@ import {ColorEvent} from 'ngx-color';
 import {DragAndDropService} from '../drag-and-drop.service';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
 import {Note} from '../../../model/note';
+import {HttpService} from '../../../service/http.service';
 
 @Component({
   selector: 'note',
@@ -48,17 +49,16 @@ import {Note} from '../../../model/note';
 })
 export class NoteComponent implements OnInit {
   // Color Map
-  colorMap = {
-    cRED: '#FF6962',
-    cORANGE: '#F99853',
-    cYELLOW: '#F8D568',
-    cGREEN: '#8FE381',
-    cAQUA: '#C5ECE3',
-    cBLUE: '#AAE5EF',
-    cPURPLE: '#B19CD8',
-    cPINK: '#F17FC5'
-  };
-  colors = ['#FF6962', '#F99853', '#F8D568', '#8FE381', '#C5ECE3', '#AAE5EF', '#B19CD8', '#F17FC5']
+  colorMap = new Map([
+    ['cRED', '#FF6962'],
+    ['cORANGE', '#F99853'],
+    ['cYELLOW', '#F8D568'],
+    ['cGREEN', '#8FE381'],
+    ['cAQUA', '#C5ECE3'],
+    ['cBLUE', '#AAE5EF'],
+    ['cPURPLE', '#B19CD8'],
+    ['cPINK', '#F17FC5']
+  ]);
 
   @ViewChild('dragHandle') dragHandler;
   @Input() note: Note;
@@ -70,52 +70,16 @@ export class NoteComponent implements OnInit {
   locked = false;
   showText = false;
   htmlContent: any;
+  notePosChanged: boolean = false;
 
-  editorConfig: AngularEditorConfig = {
-    editable: true,
-    spellcheck: false,
-    sanitize: true,
-    toolbarHiddenButtons: [
-      [
-        'undo',
-        'redo',
-        'strikeThrough',
-        'subscript',
-        'superscript',
-        'justifyLeft',
-        'justifyCenter',
-        'justifyRight',
-        'justifyFull',
-        'indent',
-        'outdent',
-        'insertUnorderedList',
-        'insertOrderedList',
-        'heading',
-        'fontName'
-      ],
-      [
-        'fontSize',
-        'textColor',
-        'backgroundColor',
-        'customClasses',
-        'link',
-        'unlink',
-        'insertImage',
-        'insertVideo',
-        'insertHorizontalRule',
-        'removeFormat',
-        'toggleEditorMode'
-      ]
-    ]
-  };
-
-  constructor(private dragAndDropService: DragAndDropService) {
+  constructor(private dragAndDropService: DragAndDropService, private httpService: HttpService) {
   }
 
   ngOnInit(): void {
-    this.lightColor = this.colorMap[this.note.color];
+    this.lightColor = this.colorMap.get(this.note.color);
     this.darkColor = this.LightenDarkenColor(this.lightColor, -30);
     this.buttonColor = this.darkColor;
+    console.log(this.note);
   }
 
   menuButtonPressed(element): void {
@@ -141,6 +105,15 @@ export class NoteComponent implements OnInit {
     this.lightColor = $event.color.hex;
     this.darkColor = this.LightenDarkenColor(this.lightColor, -30);
     this.buttonColor = this.lightColor;
+    this.note.color = this.getKeyByValue(this.lightColor);
+    console.log(this.note.color);
+    this.noteChanged();
+  }
+
+  getKeyByValue(value): string {
+    return Array.from(this.colorMap.keys()).find(key => {
+      return this.colorMap.get(key).toLowerCase() === value.toLowerCase();
+    });
   }
 
   LightenDarkenColor(col, amt): string {
@@ -188,6 +161,16 @@ export class NoteComponent implements OnInit {
 
       this.dragAndDropService.dragX = event.x;
       this.dragAndDropService.dragY = event.y;
+
+      this.notePosChanged = true;
+    }
+  }
+
+  @HostListener('document:mouseup')
+  onMouseup(event: MouseEvent): void {
+    if (this.notePosChanged) {
+      this.noteChanged();
+      this.notePosChanged = false;
     }
   }
 
@@ -197,5 +180,14 @@ export class NoteComponent implements OnInit {
 
   changeNotepad(): void {
     this.notepadExtended = !this.notepadExtended;
+  }
+
+  noteChanged(): void {
+    console.log(this.note.notepadText);
+    this.httpService.updateNote(this.note).subscribe();
+  }
+
+  getColorPallete(): string[] {
+    return Array.from(this.colorMap.values());
   }
 }

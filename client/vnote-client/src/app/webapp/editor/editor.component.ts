@@ -37,7 +37,7 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
   board: Board;
   gridVisible = true;
   focused = {x: null, y: null};
-  postits: Note[] = [];
+  notes: Note[] = [];
 
   constructor(private dragAndDropService: DragAndDropService, private dataService: DataService,
               private route: ActivatedRoute, private httpService: HttpService) {
@@ -78,7 +78,7 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
 
   loadBoard(bid): void {
     this.boardSubscription = this.httpService.getBoardById(bid).subscribe(value => this.board = value);
-    this.noteSubscription = this.httpService.getNotesByBoardId(bid).subscribe(value => this.postits = value);
+    this.noteSubscription = this.httpService.getNotesByBoardId(bid).subscribe(value => this.notes = value);
   }
 
 
