@@ -83,6 +83,17 @@ public class UserController {
         return true;
     }
 
+    @PostMapping("getUserDataForId")
+    public User getUserDataForId(@RequestBody String id){
+        Optional<User> optionalUser = userRepository.findById(id);
+        if(optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setPassword("");
+            return user;
+        }
+        return null;
+    }
+
     @GetMapping("findAllUser")
     public List<User> findAllUser(){
         return userRepository.findAll();
