@@ -26,6 +26,23 @@ import {Note} from '../../../model/note';
 
           ]
         )]
+    ),
+    trigger(
+      'extendNotepad',
+      [
+        transition(
+          ':enter', [
+            style({transform: 'translateX(-100%)', opacity: 0, 'z-index': -1}),
+            animate('150ms', style({transform: 'translateX(0)', opacity: 1, 'z-index': -1}))
+          ]
+        ),
+        transition(
+          ':leave', [
+            style({transform: 'translateX(0)', opacity: 1, 'z-index': -1}),
+            animate('150ms', style({transform: 'translateX(-100%)', opacity: 0, 'z-index': -1})),
+
+          ]
+        )]
     )
   ]
 })
@@ -41,14 +58,17 @@ export class NoteComponent implements OnInit {
     cPURPLE: '#B19CD8',
     cPINK: '#F17FC5'
   };
+  colors = ['#FF6962', '#F99853', '#F8D568', '#8FE381', '#C5ECE3', '#AAE5EF', '#B19CD8', '#F17FC5']
 
   @ViewChild('dragHandle') dragHandler;
   @Input() note: Note;
   menuExtended = false;
+  notepadExtended = false;
   lightColor = '#FFA500';
   darkColor = this.LightenDarkenColor(this.lightColor, -30);
   buttonColor = this.darkColor;
   locked = false;
+  showText = false;
   htmlContent: any;
 
   editorConfig: AngularEditorConfig = {
@@ -102,6 +122,7 @@ export class NoteComponent implements OnInit {
     console.log(element);
     if (this.menuExtended) {
       this.menuExtended = false;
+      this.notepadExtended = false;
       this.buttonColor = this.darkColor;
     } else {
       this.menuExtended = true;
@@ -159,7 +180,7 @@ export class NoteComponent implements OnInit {
   }
 
   @HostListener('document:mousemove', ['$event'])
-  onMousemove(event: MouseEvent) {
+  onMousemove(event: MouseEvent): void {
     if (!this.locked && this.dragAndDropService.isDraging && this.dragHandler.nativeElement === this.dragAndDropService.dragHandler) {
 
       this.note.x += (event.x - this.dragAndDropService.dragX) / this.dragAndDropService.scale;
@@ -168,5 +189,13 @@ export class NoteComponent implements OnInit {
       this.dragAndDropService.dragX = event.x;
       this.dragAndDropService.dragY = event.y;
     }
+  }
+
+  changeShowText(): void {
+    this.showText = !this.showText;
+  }
+
+  changeNotepad(): void {
+    this.notepadExtended = !this.notepadExtended;
   }
 }

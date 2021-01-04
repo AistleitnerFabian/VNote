@@ -65,6 +65,7 @@ import {RegisterComponent} from './register/register.component';
 import {SectionAppComponent} from './landingpage/section-app/section-app.component';
 import {SectionAboutComponent} from './landingpage/section-about/section-about.component';
 import {SectionInfoComponent} from './landingpage/section-info/section-info.component';
+import {ColorCircleModule} from 'ngx-color/circle';
 
 @NgModule({
   declarations: [
@@ -129,7 +130,7 @@ import {SectionInfoComponent} from './landingpage/section-info/section-info.comp
     FormsModule,
     FlexLayoutModule,
     DragDropModule,
-    ColorSketchModule,
+    ColorCircleModule,
     ReactiveFormsModule
   ],
   providers: [
