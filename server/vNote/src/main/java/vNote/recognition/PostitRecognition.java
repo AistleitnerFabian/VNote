@@ -90,10 +90,6 @@ public class PostitRecognition {
     }
 
     private List<Postit> findPostits(Mat src) {
-        List<Postit> foundPostits = new ArrayList<>();
-        Mat dst = this.originalImage.clone(); //image where the rectangles (found postits) will be drawn in
-        Mat rotated;
-
         //find contours
         List<MatOfPoint> contours = new ArrayList<>();
         Imgproc.findContours(src, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
@@ -102,7 +98,7 @@ public class PostitRecognition {
         MatOfPoint2f approxCurve = new MatOfPoint2f();
 
         RotatedRect[] minRect = new RotatedRect[contours.size()];
-
+        List<RotatedRect> uncheckedPostits = new ArrayList<>();
         for (int i = 0; i < contours.size(); i++) {
             MatOfPoint2f contour2f = new MatOfPoint2f(contours.get(i).toArray());
             double approxDistance = Imgproc.arcLength(contour2f, true) * 0.01;
@@ -116,29 +112,42 @@ public class PostitRecognition {
             minRect[i].points(rectPoints);
 
             if (rect.width < 1000 && rect.height < 1000 && rect.width > 30 && rect.height > 30) {
-                System.out.println(rect.width + ", " + rect.height);
-                rotated = this.cropRotatedRect(minRect[i], points, dst);
-                this.write(rotated, "p" + i);
-                String color = this.colorRecognition.recognize(rotated.clone());
-                Text text = new Text("", "", false, 0, 0);
-                try{
-                    text = TextRecognition.recognizeText("p"+i);
-                    text.setTextImage(this.textDetection.detect(rotated.clone(), color));
-                }catch(Exception e){
-                    System.err.println(e);
-                }
-                System.out.println(text.getText());
-                //String txtImage = this.textDetection.detect(rotated.clone(), color);
-                Postit p = new Postit(rect.x, rect.y, color, text);
-
-                foundPostits.add(p);
+                uncheckedPostits.add(minRect[i]);
             }
         }
+        List<RotatedRect> checkedPosits = new ArrayList<>();
+        checkedPosits = this.checkFalsePostits(uncheckedPostits);
 
-        System.out.println("found: " + foundPostits.size());
+        return this.makePostits(checkedPosits);
+    }
+
+    private List<Postit> makePostits(List<RotatedRect> checkedPosits) {
+        //System.out.println(rect.width + ", " + rect.height);
+        List<Postit> foundPostits = new ArrayList<>();
+        Mat rotated;
+        Mat dst = this.originalImage.clone();
+        for (int i = 0; i < checkedPosits.size(); i++) {
+            rotated = this.cropRotatedRect(checkedPosits.get(i), dst);
+            this.write(rotated, "p" + i);
+            String color = this.colorRecognition.recognize(rotated.clone());
+            Text text = new Text("", "", false, 0, 0);
+            try{
+                text = TextRecognition.recognizeText("p"+i);
+                text.setTextImage(this.textDetection.detect(rotated.clone(), color));
+            }catch(Exception e){
+                System.err.println(e);
+            }
+            System.out.println(text.getText());
+            //String txtImage = this.textDetection.detect(rotated.clone(), color);
+            Postit p = new Postit(checkedPosits.get(i).boundingRect().x, checkedPosits.get(i).boundingRect().y, color, text);
+
+            foundPostits.add(p);
+        }
+        System.out.println(foundPostits.size());
         return foundPostits;
     }
 
+    /*
     private List<RotatedRect> checkFalsePostits(List<RotatedRect> rects) {
         List<RotatedRect> tmp = new ArrayList<>();
         tmp.addAll(rects);
@@ -153,11 +162,33 @@ public class PostitRecognition {
             }
         }
         return tmp;
+    }*/
+    private List<RotatedRect> checkFalsePostits(List<RotatedRect> rects){
+        List<RotatedRect> marked = new ArrayList();
+        System.out.println(rects.size()+  ", " + this.postits.size());
+        for(int i = 0; i < rects.size(); i++){
+            RotatedRect r1 = rects.get(i);
+            for(int j = 0; j < rects.size(); j++){
+                if(i != j){
+                    RotatedRect r2 = rects.get(j);
+                    if(r1.boundingRect().contains(r2.boundingRect().tl()) || r1.boundingRect().contains(r2.boundingRect().br())){
+                        marked.add(rects.get(j));
+                        System.out.println(r1.toString() + ", " + r2.toString());
+                    }
+                }
+            }
+        }
+
+        for(RotatedRect m : marked){
+            System.out.println(m.toString());
+            rects.remove(m);
+        }
+        return rects;
     }
 
-    private Mat cropRotatedRect(RotatedRect rotatedRect, MatOfPoint points, Mat img) {
-        Rect roi = Imgproc.boundingRect(points);
-        Mat m = img.submat(roi);
+    private Mat cropRotatedRect(RotatedRect rotatedRect, Mat img) {
+        //Rect roi = Imgproc.boundingRect(points);
+        Mat m = img.submat(rotatedRect.boundingRect());
         double angle = rotatedRect.angle;
         Size rect_size = rotatedRect.size;
 
