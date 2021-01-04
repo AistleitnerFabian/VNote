@@ -8,16 +8,21 @@ public class Postit {
     @Id
     private String id;
 
+    private String boardId;
+
     private double x;
     private double y;
     private String color;
     private Text text;
+    private String notepadText;
 
-    public Postit(double x, double y, String color, Text text){
+    public Postit(String boardId, double x, double y, String color, Text text, String notepadText){
+        setBoardId(boardId);
         setColor(color);
         setX(x);
         setY(y);
         setText(text);
+        setNotepadText(notepadText);
     }
 
     public void setText(Text text){ this.text = text; }
@@ -45,10 +50,26 @@ public class Postit {
 
     public void setColor(String color) {
         if(color.equals("")){
-            this.color = "#FFC0CB";
+            this.color = "cPINK";
         }else {
             this.color = color;
         }
+    }
+
+    public String getBoardId() {
+        return boardId;
+    }
+
+    public void setBoardId(String boardId) {
+        this.boardId = boardId;
+    }
+
+    public String getNotepadText() {
+        return notepadText;
+    }
+
+    public void setNotepadText(String notepadText) {
+        this.notepadText = notepadText;
     }
 
     @Override

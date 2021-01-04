@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Board} from '../model/board';
 import {Observable} from 'rxjs';
 import {User} from "../model/user";
+import {Note} from "../model/note";
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,10 @@ export class HttpService {
 
   getBoardById(bid): Observable<Board> {
     return this.http.get<Board>(this.URL + '/findBoardById/' + bid);
+  }
+
+  getNotesByBoardId(bid): Observable<Note[]> {
+    return this.http.get<Note[]>(this.URL + '/findNotesByBoardId/' + bid);
   }
 
   registerUser(user: User): Observable<any> {

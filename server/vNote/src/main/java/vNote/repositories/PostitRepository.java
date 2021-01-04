@@ -10,5 +10,5 @@ import vNote.model.Postit;
 @Repository
 public interface PostitRepository extends MongoRepository<Postit, String> {
     public List<Postit> findAll();
-    public Postit findBoardById(String id);
+    public List<Postit> findByBoardId(String boardId);
 }

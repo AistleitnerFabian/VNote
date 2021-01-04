@@ -29,13 +29,15 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
   private apiSubscription: Subscription;
   private modelChangedSubscription: Subscription;
   private routeSubscription: Subscription;
+  private boardSubscription: Subscription;
+  private noteSubscription: Subscription;
   gridSize = 150;
   @ViewChild('grid') grid;
   @ViewChild('panzoom') panzoom;
   board: Board;
   gridVisible = true;
   focused = {x: null, y: null};
-  private boardSubscription: Subscription;
+  postits: Note[] = [];
 
   constructor(private dragAndDropService: DragAndDropService, private dataService: DataService,
               private route: ActivatedRoute, private httpService: HttpService) {
@@ -62,6 +64,8 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
     this.apiSubscription.unsubscribe();
     this.modelChangedSubscription.unsubscribe();
     this.routeSubscription.unsubscribe();
+    this.boardSubscription.unsubscribe();
+    this.noteSubscription.unsubscribe();
   }
 
   checkPathParam(): void {
@@ -74,6 +78,7 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
 
   loadBoard(bid): void {
     this.boardSubscription = this.httpService.getBoardById(bid).subscribe(value => this.board = value);
+    this.noteSubscription = this.httpService.getNotesByBoardId(bid).subscribe(value => this.postits = value);
   }
 
 
