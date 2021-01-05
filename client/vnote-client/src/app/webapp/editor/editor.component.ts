@@ -78,8 +78,25 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  checkUser(): void {
+    if (this.board.contributors == null) {
+      this.board.contributors = [];
+    }
+    if (this.dataService.authenticatedUser.id != null && this.dataService.authenticatedUser.id !== '') {
+      if (this.board.userId !== this.dataService.authenticatedUser.id &&
+        !this.board.contributors.includes(this.dataService.authenticatedUser.id)) {
+        console.log("yeet");
+        this.board.contributors.push(this.dataService.authenticatedUser.id);
+        this.httpService.updateBoard(this.board).subscribe();
+      }
+    }
+  }
+
   loadBoard(bid): void {
-    this.boardSubscription = this.httpService.getBoardById(bid).subscribe(value => this.board = value);
+    this.boardSubscription = this.httpService.getBoardById(bid).subscribe(value => {
+      this.board = value;
+      this.checkUser();
+    });
     this.noteSubscription = this.httpService.getNotesByBoardId(bid).subscribe(value => this.notes = value);
     this.websocketService.getBoardChanges(bid);
   }

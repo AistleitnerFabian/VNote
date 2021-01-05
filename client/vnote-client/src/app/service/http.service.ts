@@ -12,11 +12,11 @@ import {DataService} from "./data.service";
 export class HttpService {
   URL = 'http://localhost:4200/api';
 
-  constructor(private http: HttpClient, private dataService: DataService) {
+  constructor(private http: HttpClient) {
   }
 
-  getAllBoards(): Observable<Board[]> {
-    return this.http.get<Board[]>(this.URL + '/findBoardsByUserId/' + this.dataService.authenticatedUser.id);
+  getAllBoards(uid: string): Observable<Board[]> {
+    return this.http.get<Board[]>(this.URL + '/findBoardsByUserId/' + uid);
   }
 
   getBoardById(bid): Observable<Board> {
@@ -45,6 +45,10 @@ export class HttpService {
 
   updateNote(note: Note, changeId: string): Observable<Note> {
     return this.http.put<Note>(this.URL + '/updateNote/' + changeId, note);
+  }
+
+  updateBoard(board: Board): Observable<Board> {
+    return this.http.put<Board>(this.URL + '/updateBoard', board);
   }
 
   getNoteById(noteId: string): Observable<Note> {

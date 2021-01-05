@@ -92,7 +92,14 @@ public class PostitController implements CommandLineRunner {
 
     @GetMapping("findBoardsByUserId/{uid}")
     public List<Board> findBoardsByUserId(@PathVariable String uid){
-        return boardRepository.findByUserId(uid);
+        return boardRepository.findAll().stream()
+                .filter(board -> {
+                    if(board.getContributors() == null){
+                        board.setContributors(new LinkedList<>());
+                    }
+                    return board.getUserId().equals(uid) || board.getContributors().contains(uid);
+                })
+                .collect(Collectors.toList());
     }
 
     @GetMapping("findBoardById/{bid}")
@@ -110,6 +117,13 @@ public class PostitController implements CommandLineRunner {
         Postit p = postitRepository.save(postit);
         webSocketController.updateNote(postit.getBoardId(), postit.getId(), cid);
         return p;
+    }
+
+    @PutMapping("updateBoard")
+    public Board updateBoard(@RequestBody Board board){
+        Board b = boardRepository.save(board);
+        webSocketController.update("updateBoards");
+        return b;
     }
 
     @GetMapping("getNoteById/{nid}")

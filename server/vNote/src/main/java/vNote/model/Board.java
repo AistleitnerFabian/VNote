@@ -12,7 +12,8 @@ public class Board {
     private String id;
 
     private String userId;
-
+    private List<String> contributors;
+    private String boardName;
     private String imgPath;
     private int numberOfPostits;
     private double imgWidth;
@@ -20,13 +21,35 @@ public class Board {
 
     public Board(){}
 
-    public Board(String id, String userId, String imgPath, int numberOfPostits, double imgWidth, double imgHeight) {
+    public Board(String id, String userId,List<String> contributors, String boardName, String imgPath, int numberOfPostits, double imgWidth, double imgHeight) {
         setId(id);
         setUserId(userId);
+        setContributors(contributors);
+        setBoardName(boardName);
         setImgPath(imgPath);
         setNumberOfPostits(numberOfPostits);
         setImgWidth(imgWidth);
         setImgHeight(imgHeight);
+    }
+
+    public String getBoardName() {
+        return boardName;
+    }
+
+    public void setBoardName(String boardName) {
+        this.boardName = boardName;
+    }
+
+    public List<String> getContributors() {
+        return contributors;
+    }
+
+    public void addContributors(String contributor) {
+        this.contributors.add(contributor);
+    }
+
+    public void setContributors(List<String> contributors) {
+        this.contributors = contributors;
     }
 
     public String getId() {

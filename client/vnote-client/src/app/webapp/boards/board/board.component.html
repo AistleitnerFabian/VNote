@@ -1,7 +1,7 @@
 <div id="board">
   <div id="header">
     <div id="headline">
-      Max Muster
+      {{username}}
     </div>
     <div id="open-button" (click)="openBoard()">
       <span class="material-icons">
@@ -11,7 +11,7 @@
     <div id="separator"></div>
   </div>
   <div id="description">
-    <p id="desc">New Board</p>
+    <p id="desc">{{board.boardName}}</p>
   </div>
   <div id="footer">
     <div id="contributors">
@@ -19,7 +19,7 @@
       group
       </span>
       <p>
-        0 Contributors
+        {{getContributors()}} Contributors
       <p>
     </div>
     <div id="notes">
