@@ -5,6 +5,7 @@ import {DragAndDropService} from '../drag-and-drop.service';
 import {AngularEditorConfig} from '@kolkov/angular-editor';
 import {Note} from '../../../model/note';
 import {HttpService} from '../../../service/http.service';
+import {WebsocketService} from "../../../service/websocket.service";
 
 @Component({
   selector: 'note',
@@ -71,15 +72,30 @@ export class NoteComponent implements OnInit {
   showText = false;
   htmlContent: any;
   notePosChanged: boolean = false;
+  changeId: string;
 
-  constructor(private dragAndDropService: DragAndDropService, private httpService: HttpService) {
+  constructor(private dragAndDropService: DragAndDropService, private httpService: HttpService, private websocketService: WebsocketService) {
   }
 
   ngOnInit(): void {
+    this.setColor();
+    this.websocketService.noteUpdate.subscribe(value => this.updateNote(value));
+  }
+
+  setColor(): void {
+    this.changeId = this.getChangeId(32);
     this.lightColor = this.colorMap.get(this.note.color);
     this.darkColor = this.LightenDarkenColor(this.lightColor, -30);
     this.buttonColor = this.darkColor;
-    console.log(this.note);
+  }
+
+  updateNote(noteId: string): void {
+    if (this.note.id === noteId.split(';')[0] && this.changeId !== noteId.split(';')[1]) {
+      this.httpService.getNoteById(this.note.id).subscribe(value => {
+        this.note = value;
+        this.setColor();
+      });
+    }
   }
 
   menuButtonPressed(element): void {
@@ -106,7 +122,6 @@ export class NoteComponent implements OnInit {
     this.darkColor = this.LightenDarkenColor(this.lightColor, -30);
     this.buttonColor = this.lightColor;
     this.note.color = this.getKeyByValue(this.lightColor);
-    console.log(this.note.color);
     this.noteChanged();
   }
 
@@ -183,11 +198,20 @@ export class NoteComponent implements OnInit {
   }
 
   noteChanged(): void {
-    console.log(this.note.notepadText);
-    this.httpService.updateNote(this.note).subscribe();
+    this.httpService.updateNote(this.note, this.changeId).subscribe();
   }
 
   getColorPallete(): string[] {
     return Array.from(this.colorMap.values());
+  }
+
+  getChangeId(length): string {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
   }
 }

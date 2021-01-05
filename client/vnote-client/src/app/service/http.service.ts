@@ -4,6 +4,7 @@ import {Board} from '../model/board';
 import {Observable} from 'rxjs';
 import {User} from "../model/user";
 import {Note} from "../model/note";
+import {DataService} from "./data.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +12,11 @@ import {Note} from "../model/note";
 export class HttpService {
   URL = 'http://localhost:4200/api';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private dataService: DataService) {
   }
 
   getAllBoards(): Observable<Board[]> {
-    return this.http.get<Board[]>(this.URL + '/findAllBoards');
+    return this.http.get<Board[]>(this.URL + '/findBoardsByUserId/' + this.dataService.authenticatedUser.id);
   }
 
   getBoardById(bid): Observable<Board> {
@@ -42,7 +43,11 @@ export class HttpService {
     return this.http.post<User>(this.URL + '/getUserDataForId', userId);
   }
 
-  updateNote(note: Note): Observable<Note> {
-    return this.http.put<Note>(this.URL + '/updateNote', note);
+  updateNote(note: Note, changeId: string): Observable<Note> {
+    return this.http.put<Note>(this.URL + '/updateNote/' + changeId, note);
+  }
+
+  getNoteById(noteId: string): Observable<Note> {
+    return this.http.get<Note>(this.URL + '/getNoteById/' + noteId);
   }
 }

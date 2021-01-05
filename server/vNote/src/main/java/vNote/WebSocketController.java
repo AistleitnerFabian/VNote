@@ -18,4 +18,10 @@ public class WebSocketController {
     public void update(String payload) {
         this.template.convertAndSend("/app", payload);
     }
+
+
+    //Websocket Broadcast
+    public void updateNote(String boardId,String noteId, String cid) {
+        this.template.convertAndSend("/"+boardId, noteId+";"+cid);
+    }
 }

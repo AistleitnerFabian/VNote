@@ -16,6 +16,7 @@ import {DataService} from '../../service/data.service';
 import {ActivatedRoute} from '@angular/router';
 import {HttpService} from '../../service/http.service';
 import {Board} from '../../model/board';
+import {WebsocketService} from "../../service/websocket.service";
 
 @Component({
   selector: 'app-editor',
@@ -40,7 +41,7 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
   notes: Note[] = [];
 
   constructor(private dragAndDropService: DragAndDropService, private dataService: DataService,
-              private route: ActivatedRoute, private httpService: HttpService) {
+              private route: ActivatedRoute, private httpService: HttpService, private websocketService: WebsocketService) {
     this.panZoomConfig = new PanZoomConfig();
     this.panZoomConfig.zoomLevels = 20;
     this.panZoomConfig.neutralZoomLevel = 15;
@@ -66,6 +67,7 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
     this.routeSubscription.unsubscribe();
     this.boardSubscription.unsubscribe();
     this.noteSubscription.unsubscribe();
+    this.websocketService.unsubscribeBoardChanges();
   }
 
   checkPathParam(): void {
@@ -79,8 +81,8 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
   loadBoard(bid): void {
     this.boardSubscription = this.httpService.getBoardById(bid).subscribe(value => this.board = value);
     this.noteSubscription = this.httpService.getNotesByBoardId(bid).subscribe(value => this.notes = value);
+    this.websocketService.getBoardChanges(bid);
   }
-
 
   ngAfterViewInit(): void {
     this.grid.nativeElement.style.backgroundSize = this.panzoom.scale * this.gridSize + 'px';

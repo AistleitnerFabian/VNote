@@ -90,6 +90,11 @@ public class PostitController implements CommandLineRunner {
         return boardRepository.findAll();
     }
 
+    @GetMapping("findBoardsByUserId/{uid}")
+    public List<Board> findBoardsByUserId(@PathVariable String uid){
+        return boardRepository.findByUserId(uid);
+    }
+
     @GetMapping("findBoardById/{bid}")
     public Board findAllBoards(@PathVariable String bid){
         return boardRepository.findBoardById(bid);
@@ -100,9 +105,17 @@ public class PostitController implements CommandLineRunner {
         return postitRepository.findByBoardId(bid);
     }
 
-    @PutMapping("updateNote")
-    public Postit updateNote(@RequestBody Postit postit){
-        return postitRepository.save(postit);
+    @PutMapping("updateNote/{cid}")
+    public Postit updateNote(@PathVariable String cid, @RequestBody Postit postit){
+        Postit p = postitRepository.save(postit);
+        webSocketController.updateNote(postit.getBoardId(), postit.getId(), cid);
+        return p;
+    }
+
+    @GetMapping("getNoteById/{nid}")
+    public Postit getNoteById(@PathVariable String nid){
+        Optional<Postit> postit = postitRepository.findById(nid);
+        return postit.orElse(null);
     }
 
     @GetMapping("findAllImages")

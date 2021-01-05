@@ -9,4 +9,5 @@ import java.util.List;
 public interface BoardRepository extends MongoRepository<Board, String> {
     public List<Board> findAll();
     public Board findBoardById(String id);
+    public List<Board> findByUserId(String uid);
 }
