@@ -3,6 +3,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Board} from '../model/board';
 import {Observable} from 'rxjs';
 import {User} from "../model/user";
+import {Note} from "../model/note";
+import {DataService} from "./data.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +15,16 @@ export class HttpService {
   constructor(private http: HttpClient) {
   }
 
-  getAllBoards(): Observable<Board[]> {
-    return this.http.get<Board[]>(this.URL + '/findAllBoards');
+  getAllBoards(uid: string): Observable<Board[]> {
+    return this.http.get<Board[]>(this.URL + '/findBoardsByUserId/' + uid);
   }
 
   getBoardById(bid): Observable<Board> {
     return this.http.get<Board>(this.URL + '/findBoardById/' + bid);
+  }
+
+  getNotesByBoardId(bid): Observable<Note[]> {
+    return this.http.get<Note[]>(this.URL + '/findNotesByBoardId/' + bid);
   }
 
   registerUser(user: User): Observable<any> {
@@ -26,18 +32,26 @@ export class HttpService {
   }
 
   login(user: User): Observable<User> {
-    /*
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Credentials': 'true',
-      }), withCredentials: true
-    };
-    */
     return this.http.post<User>(this.URL + '/login', user);
   }
 
   isAuthenticated(): Observable<boolean> {
     return this.http.get<boolean>(this.URL + '/isAuthenticated');
+  }
+
+  getUserDataForId(userId: string): Observable<User> {
+    return this.http.post<User>(this.URL + '/getUserDataForId', userId);
+  }
+
+  updateNote(note: Note, changeId: string): Observable<Note> {
+    return this.http.put<Note>(this.URL + '/updateNote/' + changeId, note);
+  }
+
+  updateBoard(board: Board): Observable<Board> {
+    return this.http.put<Board>(this.URL + '/updateBoard', board);
+  }
+
+  getNoteById(noteId: string): Observable<Note> {
+    return this.http.get<Note>(this.URL + '/getNoteById/' + noteId);
   }
 }

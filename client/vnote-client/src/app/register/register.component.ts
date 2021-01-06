@@ -68,6 +68,7 @@ export class RegisterComponent implements OnInit {
       if (user != null) {
         console.log(user);
         this.dataService.authenticatedUser = user;
+        document.cookie = 'userId=' + user.id;
         this.router.navigate(['app']);
       }
     });

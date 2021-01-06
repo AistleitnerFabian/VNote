@@ -16,6 +16,7 @@ import {DataService} from '../../service/data.service';
 import {ActivatedRoute} from '@angular/router';
 import {HttpService} from '../../service/http.service';
 import {Board} from '../../model/board';
+import {WebsocketService} from "../../service/websocket.service";
 
 @Component({
   selector: 'app-editor',
@@ -29,16 +30,18 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
   private apiSubscription: Subscription;
   private modelChangedSubscription: Subscription;
   private routeSubscription: Subscription;
+  private boardSubscription: Subscription;
+  private noteSubscription: Subscription;
   gridSize = 150;
   @ViewChild('grid') grid;
   @ViewChild('panzoom') panzoom;
   board: Board;
   gridVisible = true;
   focused = {x: null, y: null};
-  private boardSubscription: Subscription;
+  notes: Note[] = [];
 
   constructor(private dragAndDropService: DragAndDropService, private dataService: DataService,
-              private route: ActivatedRoute, private httpService: HttpService) {
+              private route: ActivatedRoute, private httpService: HttpService, private websocketService: WebsocketService) {
     this.panZoomConfig = new PanZoomConfig();
     this.panZoomConfig.zoomLevels = 20;
     this.panZoomConfig.neutralZoomLevel = 15;
@@ -62,6 +65,9 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
     this.apiSubscription.unsubscribe();
     this.modelChangedSubscription.unsubscribe();
     this.routeSubscription.unsubscribe();
+    this.boardSubscription.unsubscribe();
+    this.noteSubscription.unsubscribe();
+    this.websocketService.unsubscribeBoardChanges();
   }
 
   checkPathParam(): void {
@@ -72,10 +78,28 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  loadBoard(bid): void {
-    this.boardSubscription = this.httpService.getBoardById(bid).subscribe(value => this.board = value);
+  checkUser(): void {
+    if (this.board.contributors == null) {
+      this.board.contributors = [];
+    }
+    if (this.dataService.authenticatedUser.id != null && this.dataService.authenticatedUser.id !== '') {
+      if (this.board.userId !== this.dataService.authenticatedUser.id &&
+        !this.board.contributors.includes(this.dataService.authenticatedUser.id)) {
+        console.log("yeet");
+        this.board.contributors.push(this.dataService.authenticatedUser.id);
+        this.httpService.updateBoard(this.board).subscribe();
+      }
+    }
   }
 
+  loadBoard(bid): void {
+    this.boardSubscription = this.httpService.getBoardById(bid).subscribe(value => {
+      this.board = value;
+      this.checkUser();
+    });
+    this.noteSubscription = this.httpService.getNotesByBoardId(bid).subscribe(value => this.notes = value);
+    this.websocketService.getBoardChanges(bid);
+  }
 
   ngAfterViewInit(): void {
     this.grid.nativeElement.style.backgroundSize = this.panzoom.scale * this.gridSize + 'px';

@@ -7,6 +7,34 @@
   overflow: hidden;
 }
 
+#notepad {
+  width: 300px;
+  height: 300px;
+  margin-left: 305px;
+  margin-top: -300px;
+  position: absolute;
+  background-color: white;
+  border: 3px solid;
+  border-radius: 5px;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+#notepadTextarea {
+  border: none;
+  overflow: hidden;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  resize: none;
+
+  font-size: 150%;
+  width: 100%;
+  height: 100%;
+}
+
+
 #content-text, #content-image {
   width: 100%;
   height: 100%;
@@ -32,6 +60,7 @@
   position: relative;
 }
 
+
 #menubutton {
   height: 50px;
   width: 50px;
@@ -47,7 +76,7 @@
   height: 50px;
   width: 300px;
   box-sizing: border-box;
-  border-width: 2.5px;
+  border-width: 3px;
   border-style: solid;
   border-radius: 5px;
   background-color: white;
@@ -56,6 +85,8 @@
   display: flex;
   user-select: none;
   position: absolute;
+
+
 }
 
 button {
@@ -66,6 +97,15 @@ button {
 
 .mat-icon {
   margin-top: -5px;
+}
+
+#color-circle {
+  overflow: hidden;
+}
+
+#color-menu-div {
+  padding: 14px;
+  overflow: hidden;
 }
 
 #dragHandle {

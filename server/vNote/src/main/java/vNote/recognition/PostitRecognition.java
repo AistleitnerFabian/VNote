@@ -22,6 +22,10 @@ public class PostitRecognition {
     private TextDetection textDetection;
     private List<RotatedRect> rects;
 
+    public List<Postit> getPostits() {
+        return postits;
+    }
+
     public PostitRecognition() {
         this.colorRecognition = new ColorRecognition();
         this.postits = new ArrayList<>();
@@ -68,7 +72,7 @@ public class PostitRecognition {
 
         this.postits = this.findPostits(edges);//draw boundings in original image to see which postits where recognized
         System.out.print(this.postits.size());
-        Board w = new Board(null, "", "filename", postits.size(), postits, src.width(), src.height());
+        Board w = new Board(null, "", null, "New Board", "filename", postits.size(), src.width(), src.height());
         System.out.print(w);
         return w; //postit wall
     }
@@ -132,14 +136,14 @@ public class PostitRecognition {
             String color = this.colorRecognition.recognize(rotated.clone());
             Text text = new Text("", "", false, 0, 0);
             try{
-                text = TextRecognition.recognizeText("p"+i);
+                //text = TextRecognition.recognizeText("p"+i);
                 text.setTextImage(this.textDetection.detect(rotated.clone(), color));
             }catch(Exception e){
                 System.err.println(e);
             }
             System.out.println(text.getText());
             //String txtImage = this.textDetection.detect(rotated.clone(), color);
-            Postit p = new Postit(checkedPosits.get(i).boundingRect().x, checkedPosits.get(i).boundingRect().y, color, text);
+            Postit p = new Postit(null,null, checkedPosits.get(i).boundingRect().x, checkedPosits.get(i).boundingRect().y, color, text, "");
 
             foundPostits.add(p);
         }

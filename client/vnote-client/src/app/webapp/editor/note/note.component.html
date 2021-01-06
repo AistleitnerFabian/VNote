@@ -1,23 +1,27 @@
 <div id="note" class="noDrag" [style.left]="note.x + 'px'" [style.top]="note.y + 'px'">
   <div id="menu" *ngIf="menuExtended" [@extendMenu] [style.border-color]="darkColor">
-    <button mat-icon-button [style.color]="'#545454'" (click)="edit()" [matMenuTriggerFor]="editorMenu">
-      <mat-icon>title</mat-icon>
-
-      <mat-menu id="editorMenu" #editorMenu yPosition="above">
-        <angular-editor (click)="$event.stopPropagation()" [(ngModel)]="htmlContent"
-                        [config]="editorConfig"></angular-editor>
-      </mat-menu>
+    <button mat-icon-button [style.color]="'#545454'" (click)="edit()">
+      <mat-icon>edit</mat-icon>
     </button>
-
     <button mat-icon-button [matMenuTriggerFor]="colorMenu" [style.color]="lightColor">
       <mat-icon>invert_colors</mat-icon>
+      <mat-menu id="colorMenu" #colorMenu yPosition="above">
+        <div id="color-menu-div">
+          <color-circle id="color-circle" [width]="168" [color]="lightColor" [colors]="getColorPallete()"
+                        (click)="$event.stopPropagation()"
+                        (onChange)="handleChange($event)"></color-circle>
+        </div>
+      </mat-menu>
     </button>
-    <mat-menu id="colorMenu" #colorMenu yPosition="above">
-      <color-sketch [color]="lightColor" (click)="$event.stopPropagation()"
-                    (onChange)="handleChange($event)"></color-sketch>
-    </mat-menu>
-    <span> </span>
-    <span> </span>
+    <button mat-icon-button [style.color]="'#545454'" (click)="changeShowText()">
+      <mat-icon *ngIf="showText">insert_photo</mat-icon>
+      <mat-icon *ngIf="!showText">article_outline</mat-icon>
+    </button>
+    <div style="width: 20%">
+    </div>
+    <button mat-icon-button [style.color]="notepadExtended ? darkColor : '#545454'" (click)="changeNotepad()">
+      <mat-icon>subject</mat-icon>
+    </button>
     <button mat-icon-button [style.color]="'#ABABAB'" (click)="lock();">
       <mat-icon *ngIf="!locked">lock_open</mat-icon>
       <mat-icon *ngIf="locked">lock</mat-icon>
@@ -34,12 +38,17 @@
     <div *ngIf="locked" id="lockedDragHandle" #dragHandle></div>
   </div>
   <div id="content" [style.background-color]="lightColor">
-    <div id="content-text" [innerHTML]="note.text.text" *ngIf="note.text != null && false">
+    <div id="content-text" [innerHTML]="note.text.text" *ngIf="showText">
     </div>
 
-    <div id="content-image" *ngIf="note.text == null || true">
+    <div id="content-image" *ngIf="!showText">
       <div id="text-image" [style.background-image]="'url(\'data:image/png;base64,'+ note.text.textImage+'\''">
       </div>
     </div>
+  </div>
+
+  <div id="notepad" *ngIf="notepadExtended" [@extendNotepad] [style.border-color]="darkColor">
+    <textarea id="notepadTextarea" maxlength="253" [(ngModel)]="note.notepadText"
+              (ngModelChange)="noteChanged()"></textarea>
   </div>
 </div>

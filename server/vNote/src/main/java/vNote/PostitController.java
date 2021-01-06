@@ -33,6 +33,7 @@ public class PostitController implements CommandLineRunner {
     @Autowired
     private BoardRepository boardRepository;
 
+
     @Autowired
     private WebSocketController webSocketController;
 
@@ -48,9 +49,6 @@ public class PostitController implements CommandLineRunner {
 
         postitRepository.deleteAll();
         imageRepository.deleteAll();
-
-        postitRepository.save(new Postit(0, 100, "RED", new Text("","", false, 0, 0)));
-        postitRepository.save(new Postit(380, 1337, "GREEN", new Text("","", false, 0, 0)));
 
         imageRepository.save(new Image(encoder("src/main/resources/static/badposition1.jpg"),
                 LocalDateTime.now()));
@@ -89,15 +87,49 @@ public class PostitController implements CommandLineRunner {
 
     @GetMapping("findAllBoards")
     public List<Board> findAllBoards(){
-        return boardRepository.findAll().stream().map(board -> {
-            board.setPostits(new LinkedList<Postit>());
-            return board;
-        }).collect(Collectors.toList());
+        return boardRepository.findAll();
+    }
+
+    @GetMapping("findBoardsByUserId/{uid}")
+    public List<Board> findBoardsByUserId(@PathVariable String uid){
+        return boardRepository.findAll().stream()
+                .filter(board -> {
+                    if(board.getContributors() == null){
+                        board.setContributors(new LinkedList<>());
+                    }
+                    return board.getUserId().equals(uid) || board.getContributors().contains(uid);
+                })
+                .collect(Collectors.toList());
     }
 
     @GetMapping("findBoardById/{bid}")
     public Board findAllBoards(@PathVariable String bid){
         return boardRepository.findBoardById(bid);
+    }
+
+    @GetMapping("findNotesByBoardId/{bid}")
+    public List<Postit> findNotesByBoardId(@PathVariable String bid){
+        return postitRepository.findByBoardId(bid);
+    }
+
+    @PutMapping("updateNote/{cid}")
+    public Postit updateNote(@PathVariable String cid, @RequestBody Postit postit){
+        Postit p = postitRepository.save(postit);
+        webSocketController.updateNote(postit.getBoardId(), postit.getId(), cid);
+        return p;
+    }
+
+    @PutMapping("updateBoard")
+    public Board updateBoard(@RequestBody Board board){
+        Board b = boardRepository.save(board);
+        webSocketController.update("updateBoards");
+        return b;
+    }
+
+    @GetMapping("getNoteById/{nid}")
+    public Postit getNoteById(@PathVariable String nid){
+        Optional<Postit> postit = postitRepository.findById(nid);
+        return postit.orElse(null);
     }
 
     @GetMapping("findAllImages")
@@ -123,11 +155,15 @@ public class PostitController implements CommandLineRunner {
             if (passwordEncoder.matches(imgDTO.user.getPassword(), userObj.getPassword())) {
                 System.out.println("userid: " + userObj.getId());
                 PostitRecognition pr = new PostitRecognition();
-                Board b;
-                b = pr.recognizeBase64Image(imgDTO.base64Image);
+                Board b = pr.recognizeBase64Image(imgDTO.base64Image);
+                List<Postit> postits = pr.getPostits();
                 b.setUserId(userObj.getId());
                 System.out.println(b.getUserId());
-                boardRepository.save(b);
+                b = boardRepository.save(b);
+                for(Postit postit : postits){
+                    postit.setBoardId(b.getId());
+                    postitRepository.save(postit);
+                }
                 webSocketController.update("updateBoards");
                 return imgDTO;
             }

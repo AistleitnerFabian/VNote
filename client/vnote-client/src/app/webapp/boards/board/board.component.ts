@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Note} from '../../../model/note';
 import {Board} from '../../../model/board';
 import {Router} from '@angular/router';
+import {HttpService} from '../../../service/http.service';
 
 @Component({
   selector: 'board',
@@ -11,11 +12,16 @@ import {Router} from '@angular/router';
 export class BoardComponent implements OnInit {
   @Input() board: Board;
 
-  constructor(private router: Router) {
+  username: string;
+
+  constructor(private router: Router, private httpService: HttpService) {
   }
 
   ngOnInit(): void {
     this.ellipsizeTextBox();
+    this.httpService.getUserDataForId(this.board.userId).subscribe(user => {
+      this.username = user.firstname + ' ' + user.lastname;
+    });
   }
 
   ellipsizeTextBox(): void {
@@ -29,5 +35,12 @@ export class BoardComponent implements OnInit {
 
   openBoard(): void {
     this.router.navigateByUrl('app/editor/' + this.board.id);
+  }
+
+  getContributors() {
+    if (this.board.contributors != null) {
+      return this.board.contributors.length;
+    }
+    return 0;
   }
 }
