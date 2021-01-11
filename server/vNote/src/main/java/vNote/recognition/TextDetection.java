@@ -23,7 +23,7 @@ public class TextDetection {
         paddingImage = postit.submat(roi);
 
         Mat dst = new Mat();
-        Core.inRange(paddingImage, new Scalar(0,0,0), new Scalar(50, 50, 50), dst);
+        Core.inRange(paddingImage, new Scalar(0,0,0), new Scalar(70, 70, 70), dst);
 
         Core.bitwise_not(dst, dst);
 
@@ -37,5 +37,10 @@ public class TextDetection {
         MatOfByte bytes = new MatOfByte();
         Imgcodecs.imencode(".jpg", paddingImage, bytes);
         return Base64.encode(bytes.toArray());
+    }
+
+    private void write(Mat src, String filename) {
+        String dir = "src/main/resources/static/textRecognition/";
+        Imgcodecs.imwrite(dir + filename + ".jpg", src);
     }
 }
