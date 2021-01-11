@@ -4,4 +4,10 @@ export class TextDTO {
   hasText: boolean;
   x;
   y;
+
+  constructor() {
+    this.text = '';
+    this.textImage = '';
+    this.hasText = false;
+  }
 }

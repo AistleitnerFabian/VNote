@@ -214,4 +214,9 @@ export class NoteComponent implements OnInit {
     }
     return result;
   }
+
+  delete(): void {
+    this.httpService.deleteNote(this.note, this.changeId).subscribe();
+    this.note = null;
+  }
 }

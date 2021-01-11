@@ -1,6 +1,8 @@
 <div id="profile-menu" [@inOutAnimation] *ngIf="isMenuOpened" class="dropdown-ignore">
 </div>
 <div id="toolbar">
+  <input id="board-name" [value]="getBoardName()" *ngIf="isEditor()" #boardname
+         (change)="setBoardName(boardname.value)">
   <div id="profile" (click)="isMenuOpened = !isMenuOpened" class="dropdown-ignore">
 
     <mat-icon class="dropdown-ignore"
@@ -8,7 +10,7 @@
     <p class="dropdown-ignore">
       {{username}}
     </p>
-    <div class="dropdown-ignore" id="profile-picture"></div>
+    <div class="dropdown-ignore" id="profile-picture" class="material-icons">account_box</div>
   </div>
 
 </div>

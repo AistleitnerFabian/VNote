@@ -17,3 +17,17 @@
 note {
   position: absolute;
 }
+
+.context-menu-icon {
+  margin: 8px !important;
+}
+
+mat-divider {
+  margin-right: 16px;
+  margin-left: 16px;
+}
+
+.context-button {
+  margin: 0px;
+  padding: 0px 16px 0px 8px !important;
+}

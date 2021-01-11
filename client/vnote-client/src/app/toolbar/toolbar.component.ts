@@ -2,6 +2,7 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import {trigger, style, animate, transition} from '@angular/animations';
 import {DataService} from "../service/data.service";
 import {HttpService} from "../service/http.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-toolbar',
@@ -35,7 +36,7 @@ export class ToolbarComponent implements OnInit {
   username = '';
   isMenuOpened = false;
 
-  constructor(private dataService: DataService, private httpService: HttpService) {
+  constructor(private dataService: DataService, private httpService: HttpService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -69,5 +70,18 @@ export class ToolbarComponent implements OnInit {
       }
     }
     return '';
+  }
+
+  getBoardName(): string {
+    return this.dataService.currentBoardName.getValue();
+  }
+
+  isEditor(): boolean {
+    const url: string = this.router.url;
+    return url.includes('app/editor');
+  }
+
+  setBoardName(boardName): void {
+    this.dataService.currentBoardName.next(boardName);
   }
 }

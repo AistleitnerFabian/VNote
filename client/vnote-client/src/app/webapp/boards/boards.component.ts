@@ -18,13 +18,16 @@ export class BoardsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.socketSubscription = this.httpService.getAllBoards(this.dataService.authenticatedUser.id).subscribe(value => this.boards = value);
+    this.socketSubscription = this.httpService.getAllBoards(this.dataService.authenticatedUser.id)
+      .subscribe(value => this.boards = value);
     this.websocketService.websocketUpdate.addListener('updateBoards', () => {
-      this.socketSubscription = this.httpService.getAllBoards(this.dataService.authenticatedUser.id).subscribe(value => this.boards = value);
+      this.socketSubscription = this.httpService.getAllBoards(this.dataService.authenticatedUser.id)
+        .subscribe(value => this.boards = value);
     });
   }
 
   ngOnDestroy(): void {
     this.socketSubscription.unsubscribe();
   }
+
 }

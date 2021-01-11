@@ -7,3 +7,21 @@
   </pan-zoom>
 
 </div>
+<mat-menu #contextMenu="matMenu">
+  <ng-template matMenuContent let-item="item">
+    <button mat-menu-item class="context-button" (click)="newNote()">
+      <mat-icon class="context-menu-icon">add_box</mat-icon>
+      create new note
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item class="context-button" (click)="changeBoardName()">
+      <mat-icon class="context-menu-icon">edit</mat-icon>
+      edit board name
+    </button>
+  </ng-template>
+</mat-menu>
+<div style="visibility: hidden; position: fixed"
+     [style.left]="contextMenuPosition.x"
+     [style.top]="contextMenuPosition.y"
+     [matMenuTriggerFor]="contextMenu">
+</div>

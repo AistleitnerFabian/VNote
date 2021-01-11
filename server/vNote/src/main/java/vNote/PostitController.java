@@ -119,12 +119,20 @@ public class PostitController implements CommandLineRunner {
         return p;
     }
 
+    @PostMapping("deleteNote/{cid}")
+    public Postit deleteNote(@PathVariable String cid, @RequestBody Postit postit){
+        postitRepository.deleteById(postit.getId());
+        webSocketController.updateNote(postit.getBoardId(), postit.getId(), cid);
+        return postit;
+    }
+
     @PutMapping("updateBoard")
     public Board updateBoard(@RequestBody Board board){
         Board b = boardRepository.save(board);
         webSocketController.update("updateBoards");
         return b;
     }
+
 
     @GetMapping("getNoteById/{nid}")
     public Postit getNoteById(@PathVariable String nid){

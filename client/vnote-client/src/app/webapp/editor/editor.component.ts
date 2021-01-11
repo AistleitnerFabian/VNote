@@ -16,7 +16,8 @@ import {DataService} from '../../service/data.service';
 import {ActivatedRoute} from '@angular/router';
 import {HttpService} from '../../service/http.service';
 import {Board} from '../../model/board';
-import {WebsocketService} from "../../service/websocket.service";
+import {WebsocketService} from '../../service/websocket.service';
+import {MatMenuTrigger} from '@angular/material/menu';
 
 @Component({
   selector: 'app-editor',
@@ -39,6 +40,21 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
   gridVisible = true;
   focused = {x: null, y: null};
   notes: Note[] = [];
+
+  colorMap = new Map([
+    ['cRED', '#FF6962'],
+    ['cORANGE', '#F99853'],
+    ['cYELLOW', '#F8D568'],
+    ['cGREEN', '#8FE381'],
+    ['cAQUA', '#C5ECE3'],
+    ['cBLUE', '#AAE5EF'],
+    ['cPURPLE', '#B19CD8'],
+    ['cPINK', '#F17FC5']
+  ]);
+
+  @ViewChild(MatMenuTrigger)
+  contextMenu: MatMenuTrigger;
+  contextMenuPosition = {x: '0px', y: '0px'};
 
   constructor(private dragAndDropService: DragAndDropService, private dataService: DataService,
               private route: ActivatedRoute, private httpService: HttpService, private websocketService: WebsocketService) {
@@ -85,7 +101,6 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.dataService.authenticatedUser.id != null && this.dataService.authenticatedUser.id !== '') {
       if (this.board.userId !== this.dataService.authenticatedUser.id &&
         !this.board.contributors.includes(this.dataService.authenticatedUser.id)) {
-        console.log("yeet");
         this.board.contributors.push(this.dataService.authenticatedUser.id);
         this.httpService.updateBoard(this.board).subscribe();
       }
@@ -96,6 +111,8 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
     this.boardSubscription = this.httpService.getBoardById(bid).subscribe(value => {
       this.board = value;
       this.checkUser();
+      this.dataService.currentBoardName.next(value.boardName);
+      this.dataService.currentBoardName.subscribe(val => this.boardNameChanged(val));
     });
     this.noteSubscription = this.httpService.getNotesByBoardId(bid).subscribe(value => this.notes = value);
     this.websocketService.getBoardChanges(bid);
@@ -142,6 +159,15 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  boardNameChanged(boardName): void {
+    const newBoardName = boardName.trim();
+    if (newBoardName !== this.board.boardName && newBoardName.length > 0) {
+      this.board.boardName = newBoardName;
+      this.dataService.currentBoardName.next(newBoardName);
+      this.httpService.updateBoard(this.board).subscribe();
+    }
+  }
+
   @HostListener('mouseup')
   onMouseup(): void {
     this.dragAndDropService.isDraging = false;
@@ -151,6 +177,7 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('mousedown', ['$event'])
   onMousedown(event): void {
+    document.getElementById('board-name').blur();
     if (event.target.id === 'dragHandle') {
       this.dragAndDropService.scale = this.panzoom.scale;
       this.dragAndDropService.dragHandler = event.target;
@@ -158,5 +185,33 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
       this.dragAndDropService.dragX = event.x;
       this.dragAndDropService.dragY = event.y;
     }
+  }
+
+  @HostListener('contextmenu', ['$event'])
+  onRightClick(event): void {
+    event.preventDefault();
+    if (event.target.classList[0] === 'pan-zoom-frame') {
+      this.contextMenuPosition.x = event.clientX + 'px';
+      this.contextMenuPosition.y = event.clientY + 'px';
+      this.contextMenu.menu.focusFirstItem('mouse');
+      this.contextMenu.openMenu();
+    }
+  }
+
+  newNote(): void {
+    console.log(this.panzoom.scale);
+    const x = (parseFloat(this.contextMenuPosition.x) - this.panZoomAPI.model.pan.x) / this.panzoom.scale - 300;
+    const y = (parseFloat(this.contextMenuPosition.y) - this.panZoomAPI.model.pan.y) / this.panzoom.scale - 300;
+    console.log(x + ' ' + y);
+    this.notes.push(new Note(this.board.id, x, y, this.getRandomColor()));
+  }
+
+  getRandomColor(): string {
+    let items = Array.from(this.colorMap.keys());
+    return items[Math.floor(Math.random() * items.length)];
+  }
+
+  changeBoardName(): void {
+    document.getElementById('board-name').focus();
   }
 }

@@ -1,4 +1,4 @@
-<div id="note" class="noDrag" [style.left]="note.x + 'px'" [style.top]="note.y + 'px'">
+<div id="note" class="noDrag" [style.left]="note.x + 'px'" [style.top]="note.y + 'px'" *ngIf="!(note == null)">
   <div id="menu" *ngIf="menuExtended" [@extendMenu] [style.border-color]="darkColor">
     <button mat-icon-button [style.color]="'#545454'" (click)="edit()">
       <mat-icon>edit</mat-icon>
@@ -26,7 +26,7 @@
       <mat-icon *ngIf="!locked">lock_open</mat-icon>
       <mat-icon *ngIf="locked">lock</mat-icon>
     </button>
-    <button mat-icon-button [style.color]="'#DB4848'">
+    <button mat-icon-button [style.color]="'#DB4848'" (click)="delete();">
       <mat-icon>delete_forever</mat-icon>
     </button>
   </div>

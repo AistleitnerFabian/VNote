@@ -47,6 +47,10 @@ export class HttpService {
     return this.http.put<Note>(this.URL + '/updateNote/' + changeId, note);
   }
 
+  deleteNote(note: Note, changeId: string): Observable<Note> {
+    return this.http.post<Note>(this.URL + '/deleteNote/' + changeId, note);
+  }
+
   updateBoard(board: Board): Observable<Board> {
     return this.http.put<Board>(this.URL + '/updateBoard', board);
   }
