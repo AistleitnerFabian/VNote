@@ -2,9 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Board} from '../model/board';
 import {Observable} from 'rxjs';
-import {User} from "../model/user";
-import {Note} from "../model/note";
-import {DataService} from "./data.service";
+import {User} from '../model/user';
+import {Note} from '../model/note';
+import {DataService} from './data.service';
+import {ImageDataDTO} from '../model/imageDataDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -57,5 +58,15 @@ export class HttpService {
 
   getNoteById(noteId: string): Observable<Note> {
     return this.http.get<Note>(this.URL + '/getNoteById/' + noteId);
+  }
+
+  uploadImage(imageDataDTO: ImageDataDTO): Observable<ImageDataDTO> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
+    return this.http.post<ImageDataDTO>(this.URL + '/uploadImageWeb', imageDataDTO, httpOptions);
   }
 }

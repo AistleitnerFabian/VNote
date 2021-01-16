@@ -1,1 +1,16 @@
-<p>uploads works!</p>
+<div id="content">
+  <p class="title">Upload Image</p>
+  <div class="separator"></div>
+  <input
+    style="display: none"
+    type="file"
+    accept="image/*"
+    (change)="onFileChanged($event)"
+    #fileInput>
+  <button mat-button (click)="fileInput.click()">Select File</button>
+  <br>
+  <button mat-button (click)="onUpload()">Upload!</button>
+  <br>
+
+  <img [src]="imageSrc" style="max-width:300px;max-height:300px"/>
+</div>
