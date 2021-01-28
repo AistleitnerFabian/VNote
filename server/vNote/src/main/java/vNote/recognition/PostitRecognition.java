@@ -115,7 +115,7 @@ public class PostitRecognition {
             Point[] rectPoints = new Point[4];
             minRect[i].points(rectPoints);
 
-            if (rect.width < 1000 && rect.height < 1000 && rect.width > 30 && rect.height > 30) {
+            if (rect.width < this.originalImage.width() && rect.height < this.originalImage.height() && rect.width > 30 && rect.height > 30) {
                 uncheckedPostits.add(minRect[i]);
             }
         }
@@ -151,22 +151,6 @@ public class PostitRecognition {
         return foundPostits;
     }
 
-    /*
-    private List<RotatedRect> checkFalsePostits(List<RotatedRect> rects) {
-        List<RotatedRect> tmp = new ArrayList<>();
-        tmp.addAll(rects);
-        for(RotatedRect r: rects){
-            for(int i = 0; i < rects.size(); i++){
-                if(!r.equals(rects.get(i))){
-                    if(r.boundingRect().tl().inside(rects.get(i).boundingRect()) && r.boundingRect().br()
-                            .inside(rects.get(i).boundingRect())){
-                        tmp.remove(r);
-                    }
-                }
-            }
-        }
-        return tmp;
-    }*/
     private List<RotatedRect> checkFalsePostits(List<RotatedRect> rects){
         List<RotatedRect> marked = new ArrayList();
         System.out.println(rects.size()+  ", " + this.postits.size());
