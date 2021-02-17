@@ -35,10 +35,23 @@ export class UploadsComponent implements OnInit {
   }
 
   onUpload(): void {
-    const imageDataDTO = new ImageDataDTO();
-    imageDataDTO.base64Image = this.imageSrc.split(',')[1];
-    console.log(imageDataDTO.base64Image);
-    imageDataDTO.user = this.dataService.authenticatedUser;
-    this.httpService.uploadImage(imageDataDTO).subscribe();
+    const image = new Image();
+
+    image.src = this.imageSrc;
+
+    image.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = image.width;
+      canvas.height = image.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(image, 0, 0);
+      console.log(canvas.toDataURL());
+      const base64 = canvas.toDataURL().split(',')[1];
+      const imageDataDTO = new ImageDataDTO();
+      imageDataDTO.base64Image = base64;
+      imageDataDTO.user = this.dataService.authenticatedUser;
+      this.httpService.uploadImage(imageDataDTO).subscribe();
+    };
+
   }
 }
