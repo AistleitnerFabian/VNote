@@ -45,6 +45,15 @@
   overflow: hidden;
 }
 
+#content-text {
+  resize: none;
+  border-width: 3px;
+  outline: none;
+  background-color: transparent;
+  margin: 0px;
+  border-style: dashed;
+}
+
 #header {
   width: 300px;
   height: 40px;

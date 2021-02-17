@@ -1,4 +1,20 @@
 <div id="profile-menu" [@inOutAnimation] *ngIf="isMenuOpened" class="dropdown-ignore">
+  <div class="profile-item dropdown-ignore" (click)="logout()">
+    <div class="dropdown-ignore">
+      <span class="material-icons dropdown-ignore">
+      logout
+      </span>
+      Logout
+    </div>
+  </div>
+  <div class="profile-item dropdown-ignore" (click)="darkmode()">
+    <div class="dropdown-ignore">
+      <span class="material-icons dropdown-ignore">
+      dark_mode
+      </span>
+      Darkmode
+    </div>
+  </div>
 </div>
 <div id="toolbar">
   <input id="board-name" [value]="getBoardName()" *ngIf="isEditor()" #boardname

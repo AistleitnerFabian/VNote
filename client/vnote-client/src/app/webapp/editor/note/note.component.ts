@@ -62,6 +62,7 @@ export class NoteComponent implements OnInit {
   ]);
 
   @ViewChild('dragHandle') dragHandler;
+  @ViewChild('contenttext') contenttext;
   @Input() note: Note;
   menuExtended = false;
   notepadExtended = false;
@@ -73,6 +74,7 @@ export class NoteComponent implements OnInit {
   htmlContent: any;
   notePosChanged: boolean = false;
   changeId: string;
+  editable: boolean = false;
 
   constructor(private dragAndDropService: DragAndDropService, private httpService: HttpService, private websocketService: WebsocketService) {
   }
@@ -115,6 +117,8 @@ export class NoteComponent implements OnInit {
   }
 
   edit(): void {
+    this.showText = true;
+    this.editable = !this.editable;
   }
 
   handleChange($event: ColorEvent): void {
@@ -191,6 +195,9 @@ export class NoteComponent implements OnInit {
 
   changeShowText(): void {
     this.showText = !this.showText;
+    if (!this.showText) {
+      this.editable = false;
+    }
   }
 
   changeNotepad(): void {

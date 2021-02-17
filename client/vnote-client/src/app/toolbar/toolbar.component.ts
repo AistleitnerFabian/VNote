@@ -17,13 +17,13 @@ import {Router} from "@angular/router";
           [
             style({height: 0, opacity: 0}),
             animate('0.15s ease-out',
-              style({height: 300, opacity: 1}))
+              style({height: 120, opacity: 1}))
           ]
         ),
         transition(
           ':leave',
           [
-            style({height: 300, opacity: 1}),
+            style({height: 120, opacity: 1}),
             animate('0.15s ease-in',
               style({height: 0, opacity: 0}))
           ]
@@ -83,5 +83,27 @@ export class ToolbarComponent implements OnInit {
 
   setBoardName(boardName): void {
     this.dataService.currentBoardName.next(boardName);
+  }
+
+  logout(): void {
+    this.deleteAllCookies();
+    this.router.navigate(['login']);
+  }
+
+  darkmode(): void {
+
+  }
+
+
+  deleteAllCookies(): void {
+    let allCookies = document.cookie.split(';');
+
+    // The "expire" attribute of every cookie is
+    // Set to "Thu, 01 Jan 1970 00:00:00 GMT"
+    allCookies.forEach(item => {
+      document.cookie = item + '=;expires='
+        + new Date(0).toUTCString();
+    });
+    document.cookie = 'JSESSIONID=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
   }
 }

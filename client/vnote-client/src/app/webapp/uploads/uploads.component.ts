@@ -9,7 +9,7 @@ import {DataService} from '../../service/data.service';
   styleUrls: ['./uploads.component.scss']
 })
 export class UploadsComponent implements OnInit {
-  private imageSrc = '';
+  imageSrc = '';
 
   constructor(private httpService: HttpService, private dataService: DataService) {
   }

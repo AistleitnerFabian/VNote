@@ -1,6 +1,6 @@
 <div id="note" class="noDrag" [style.left]="note.x + 'px'" [style.top]="note.y + 'px'" *ngIf="!(note == null)">
   <div id="menu" *ngIf="menuExtended" [@extendMenu] [style.border-color]="darkColor">
-    <button mat-icon-button [style.color]="'#545454'" (click)="edit()">
+    <button mat-icon-button (click)="edit()" [style.color]="editable ? darkColor : '#545454'">
       <mat-icon>edit</mat-icon>
     </button>
     <button mat-icon-button [matMenuTriggerFor]="colorMenu" [style.color]="lightColor">
@@ -38,8 +38,11 @@
     <div *ngIf="locked" id="lockedDragHandle" #dragHandle></div>
   </div>
   <div id="content" [style.background-color]="lightColor">
-    <div id="content-text" [innerHTML]="note.text.text" *ngIf="showText">
-    </div>
+    <textarea id="content-text" [style.borderColor]="editable ? darkColor : 'transparent'" #contenttext
+              [(ngModel)]="note.text.text"
+              *ngIf="showText" [contentEditable]="editable"
+              (ngModelChange)="noteChanged()">
+    </textarea>
 
     <div id="content-image" *ngIf="!showText">
       <div id="text-image" [style.background-image]="'url(\'data:image/png;base64,'+ note.text.textImage+'\''">
