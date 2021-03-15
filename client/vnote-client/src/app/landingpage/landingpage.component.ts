@@ -25,9 +25,9 @@ export class LandingpageComponent implements OnInit, AfterViewInit {
 
   @ViewChild('aboutsection') about;
   @ViewChild('appsection') app;
-  @ViewChild('infosection') info;
   @ViewChild('homesection') home;
 
+  // @ViewChild('infosection') info;
 
   constructor(private route: ActivatedRoute, private router: Router) {
   }
@@ -61,9 +61,9 @@ export class LandingpageComponent implements OnInit, AfterViewInit {
             case 'about':
               this.scrollTo(this.about);
               break;
-            case 'info':
-              this.scrollTo(this.info);
-              break;
+            // case 'info':
+            //   this.scrollTo(this.info);
+            //  break;
             default:
               this.scrollTo(this.home);
               break;
@@ -91,15 +91,16 @@ export class LandingpageComponent implements OnInit, AfterViewInit {
     const counts = [
       this.home.nativeElement.offsetTop + puffer,
       this.app.nativeElement.offsetTop + puffer,
-      this.about.nativeElement.offsetTop + puffer,
-      this.info.nativeElement.offsetTop + puffer];
+      this.about.nativeElement.offsetTop + puffer
+      // this.info.nativeElement.offsetTop + puffer
+    ];
     const goal = scrollY;
 
     const routes = [
       'home',
       'app',
-      'about',
-      'info'
+      'about'
+      // 'info'
     ];
 
     const closest = counts.reduce((prev, curr) => {
