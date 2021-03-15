@@ -35,6 +35,7 @@ import {Router} from "@angular/router";
 export class ToolbarComponent implements OnInit {
   username = '';
   isMenuOpened = false;
+  darkmodeBool = false;
 
   constructor(private dataService: DataService, private httpService: HttpService, private router: Router) {
   }
@@ -91,7 +92,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   darkmode(): void {
-
+    this.darkmodeBool = !this.darkmodeBool;
   }
 
 
