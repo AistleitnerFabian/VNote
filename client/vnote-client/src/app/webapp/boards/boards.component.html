@@ -3,11 +3,12 @@
   <div class="separator"></div>
   <div id="searchbar">
     <mat-icon class="material-icons-round" id="search-icon">search</mat-icon>
-    <label for="search-input"></label><input id="search-input" placeholder="Search wall" type="text">
+    <label for="search-input"></label><input id="search-input" #searchInput (keyup)="filter(searchInput.value)"
+                                             placeholder="Search wall" type="text">
   </div>
   <div id="board-scroll">
     <div id="board-container">
-      <board *ngFor="let board of boards" class="board" [board]="board"></board>
+      <board *ngFor="let board of displayedBoards" class="board" [board]="board"></board>
     </div>
   </div>
 </div>

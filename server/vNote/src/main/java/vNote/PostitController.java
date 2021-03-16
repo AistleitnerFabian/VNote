@@ -179,6 +179,24 @@ public class PostitController implements CommandLineRunner {
         return null;
     }
 
+    @PostMapping(path = "uploadImageWeb", consumes = "application/json")
+    public imageDataDTO uploadImageWeb(@RequestBody imageDataDTO imgDTO) throws Exception {
+                System.out.println(imgDTO.base64Image);
+                System.out.println("userid: " + imgDTO.user.getId());
+                PostitRecognition pr = new PostitRecognition();
+                Board b = pr.recognizeBase64Image(imgDTO.base64Image);
+                List<Postit> postits = pr.getPostits();
+                b.setUserId(imgDTO.user.getId());
+                System.out.println(b.getUserId());
+                b = boardRepository.save(b);
+                for(Postit postit : postits){
+                    postit.setBoardId(b.getId());
+                    postitRepository.save(postit);
+                }
+                webSocketController.update("updateBoards");
+                return imgDTO;
+    }
+
     public boolean IsBase64String(String s)
     {
         s = s.trim();

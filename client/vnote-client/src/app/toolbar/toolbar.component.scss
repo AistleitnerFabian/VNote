@@ -50,13 +50,44 @@
 
 #profile-menu {
   position: absolute;
-  height: 300px;
+  height: 120px;
   width: 255px;
   background-color: white;
   right: 0;
   top: 70px;
   z-index: 1;
   box-shadow: inset 0 7px 9px -7px rgba(0, 0, 0, 0.3), 0 5px 5px -5px rgba(0, 0, 0, 0.3), -5px 0 5px -5px rgba(0, 0, 0, 0.3);
+}
+
+.profile-item {
+  height: 60px;
+  user-select: none;
+  width: 100%;
+  cursor: pointer;
+  line-height: 60px;
+
+  &:nth-of-type(1) div {
+    border-bottom: 2px solid $content-bg;
+    box-sizing: border-box;
+  }
+
+  div {
+    margin-left: 5%;
+    margin-right: 5%;
+
+
+    span {
+      margin-left: 5%;
+      transform: translateY(25%);
+      margin-right: 5%;
+    }
+  }
+
+  &:hover {
+    background-color: $content-bg !important;
+  }
+
+  box-sizing: border-box;
 }
 
 #board-name {
