@@ -115,7 +115,7 @@ public class PostitRecognition {
             Point[] rectPoints = new Point[4];
             minRect[i].points(rectPoints);
 
-            if (rect.width < 1000 && rect.height < 1000 && rect.width > 30 && rect.height > 30) {
+            if (rect.width < this.originalImage.width() && rect.height < this.originalImage.height() && rect.width > 30 && rect.height > 30) {
                 uncheckedPostits.add(minRect[i]);
             }
         }
@@ -136,37 +136,22 @@ public class PostitRecognition {
             String color = this.colorRecognition.recognize(rotated.clone());
             Text text = new Text("", "", false, 0, 0);
             try{
-                //text = TextRecognition.recognizeText("p"+i);
+                text = TextRecognition.recognizeText("p"+i);
                 text.setTextImage(this.textDetection.detect(rotated.clone(), color));
             }catch(Exception e){
                 System.err.println(e);
             }
             System.out.println(text.getText());
-            //String txtImage = this.textDetection.detect(rotated.clone(), color);
+           // String txtImage = this.textDetection.detect(rotated.clone(), color);
             Postit p = new Postit(null,null, checkedPosits.get(i).boundingRect().x, checkedPosits.get(i).boundingRect().y, color, text, "");
 
             foundPostits.add(p);
         }
+
         System.out.println(foundPostits.size());
         return foundPostits;
     }
 
-    /*
-    private List<RotatedRect> checkFalsePostits(List<RotatedRect> rects) {
-        List<RotatedRect> tmp = new ArrayList<>();
-        tmp.addAll(rects);
-        for(RotatedRect r: rects){
-            for(int i = 0; i < rects.size(); i++){
-                if(!r.equals(rects.get(i))){
-                    if(r.boundingRect().tl().inside(rects.get(i).boundingRect()) && r.boundingRect().br()
-                            .inside(rects.get(i).boundingRect())){
-                        tmp.remove(r);
-                    }
-                }
-            }
-        }
-        return tmp;
-    }*/
     private List<RotatedRect> checkFalsePostits(List<RotatedRect> rects){
         List<RotatedRect> marked = new ArrayList();
         System.out.println(rects.size()+  ", " + this.postits.size());
