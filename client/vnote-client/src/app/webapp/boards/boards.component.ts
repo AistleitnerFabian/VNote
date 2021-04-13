@@ -45,6 +45,5 @@ export class BoardsComponent implements OnInit, OnDestroy {
       console.log(board.boardName.toLowerCase().search(re) !== -1);
       return board.boardName.toLowerCase().search(re) !== -1;
     });
-    console.log(this.displayedBoards);
   }
 }

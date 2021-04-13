@@ -1,1 +1,33 @@
-<p>settings works!</p>
+<div id="content">
+  <p class="title">Personal Data</p>
+  <div class="separator"></div>
+  <br>
+  <mat-card>
+    <mat-form-field class="example-full-width">
+      <mat-label>User-Id</mat-label>
+      <input matInput [value]="dataService.authenticatedUser.id" disabled>
+    </mat-form-field>
+  </mat-card>
+  <br>
+  <mat-card>
+    <mat-form-field class="example-full-width">
+      <mat-label>Firstname</mat-label>
+      <input matInput [value]="dataService.authenticatedUser.firstname" disabled>
+    </mat-form-field>
+  </mat-card>
+  <br>
+  <mat-card>
+    <mat-form-field class="example-full-width">
+      <mat-label>Lastname</mat-label>
+      <input matInput [value]="dataService.authenticatedUser.lastname" disabled>
+    </mat-form-field>
+  </mat-card>
+  <br>
+  <mat-card>
+    <mat-form-field class="example-full-width">
+      <mat-label>E-Mail</mat-label>
+      <input matInput [value]="dataService.authenticatedUser.email" disabled>
+    </mat-form-field>
+  </mat-card>
+  <br>
+</div>

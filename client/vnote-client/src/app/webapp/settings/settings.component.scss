@@ -1,0 +1,23 @@
+@import "../../../variables.scss";
+
+.title {
+  font-size: 1.4em;
+  font-weight: 700;
+  color: $headline;
+}
+
+.separator {
+  width: 75px;
+  height: 4px;
+  border-radius: 10px;
+  background-color: $headline;
+}
+
+#content {
+  padding: 40px;
+  overflow: hidden;
+}
+
+mat-form-field {
+  width: 100%;
+}
