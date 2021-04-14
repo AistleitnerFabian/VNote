@@ -103,7 +103,7 @@
 }
 
 .notification {
-  height: 65px;
+  height: 59px;
   width: 90%;
   margin-left: 5%;
   border-bottom: 2px solid $light-grey;
@@ -113,7 +113,7 @@
 .not-dot {
   width: 15px;
   height: 15px;
-  margin: 25px;
+  margin: 22px;
   border-radius: 100%;
   background-color: #F99853;
   float: left;
@@ -121,7 +121,22 @@
 
 .not-text {
   float: left;
-  line-height: 65px;
+  line-height: 59px;
   font-size: 1.25em;
   font-weight: bold;
+}
+
+#board-container {
+  padding-top: 30px;
+  width: 100%;
+  padding-left: 20px;
+  margin-left: -20px;
+  height: 665px;
+  overflow-y: scroll;
+}
+
+.board {
+  float: left;
+  margin-right: 30px;
+  margin-bottom: 20px;
 }

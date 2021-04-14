@@ -56,6 +56,10 @@ export class HttpService {
     return this.http.put<Board>(this.URL + '/updateBoard', board);
   }
 
+  updateLatestBoard(userId: string, boardId: string): Observable<Board> {
+    return this.http.post<Board>(this.URL + '/updateLatest', userId + ';' + boardId);
+  }
+
   getNoteById(noteId: string): Observable<Note> {
     return this.http.get<Note>(this.URL + '/getNoteById/' + noteId);
   }

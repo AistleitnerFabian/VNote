@@ -128,6 +128,34 @@ public class PostitController implements CommandLineRunner {
 
     @PutMapping("updateBoard")
     public Board updateBoard(@RequestBody Board board){
+        if(board.getId() != null) {
+            Optional<Board> optionalBoard = boardRepository.findById(board.getId());
+            if (optionalBoard.isPresent()) {
+                Board oldBoard = optionalBoard.get();
+
+                int oldBoardSize;
+                if (oldBoard.getContributors() != null) {
+                    oldBoardSize = oldBoard.getContributors().size();
+                } else {
+                    oldBoardSize = 0;
+                }
+
+                int boardSize;
+                if (board.getContributors() != null) {
+                    boardSize = board.getContributors().size();
+                } else {
+                    boardSize = 0;
+                }
+                if (oldBoardSize < boardSize) {
+                    var optUser = userRepository.findById(board.getUserId());
+                    if (optUser.isPresent()) {
+                        var user = optUser.get();
+                        user.addNotifications("A contributor has joined your board!");
+                        userRepository.save(user);
+                    }
+                }
+            }
+        }
         Board b = boardRepository.save(board);
         webSocketController.update("updateBoards");
         return b;
@@ -145,6 +173,24 @@ public class PostitController implements CommandLineRunner {
         return imageRepository.findAll();
     }
 
+    @PostMapping("updateLatest")
+    public User updateLatest(@RequestBody String args){
+        String[] splitArgs = args.split(";");
+        String userId = splitArgs[0];
+        String boardId = splitArgs[1];
+        var optUser = userRepository.findById(userId);
+        Optional<Board> optionalBoard = boardRepository.findById(boardId);
+        if(optionalBoard.isPresent()) {
+            Board board = optionalBoard.get();
+            if (optUser.isPresent()) {
+                var user = optUser.get();
+                user.addBoard(board);
+                userRepository.save(user);
+            }
+        }
+
+        return null;
+    }
 
     @PostMapping("recognize")
     public Board recognize(@RequestBody String imagePath) {
@@ -172,6 +218,12 @@ public class PostitController implements CommandLineRunner {
                     postit.setBoardId(b.getId());
                     postitRepository.save(postit);
                 }
+                var optUser = userRepository.findById(imgDTO.user.getId());
+                if(optUser.isPresent()){
+                    var user = optUser.get();
+                    user.addNotifications("An image has been uploaded!");
+                    userRepository.save(user);
+                }
                 webSocketController.update("updateBoards");
                 return imgDTO;
             }
@@ -192,6 +244,12 @@ public class PostitController implements CommandLineRunner {
                 for(Postit postit : postits){
                     postit.setBoardId(b.getId());
                     postitRepository.save(postit);
+                }
+                var optUser = userRepository.findById(imgDTO.user.getId());
+                if(optUser.isPresent()){
+                    var user = optUser.get();
+                    user.addNotifications("An image has been uploaded!");
+                    userRepository.save(user);
                 }
                 webSocketController.update("updateBoards");
                 return imgDTO;

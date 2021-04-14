@@ -90,6 +90,8 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
     this.routeSubscription = this.route.params.subscribe(params => {
       if (params.bid !== null && params.bid !== undefined && params.bid !== '') {
         this.loadBoard(params.bid);
+      } else {
+        this.checkBoard();
       }
     });
   }
@@ -105,6 +107,7 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
         this.httpService.updateBoard(this.board).subscribe();
       }
     }
+    this.httpService.updateLatestBoard(this.dataService.authenticatedUser.id, this.board.id).subscribe();
   }
 
   loadBoard(bid): void {
@@ -213,5 +216,16 @@ export class EditorComponent implements OnInit, OnDestroy, AfterViewInit {
 
   changeBoardName(): void {
     document.getElementById('board-name').focus();
+  }
+
+  private checkBoard() {
+    console.log("check");
+    if (this.board == null) {
+      console.log("null");
+      this.board = new Board();
+      this.board.userId = this.dataService.authenticatedUser.id;
+      this.board.boardName = 'New Board';
+      this.httpService.updateBoard(this.board).subscribe();
+    }
   }
 }

@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DataService} from '../../service/data.service';
+import {HttpService} from "../../service/http.service";
+import {Board} from "../../model/board";
 
 @Component({
   selector: 'app-dashboard',
@@ -8,8 +10,11 @@ import {DataService} from '../../service/data.service';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private dataService: DataService) {
+  constructor(private dataService: DataService, private httpService: HttpService) {
   }
+
+  notifications = [];
+  displayedBoards: Board[];
 
   getUsername() {
     try {
@@ -19,5 +24,13 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.httpService.getUserDataForId(this.dataService.authenticatedUser.id).subscribe(userData => {
+      this.notifications = userData.notifications.filter((el) => {
+        return el != null;
+      });
+      this.displayedBoards = userData.boards.filter((el) => {
+        return el != null;
+      });
+    });
   }
 }

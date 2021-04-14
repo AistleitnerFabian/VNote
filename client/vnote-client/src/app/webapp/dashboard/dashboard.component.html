@@ -5,13 +5,13 @@
     <div id="headBox">
 
       <div id="welcome"><p><b>Welcome back</b> {{getUsername()}}!</p></div>
-      <div id="newBoard">
+      <div id="newBoard" routerLink="/app/editor">
     <span class="material-icons">
     add
     </span>
         <p>NEW BOARD</p>
       </div>
-      <div id="uploadImage">
+      <div id="uploadImage" routerLink="/app/uploads">
     <span class="material-icons">
     cloud_upload
     </span>
@@ -25,6 +25,12 @@
     <p class="title">Notification</p>
     <div class="separator"></div>
     <div id="notificationBox">
+      <div class="notification" *ngFor="let not of notifications">
+        <div class="not-dot"></div>
+        <div class="not-text">
+          {{not}}
+        </div>
+      </div>
       <div class="notification">
         <div class="not-dot"></div>
         <div class="not-text">
@@ -38,4 +44,7 @@
 
   <p class="title">Latest Boards</p>
   <div class="separator"></div>
+  <div id="board-container">
+    <board *ngFor="let board of displayedBoards" class="board" [board]="board"></board>
+  </div>
 </div>
