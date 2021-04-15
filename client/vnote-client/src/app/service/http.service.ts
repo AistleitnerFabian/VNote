@@ -37,7 +37,13 @@ export class HttpService {
   }
 
   isAuthenticated(): Observable<boolean> {
-    return this.http.get<boolean>(this.URL + '/isAuthenticated');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
+    return this.http.get<boolean>(this.URL + '/isAuthenticated', httpOptions);
   }
 
   getUserDataForId(userId: string): Observable<User> {

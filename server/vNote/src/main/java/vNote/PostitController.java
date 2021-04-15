@@ -212,13 +212,13 @@ public class PostitController implements CommandLineRunner {
                 Board b = pr.recognizeBase64Image(imgDTO.base64Image);
                 List<Postit> postits = pr.getPostits();
                 b.setUserId(userObj.getId());
-                System.out.println(b.getUserId());
+                System.out.println("board userid: " + imgDTO.user.getId());
                 b = boardRepository.save(b);
                 for(Postit postit : postits){
                     postit.setBoardId(b.getId());
                     postitRepository.save(postit);
                 }
-                var optUser = userRepository.findById(imgDTO.user.getId());
+                var optUser = userRepository.findById(userObj.getId());
                 if(optUser.isPresent()){
                     var user = optUser.get();
                     user.addNotifications("An image has been uploaded!");
